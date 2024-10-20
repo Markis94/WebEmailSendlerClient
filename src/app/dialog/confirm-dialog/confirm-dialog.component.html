@@ -1,0 +1,10 @@
+<h1 mat-dialog-title><i class="bi bi-exclamation-square"></i><span class="ml-2">{{label}}</span></h1>
+<mat-dialog-content>
+    <p>{{message}}</p>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <div class="btn-group w-100" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-primary w-100" (click)="confirm()">Да</button>
+        <button type="button" class="btn btn-danger w-100 ml-2" (click)="reject()" cdkFocusInitial>Нет</button>
+    </div>
+</div>

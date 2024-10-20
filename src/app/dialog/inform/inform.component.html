@@ -1,0 +1,17 @@
+<div class="modal-header align-items-center">
+  <button type="button" class="close" aria-label="Close" mat-dialog-close matTooltip="Закрыть">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<mat-dialog-content class="mat-typography">
+  <div class="text-center">
+    <h4 *ngIf="inputData.contentHeader" class="pt-1">{{inputData.contentHeader}}</h4>
+    <div *ngIf="inputData.title" class="modal-title">{{inputData.title}}</div>
+    <p class="pb-1" *ngIf="inputData.subTitle">{{inputData.subTitle}}</p>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions style="border-top: 1px solid #ced4da;" align="center">
+  <div class="text-center">
+    <button type="button" class="btn btn-primary" mat-dialog-close>Ок</button>
+  </div>
+</mat-dialog-actions>

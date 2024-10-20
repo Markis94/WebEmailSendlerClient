@@ -1,0 +1,26 @@
+<div>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#">Dropdown link</a></li>
+    <li><a class="dropdown-item" href="#">Dropdown link</a></li>
+  </ul>
+  <div class="d-flex justify-content-end" style="margin-right: 1rem;">
+    <div class="w-25">
+      <input class="form-control" type="file" id="formFile" accept=".json" (change)="onSelected($event)">
+    </div>
+    <div class="btn-group ml-2 mr-2" role="group">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          Сохранить дизайн
+        </button>
+        <ul class="dropdown-menu">
+          <li><button class="dropdown-item" (click)="saveDesign()">Сохранить в файл</button></li>
+          <li><button class="dropdown-item" (click)="saveToDefault()">Сохранить как дизайн по умолчанию</button></li>
+        </ul>
+      </div>
+      <button class="pl-2 pr-2" type="button" class="btn btn-success" (click)="saveToFile()">Сохранить в html</button>
+      <button type="button" class="btn btn-secondary" (click)="loadDesign()">Загрузить дизайн</button>
+    </div>
+  </div>
+  <hr>
+  <email-editor (loaded)="editorLoaded($event)" (ready)="editorReady($event)"></email-editor>
+</div>

@@ -1,0 +1,54 @@
+<div class="card task p-3 m-3">
+  <div>{{emailSendTask.name}}</div>
+  <hr>
+  <div><strong>Тема:</strong> {{emailSendTask.subject}}</div>
+  <div>Дата создания: {{emailSendTask.createDate | date: "dd-MM-yyyy HH:mm" }}</div>
+  <div>Дата завершения: {{emailSendTask.endDate | date: "dd-MM-yyyy HH:mm" }}</div>
+  <div *ngIf="trySend" class="d-flex align-items-center justify-content-center" style="gap: 10px;">
+    <span><strong>Отправка данных ...</strong></span>
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Загрузка ...</span>
+    </div>
+  </div>
+  <hr>
+  <ng-container *ngIf="(emailInfo$ | async) as emailInfo ;else loading">
+    <div><strong>Всего:</strong> {{emailInfo.maxCount}}</div>
+    <div><strong>Отправлено:</strong> {{emailInfo.sendCount}}</div>
+    <div><strong>Не отправлено:</strong> {{emailInfo.badSendCount}}</div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="d-flex align-items-center justify-content-center" style="gap: 10px;">
+      <span><strong>Загрузка данных ...</strong></span>
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Загрузка ...</span>
+      </div>
+    </div>
+  </ng-template>
+  <div class="mt-3">
+    <button *ngIf="emailSendTask.sendTaskStatus === 'created'" type="button" class="btn btn-primary w-100"
+      (click)="start(emailSendTask)">Запустить</button>
+    <button *ngIf="emailSendTask.sendTaskStatus === 'started'" type="button" class="btn btn-danger w-100"
+      (click)="abort(emailSendTask)">Отменить</button>
+    <div class="w-100" style="color: darkgreen;" *ngIf="emailSendTask.sendTaskStatus === 'complete'">
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+              <path
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+            </svg><span style=" margin-left: 4px;">Завершена</span>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div>
+            <a class="btn btn-warning" [routerLink]="['../view-task-result', emailSendTask.id]">Информация</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr *ngIf="emailSendTask.sendTaskStatus === 'created' || emailSendTask.sendTaskStatus === 'complete'">
+    <button *ngIf="emailSendTask.sendTaskStatus === 'created' || emailSendTask.sendTaskStatus === 'complete'" type="button" class="btn btn-danger w-100"
+      (click)="deleteTask(emailSendTask)">Удалить</button>
+  </div>
+</div>

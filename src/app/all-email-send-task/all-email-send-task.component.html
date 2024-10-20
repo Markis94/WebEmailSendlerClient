@@ -1,0 +1,33 @@
+<div class="container">
+  <select class="form-control" name="lsList" #lsList="ngModel" [(ngModel)]="selectStatus" (change)="changeTaskStream()">
+    <ng-container *ngFor="let status of statusArray">
+      <option [ngValue]="status.status">{{status.viewStatus}}</option>
+    </ng-container>
+  </select>
+</div>
+<div class="container-fluid p-4">
+  <ng-container *ngIf="(emailSendTask$ | async) as emailSendTask ;else loading">
+    <ng-container *ngIf="emailSendTask?.length;else noData">
+      <div class="d-flex flex-wrap">
+        <ng-container *ngFor="let task of emailSendTask">
+          <app-task-item *ngIf="task.sendTaskStatus == selectStatus" [emailSendTask]="task"></app-task-item>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-template #noData>
+    <div class="preload">
+      <h4>Данные отсутствуют</h4>
+    </div>
+  </ng-template>
+  <ng-template #loading>
+    <div class="preload text-center">
+      <div class="d-flex align-items-center justify-content-center" style="gap: 10px;">
+        <span><strong>Загрузка данных ...</strong></span>
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Загрузка ...</span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
