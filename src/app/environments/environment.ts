@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  baseUrl:"https://localhost:7148/",
-  //baseUrl:"http://192.168.155.136:8040/",
+  //baseUrl:"https://localhost:7148/",
+  baseUrl:"http://192.168.155.194:7148/",
   production: false
 };
 

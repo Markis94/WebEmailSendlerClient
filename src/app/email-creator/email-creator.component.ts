@@ -15,10 +15,6 @@ export class EmailCreatorComponent implements OnInit {
   constructor(private sendlerApiService: SendlerApiService) {}
 
   ngOnInit() {
-    this.sendlerApiService.GetSample().subscribe((result)=>{
-      this.designJson = result;
-      this.emailEditor.editor.loadDesign(this.designJson);
-    })
   }
 
   saveToFile() {
@@ -41,8 +37,10 @@ export class EmailCreatorComponent implements OnInit {
   }
   // called when the editor is created
   editorLoaded(event: any) {
-    // load the design json here
-    //this.emailEditor.editor.loadDesign(this.designJson);
+    this.sendlerApiService.GetSample().subscribe((result)=>{
+      this.designJson = result;
+      this.emailEditor.editor?.loadDesign(this.designJson);
+    });
   }
 
   // called when the editor has finished loading
@@ -73,7 +71,7 @@ export class EmailCreatorComponent implements OnInit {
     if(this.newDesignJson)
     {
       const jsonObject = JSON.parse(this.newDesignJson);
-      this.emailEditor.editor.loadDesign(jsonObject);
+      this.emailEditor?.editor?.loadDesign(jsonObject);
     }
   }
 
