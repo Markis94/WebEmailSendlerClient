@@ -12,6 +12,7 @@ export class EmailCreatorComponent implements OnInit {
   private emailEditor!: EmailEditorComponent;
   designJson: any = '';
   newDesignJson: any = '';
+  
   constructor(private sendlerApiService: SendlerApiService) {}
 
   ngOnInit() {
@@ -21,7 +22,6 @@ export class EmailCreatorComponent implements OnInit {
     this.emailEditor.editor.exportHtml((data: any) => {
       let fileName = `рассылка_html_${new Date(Date.now()).getDate()}.html`;
       let htmlContent = data?.html;
-      console.log(htmlContent);
       const blob = new Blob([htmlContent], { type: 'text/html' });
       const link = document.createElement('a');
       const url = window.URL.createObjectURL(blob);
@@ -42,7 +42,6 @@ export class EmailCreatorComponent implements OnInit {
       this.emailEditor.editor?.loadDesign(this.designJson);
     });
   }
-
   // called when the editor has finished loading
   editorReady(event: any) {
     console.log('editorReady');
