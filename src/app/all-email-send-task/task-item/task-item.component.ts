@@ -21,6 +21,11 @@ export class TaskItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loadInfo();
+  }
+
+  loadInfo()
+  {
     this.emailInfo$ = this.sendlerApiService.GetEmailSendTaskInfo(
       this.emailSendTask.id
     );
@@ -40,7 +45,7 @@ export class TaskItemComponent implements OnInit {
         switchMap((result) => {
           if (result) {
             this.trySend = true;
-            return this.sendlerApiService.StartEmailJob(emailSendTask.id);
+            return this.sendlerApiService.StartEmailJob(emailSendTask);
           } else {
             return of();
           }
@@ -59,6 +64,43 @@ export class TaskItemComponent implements OnInit {
         emailSendTask.sendTaskStatus = 'started';
         console.log(result);
       });
+  }
+
+
+  reCreate(emailSendTask: EmailSendTask)
+  {
+    if (emailSendTask.sendTaskStatus === 'started') return;
+    this.dialog
+    .open(ConfirmDialogComponent, {
+      data: {
+        label: 'Перезапустить рассылку',
+        message: `Вы хотите перезапустить рассылку email:  ${emailSendTask.name}?`,
+      },
+    })
+    .afterClosed()
+    .pipe(
+      switchMap((result) => {
+        if (result) {
+          this.trySend = true;
+          return this.sendlerApiService.ReCreateEmailSendTask(emailSendTask);
+        } else {
+          return of();
+        }
+      }),
+      catchError((error) => {
+        this.trySend = false;
+        if (error instanceof HttpErrorResponse) {
+          throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
+        }
+        throw new Error('Произошла ужасная ошибка');
+      })
+    )
+    .subscribe((result) => {
+        this.trySend = false;
+        emailSendTask.jobId = result;
+        emailSendTask.sendTaskStatus = 'started';
+        console.log(result);
+    });
   }
 
 
@@ -110,7 +152,7 @@ export class TaskItemComponent implements OnInit {
         switchMap((result) => {
           if (result) {
             this.trySend = true;
-            return this.sendlerApiService.AbortEmailJob(emailSendTask.jobId);
+            return this.sendlerApiService.AbortEmailJob(emailSendTask.id);
           } else {
             return of();
           }

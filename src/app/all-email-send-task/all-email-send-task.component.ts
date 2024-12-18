@@ -25,6 +25,10 @@ export class AllEmailSendTaskComponent implements OnInit {
       status: 'complete',
       viewStatus: 'Завершенные',
     },
+    {
+      status: 'cancel',
+      viewStatus: 'Отмененные',
+    },
   ];
 
   ngOnInit() {

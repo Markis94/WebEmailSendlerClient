@@ -3,8 +3,10 @@ export class EmailSendTask {
   name: string = '';
   subject: string = '';
   createDate: Date = new Date(Date.now());
+  startDate: Date | null = null;
   endDate: Date = new Date(Date.now());
   csvData: string | null = null; 
+  //emailSendInfo: EmailSendInfo  = new EmailSendInfo(); 
   htmlMessage: string | null = null;
   sendTaskStatus:string = "";
   jobId:string = "";

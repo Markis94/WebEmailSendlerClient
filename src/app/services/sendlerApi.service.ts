@@ -9,7 +9,7 @@ import { EmailSendInfo, EmailSendTask, Part } from '../models/model';
 })
 export class SendlerApiService {
   environment = environment;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   GetEmailSendTaskById(emailSendTaskId: number): Observable<EmailSendTask> {
     return this.http
@@ -87,19 +87,10 @@ export class SendlerApiService {
       );
   }
 
-  StartEmailJob(emailSendTaskId: number): Observable<string> {
+  AbortEmailJob(emailSendTaskId: number): Observable<string> {
     return this.http
       .post<string>(
-        `${environment.baseUrl}api/createEmailJob?emailSendTaskId=${emailSendTaskId}`,
-        {}
-      )
-      .pipe(debounceTime(200), shareReplay(1));
-  }
-
-  AbortEmailJob(jobId: string): Observable<string> {
-    return this.http
-      .post<string>(
-        `${environment.baseUrl}api/cancelEmailJob?jobId=${jobId}`,
+        `${environment.baseUrl}api/cancelEmailJob?emailSendTaskId=${emailSendTaskId}`,
         {}
       )
       .pipe(debounceTime(200), shareReplay(1));
@@ -118,6 +109,24 @@ export class SendlerApiService {
     return this.http
       .post<number>(
         `${environment.baseUrl}api/createEmailDataSendTask`,
+        emailSendTask
+      )
+      .pipe(debounceTime(200), shareReplay(1));
+  }
+
+  StartEmailJob(emailSendTask: EmailSendTask): Observable<string> {
+    return this.http
+      .post<string>(
+        `${environment.baseUrl}api/createEmailJob`,
+        emailSendTask
+      )
+      .pipe(debounceTime(200), shareReplay(1));
+  }
+
+  ReCreateEmailSendTask(emailSendTask: EmailSendTask): Observable<string> {
+    return this.http
+      .post<string>(
+        `${environment.baseUrl}api/reCreateEmailJob`,
         emailSendTask
       )
       .pipe(debounceTime(200), shareReplay(1));

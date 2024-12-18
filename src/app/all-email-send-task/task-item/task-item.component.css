@@ -2,3 +2,16 @@
   width: 350px;
   height: initial;
 }
+.infoCard
+{
+  position: relative;
+}
+.reload
+{
+  position: absolute;
+  right: 5px;
+}
+.reload svg:hover
+{
+  fill: #86b7fe;
+}
