@@ -13,7 +13,7 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'all-email-task',
+    path: 'all-email-task/:type',
     component: AllEmailSendTaskComponent,
   },
   {

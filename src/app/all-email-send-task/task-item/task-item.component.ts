@@ -21,7 +21,7 @@ export class TaskItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadInfo();
+    //this.loadInfo();
   }
 
   loadInfo()
@@ -66,7 +66,6 @@ export class TaskItemComponent implements OnInit {
       });
   }
 
-
   reCreate(emailSendTask: EmailSendTask)
   {
     if (emailSendTask.sendTaskStatus === 'started') return;
@@ -102,7 +101,6 @@ export class TaskItemComponent implements OnInit {
         console.log(result);
     });
   }
-
 
   deleteTask(emailSendTask: EmailSendTask)
   {

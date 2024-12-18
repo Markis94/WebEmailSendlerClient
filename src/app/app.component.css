@@ -1,0 +1,15 @@
+.menu-item
+{
+    color: #ffffff;
+    border-radius: 0%;
+    font-size: 18px;
+}
+.menu-item:hover
+{
+    color: #cccccc;
+}
+.active-menu
+{
+    color: #cccccc;
+    border-bottom: 1px #cccccc solid;
+}

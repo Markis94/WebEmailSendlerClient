@@ -23,9 +23,9 @@ import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.c
 import { InformComponent } from './dialog/inform/inform.component';
 import { EmailCreatorComponent } from './email-creator/email-creator.component';
 import { HomeComponent } from './home/home.component';
-import { NavbarComponent } from './navbar/navbar.component';
 import { SharedModule } from './shared/shared.module';
 import { ViewSendResultComponent } from './view-send-result/view-send-result.component';
+import { TaskTableComponent } from './all-email-send-task/task-table/task-table.component';
 @NgModule({
   declarations: [			
     AppComponent,
@@ -34,9 +34,9 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     InformComponent,
     CreateEmailTaskComponent,
     HomeComponent,
-    NavbarComponent,
     AllEmailSendTaskComponent,
     TaskItemComponent,
+    TaskTableComponent,
     ViewSendResultComponent
    ],
   imports: [
