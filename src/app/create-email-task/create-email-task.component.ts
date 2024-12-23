@@ -74,7 +74,7 @@ export class CreateEmailTaskComponent implements OnInit {
       )
       .subscribe((result) => {
         this.loading = false;
-        this.router.navigate(['./all-email-task']);
+        this.router.navigate(['/all-email-task/created']);
         console.log(result);
       });
   }

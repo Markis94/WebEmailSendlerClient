@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, debounceTime, of, shareReplay } from 'rxjs';
-import { environment } from '../environments/environment';
 import { EmailSendInfo, EmailSendTask, Part } from '../models/model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -64,11 +64,19 @@ export class SendlerApiService {
   }
 
   GetEmailSendTaskByStatus(
-    sendTaskStatus: string
+    sendTaskStatus: string,
+    leftDate: string,
+    rightDate: string
   ): Observable<Array<EmailSendTask>> {
+    if (!leftDate || !rightDate)
+      return of(new Array<EmailSendTask>());
+    let params = new HttpParams()
+      .set('taskStatus', sendTaskStatus)
+      .set('leftDate', leftDate)
+      .set('rightDate', rightDate);
     return this.http
       .get<Array<EmailSendTask>>(
-        `${environment.baseUrl}api/getEmailSendTaskByStatus?taskStatus=${sendTaskStatus}`
+        `${environment.baseUrl}api/emailSendTaskByStatus`, { params: params }
       )
       .pipe(
         debounceTime(200),

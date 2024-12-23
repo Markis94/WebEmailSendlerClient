@@ -9,8 +9,8 @@
     </ng-container>
     <hr>
     <div class="input-group mt-3 mb-3">
-      <input type="text" [(ngModel)]="inputValue" #input="ngModel" class="form-control" placeholder="email@test.ru" (input)="Reset(inputValue)"
-        aria-label="email" aria-describedby="button-addon2">
+      <input type="text" [(ngModel)]="inputValue" #input="ngModel" class="form-control" placeholder="email@test.ru"
+        (input)="Reset(inputValue)" aria-label="email" aria-describedby="button-addon2">
       <button class="btn btn-outline-secondary" type="button" id="button-addon2"
         (click)="Find(inputValue)">Найти</button>
     </div>

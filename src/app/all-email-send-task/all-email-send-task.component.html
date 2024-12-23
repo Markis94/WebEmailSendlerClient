@@ -1,12 +1,36 @@
 <div class="container-fluid p-4">
-  @if (!isLoading) {
-    @if (emailSendTask$ | async; as emailSendTask) {
-      @if (emailSendTask?.length) {
-        <div class="d-flex flex-wrap">
-          @for (task of emailSendTask; track $index) {
-            <app-task-item [emailSendTask]="task"></app-task-item>
-          }
+  <div class="container mb-3">
+    <div class="viewer-card">
+      <div style="font-weight: bold;">Выберите интервал:</div>
+      <div class="row mt-2">
+        <div class="col-md-6">
+          <div class="input-group mb-1">
+            <input  [formControl]="selectControlLeftDate" type="Date" class="form-control" aria-describedby="button-addon3" matTooltip="Левая граница" [value]="leftDate | date:'yyyy-MM-dd'">
+          </div>
         </div>
+        <div class="col-md-6">
+          <div class="input-group mb-1">
+            <input  [formControl]="selectControlRightDate" type="Date" class="form-control" aria-describedby="button-addon3" matTooltip="Правая граница" [value]="rightDate | date:'yyyy-MM-dd'">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (emailSendTask$ | async; as emailSendTask) {
+    @if (loading) {
+      <div class="preload text-center">
+        <div class="d-flex align-items-center justify-content-center" style="gap: 10px;">
+          <h4><strong>Загрузка данных ...</strong></h4>
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Загрузка ...</span>
+          </div>
+        </div>
+      </div>
+    }
+    @else {
+      @if (emailSendTask?.length) {
+        <app-task-table [emailSendTask]="emailSendTask"></app-task-table>
       }
       @else {
         <div class="preload">
@@ -15,15 +39,5 @@
       }
     }
   }
-  @else
-  {
-    <div class="preload text-center">
-      <div class="d-flex align-items-center justify-content-center" style="gap: 10px;">
-        <h4><strong>Загрузка данных ...</strong></h4>
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Загрузка ...</span>
-        </div>
-      </div>
-    </div>
-  }
+
 </div>

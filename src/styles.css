@@ -5,18 +5,33 @@ body {
   height: 100%;
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
+
 html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
 .preload {
   min-height: 40svh;
   display: flex;
   justify-content: center;
   justify-items: center;
   align-items: center;
+}
+
+.mat-mdc-dialog-container {
+  min-width: 40svw !important;
+}
+
+mat-dialog-container {
+  min-width: 40svw !important;
+}
+
+.mdc-dialog .mdc-dialog__container {
+  --mdc-dialog-container-shape: 10px;
 }

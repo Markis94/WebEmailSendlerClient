@@ -1,3 +1,79 @@
-<p>
-  task-table works!
-</p>
+<table mat-table [dataSource]="dataSource" recycleRows multiTemplateDataRows class="mat-elevation-z8">
+  
+  @for (column of columnsToDisplay; track column) {
+    <ng-container matColumnDef="{{column.columnDef}}">
+      <th mat-header-cell *matHeaderCellDef> {{column.header}} </th>
+      <td mat-cell *matCellDef="let element"> 
+        <ng-container [ngSwitch]="column?.mask">
+          <span *ngSwitchCase="'date'">
+            {{(element[column.columnDef] | date:'dd.MM.yyyy')??'-'}}
+          </span>
+          <span *ngSwitchCase="'dateTime'">
+            {{(element[column.columnDef] | date:'dd.MM.yyyy HH:mm')??'-'}}
+          </span>
+          <span *ngSwitchCase="'color-blue'">
+            {{element[column.columnDef]??''}}
+          </span>
+          <span *ngSwitchCase="'sum'">
+            {{element[column.columnDef]??'0'}} ₽
+          </span>
+          <span *ngSwitchCase="'color-green'">
+            {{element[column.columnDef]??''}}
+          </span>
+          <span *ngSwitchCase="'color-red'">
+            {{element[column.columnDef]??''}}
+          </span>
+          <span *ngSwitchDefault>
+            {{element[column.columnDef]??'-'}}
+          </span>
+        </ng-container></td>
+    </ng-container>
+  }
+
+  <ng-container matColumnDef="info">
+    <th mat-header-cell *matHeaderCellDef aria-label="row actions"></th>
+    <td mat-cell *matCellDef="let element">
+      <div>
+        <a class="w-100" [routerLink]="['/view-task-result', element.id]">Результаты</a>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button aria-label="expand row"
+        (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+        @if (expandedElement === element) {
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up" viewBox="0 0 16 16">
+            <path d="M3.204 11h9.592L8 5.519zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659"/>
+          </svg>
+        } @else {
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
+            <path d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659"/>
+          </svg>
+        }
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+      <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+        <div class="p-3 w-100">
+          <app-task-item [emailSendTask]="element"></app-task-item>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+  <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;" class="example-element-row"
+    [class.example-expanded-row]="expandedElement === element" [id]="expandedElement === element?'blue':''"
+    (click)="expandedElement = expandedElement === element ? null : element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
+<mat-paginator showFirstLastButtons [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+  aria-label="Select page">
+</mat-paginator>

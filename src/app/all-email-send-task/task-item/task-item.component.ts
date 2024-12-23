@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { catchError, Observable, of, switchMap } from 'rxjs';
+import { catchError, filter, Observable, of, switchMap, tap } from 'rxjs';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
+import { ViewHtmlBodyComponent } from '../../dialog/viewHtmlBody/viewHtmlBody.component';
 import { EmailSendInfo, EmailSendTask } from '../../models/model';
 import { SendlerApiService } from '../../services/sendlerApi.service';
 
@@ -13,22 +14,29 @@ import { SendlerApiService } from '../../services/sendlerApi.service';
 })
 export class TaskItemComponent implements OnInit {
   @Input() emailSendTask!: EmailSendTask;
-  trySend: boolean = false;
   emailInfo$!: Observable<EmailSendInfo>;
+  @Output() buttonClicked = new EventEmitter<string>();
   constructor(
     public dialog: MatDialog,
     private sendlerApiService: SendlerApiService
   ) {}
 
   ngOnInit() {
-    //this.loadInfo();
+    if (this.emailSendTask.sendTaskStatus != 'started') {
+      this.emailInfo$ = of(this.emailSendTask.emailSendInfo);
+    }
   }
 
-  loadInfo()
-  {
+  loadInfo() {
     this.emailInfo$ = this.sendlerApiService.GetEmailSendTaskInfo(
       this.emailSendTask.id
     );
+  }
+
+  view(emailSendTask: EmailSendTask) {
+    this.dialog.open(ViewHtmlBodyComponent, {
+      data: emailSendTask,
+    });
   }
 
   start(emailSendTask: EmailSendTask) {
@@ -42,16 +50,11 @@ export class TaskItemComponent implements OnInit {
       })
       .afterClosed()
       .pipe(
-        switchMap((result) => {
-          if (result) {
-            this.trySend = true;
-            return this.sendlerApiService.StartEmailJob(emailSendTask);
-          } else {
-            return of();
-          }
+        filter((result)=>result),
+        switchMap(() => {
+          return this.sendlerApiService.StartEmailJob(emailSendTask);
         }),
         catchError((error) => {
-          this.trySend = false;
           if (error instanceof HttpErrorResponse) {
             throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
           }
@@ -59,81 +62,67 @@ export class TaskItemComponent implements OnInit {
         })
       )
       .subscribe((result) => {
-        this.trySend = false;
         emailSendTask.jobId = result;
         emailSendTask.sendTaskStatus = 'started';
         console.log(result);
       });
   }
 
-  reCreate(emailSendTask: EmailSendTask)
-  {
+  reCreate(emailSendTask: EmailSendTask) {
     if (emailSendTask.sendTaskStatus === 'started') return;
     this.dialog
-    .open(ConfirmDialogComponent, {
-      data: {
-        label: 'Перезапустить рассылку',
-        message: `Вы хотите перезапустить рассылку email:  ${emailSendTask.name}?`,
-      },
-    })
-    .afterClosed()
-    .pipe(
-      switchMap((result) => {
-        if (result) {
-          this.trySend = true;
-          return this.sendlerApiService.ReCreateEmailSendTask(emailSendTask);
-        } else {
-          return of();
-        }
-      }),
-      catchError((error) => {
-        this.trySend = false;
-        if (error instanceof HttpErrorResponse) {
-          throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
-        }
-        throw new Error('Произошла ужасная ошибка');
+      .open(ConfirmDialogComponent, {
+        data: {
+          label: 'Перезапустить рассылку',
+          message: `Вы хотите перезапустить рассылку email:  ${emailSendTask.name}?`,
+        },
       })
-    )
-    .subscribe((result) => {
-        this.trySend = false;
+      .afterClosed()
+      .pipe(
+        filter((result)=>result),
+        tap(()=>{this.buttonClicked.emit('Задание на переотправку')}),
+        switchMap(() => {
+          return this.sendlerApiService.ReCreateEmailSendTask(emailSendTask);
+        }),
+        catchError((error) => {
+          if (error instanceof HttpErrorResponse) {
+            throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
+          }
+          throw new Error('Произошла ужасная ошибка');
+        })
+      )
+      .subscribe((result) => {
         emailSendTask.jobId = result;
         emailSendTask.sendTaskStatus = 'started';
         console.log(result);
-    });
+      });
   }
 
-  deleteTask(emailSendTask: EmailSendTask)
-  {
+  deleteTask(emailSendTask: EmailSendTask) {
     if (emailSendTask.sendTaskStatus === 'started') return;
     this.dialog
-    .open(ConfirmDialogComponent, {
-      data: {
-        label: 'Удалить рассылку',
-        message: `Вы хотите удалить рассылку email:  ${emailSendTask.name}?`,
-      },
-    })
-    .afterClosed()
-    .pipe(
-      switchMap((result) => {
-        if (result) {
-          this.trySend = true;
-          return this.sendlerApiService.DeleteEmailTask(emailSendTask.id);
-        } else {
-          return of();
-        }
-      }),
-      catchError((error) => {
-        this.trySend = false;
-        if (error instanceof HttpErrorResponse) {
-          throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
-        }
-        throw new Error('Произошла ужасная ошибка');
+      .open(ConfirmDialogComponent, {
+        data: {
+          label: 'Удалить рассылку',
+          message: `Вы хотите удалить рассылку email:  ${emailSendTask.name}?`,
+        },
       })
-    )
-    .subscribe(() => {
-      emailSendTask.sendTaskStatus = 'deleted';
-      this.trySend = false;
-    });
+      .afterClosed()
+      .pipe(
+        filter((result)=>result),
+        switchMap(() => {
+          return this.sendlerApiService.DeleteEmailTask(emailSendTask.id);
+        }),
+        catchError((error) => {
+          if (error instanceof HttpErrorResponse) {
+            throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
+          }
+          throw new Error('Произошла ужасная ошибка');
+        })
+      )
+      .subscribe(() => {
+        emailSendTask.sendTaskStatus = 'deleted';
+      });
   }
 
   abort(emailSendTask: EmailSendTask) {
@@ -147,16 +136,11 @@ export class TaskItemComponent implements OnInit {
       })
       .afterClosed()
       .pipe(
+        filter((result)=>result),
         switchMap((result) => {
-          if (result) {
-            this.trySend = true;
-            return this.sendlerApiService.AbortEmailJob(emailSendTask.id);
-          } else {
-            return of();
-          }
+          return this.sendlerApiService.AbortEmailJob(emailSendTask.id);
         }),
         catchError((error) => {
-          this.trySend = false;
           if (error instanceof HttpErrorResponse) {
             throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
           }
@@ -165,7 +149,6 @@ export class TaskItemComponent implements OnInit {
       )
       .subscribe(() => {
         emailSendTask.sendTaskStatus = 'complete';
-        this.trySend = false;
       });
   }
 }

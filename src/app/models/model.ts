@@ -6,7 +6,7 @@ export class EmailSendTask {
   startDate: Date | null = null;
   endDate: Date = new Date(Date.now());
   csvData: string | null = null; 
-  //emailSendInfo: EmailSendInfo  = new EmailSendInfo(); 
+  emailSendInfo: EmailSendInfo  = new EmailSendInfo(); 
   htmlMessage: string | null = null;
   sendTaskStatus:string = "";
   jobId:string = "";
