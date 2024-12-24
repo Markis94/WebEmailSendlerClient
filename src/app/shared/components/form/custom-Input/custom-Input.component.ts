@@ -20,7 +20,7 @@ export class CustomInputComponent implements OnInit, ControlValueAccessor {
 
   @Output() value = new EventEmitter<any>();
   @Input() inputValue = "";
-  @Input() lable:string = "";
+  @Input() label:string = "";
   @Input() required: boolean = false;
   @Input() disabled = false;
   @Input() placeholder: string = "";

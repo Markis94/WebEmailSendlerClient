@@ -1,5 +1,5 @@
 <div>
-  <ul class="dropdown-menu">
+  <!-- <ul class="dropdown-menu">
     <li><a class="dropdown-item" href="#">Dropdown link</a></li>
     <li><a class="dropdown-item" href="#">Dropdown link</a></li>
   </ul>
@@ -17,10 +17,13 @@
           <li><button class="dropdown-item" (click)="saveToDefault()">Сохранить как дизайн по умолчанию</button></li>
         </ul>
       </div>
+      <button class="pl-2 pr-2" type="button" class="btn btn-primary" (click)="saveDesign()">Сохранить дизайн</button>
       <button class="pl-2 pr-2" type="button" class="btn btn-success" (click)="saveToFile()">Сохранить в html</button>
       <button type="button" class="btn btn-secondary" (click)="loadDesign()">Загрузить дизайн</button>
     </div>
-  </div>
+  </div> -->
+  <button class="pl-2 pr-2" type="button" class="btn btn-success" (click)="saveToFile()">Сохранить в html</button>
+  <button class="pl-2 pr-2" type="button" class="btn btn-primary" (click)="saveDesign()">Сохранить дизайн</button>
   <hr>
   <email-editor (loaded)="editorLoaded($event)" (ready)="editorReady($event)"></email-editor>
 </div>

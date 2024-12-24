@@ -1,8 +1,8 @@
 <div class="form-group">
-    <ng-container *ngIf="!!lable">
+    <ng-container *ngIf="!!label">
         <label for="{{id}}">
             <ng-content></ng-content>
-            {{lable}}</label>
+            {{label}}</label>
     </ng-container>
     <div *ngIf="lschetItems; else anyItems">
         <select required class="form-control" #mySelect="ngModel" [(ngModel)]="selectValue" [id]="id"

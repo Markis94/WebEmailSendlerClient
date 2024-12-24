@@ -22,7 +22,7 @@ export class CustomTextareaComponent implements OnInit {
 
   @Output() value = new EventEmitter<string>();
   @Input() inputValue = "";
-  @Input() lable:string = "";
+  @Input() label:string = "";
   @Input() required: boolean = false;
   @Input() disabled = false;
   @Input() placeholder: string = "";

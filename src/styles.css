@@ -35,3 +35,9 @@ mat-dialog-container {
 .mdc-dialog .mdc-dialog__container {
   --mdc-dialog-container-shape: 10px;
 }
+
+.cdk-overlay-container,
+.cdk-global-overlay-wrapper {
+  justify-content: center;
+  align-items: flex-end;
+}

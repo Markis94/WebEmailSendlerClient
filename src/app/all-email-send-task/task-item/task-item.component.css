@@ -3,7 +3,11 @@
   position: absolute;
   right: 5px;
 }
-.reload svg:hover
+.default
 {
-  fill: #86b7fe;
+    color: #1a1b1f;
+}
+.default:hover
+{
+    color: #5059be;
 }

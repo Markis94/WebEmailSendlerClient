@@ -20,7 +20,7 @@ import { SendlerApiService } from '../services/sendlerApi.service';
   ],
 })
 export class AllEmailSendTaskComponent implements OnInit {
-  emailSendTask$?: Observable<Array<EmailSendTask>>;
+  emailSendTask$!: Observable<Array<EmailSendTask>>;
   leftDate: any;
   rightDate: any;
   selectControlLeftDate = new FormControl();

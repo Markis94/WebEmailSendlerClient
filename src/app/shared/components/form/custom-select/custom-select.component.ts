@@ -19,7 +19,7 @@ export class CustomSelectComponent implements OnInit {
 
   @Output() value = new EventEmitter<any>();
   @Input() selectValue:any = null;
-  @Input() lable:string = "";
+  @Input() label:string = "";
   @Input() placeholder: string = "Выберите значение";
   @Input() selectValueList:any = [];
   @Input() required: boolean = false;

@@ -1,8 +1,8 @@
 <div class="form-group">
-    <ng-container *ngIf="!!lable">
+    <ng-container *ngIf="!!label">
         <label for="{{id}}">
             <ng-content></ng-content>
-            {{lable}}
+            {{label}}
         </label>
     </ng-container>
     <input class="form-control" #input="ngModel" [id]="id" [attr.name]="'el-'+ id" [name]="'el-'+ id" [(ngModel)]="inputValue" [type]="type"

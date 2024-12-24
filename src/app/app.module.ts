@@ -10,22 +10,25 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatTabsModule } from "@angular/material/tabs";
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RouterModule } from '@angular/router';
 import { EmailEditorModule } from 'angular-email-editor';
 import { AllEmailSendTaskComponent } from './all-email-send-task/all-email-send-task.component';
 import { TaskItemComponent } from './all-email-send-task/task-item/task-item.component';
-import { FilterOnStatus, TaskTableComponent } from './all-email-send-task/task-table/task-table.component';
+import { TaskTableComponent } from './all-email-send-task/task-table/task-table.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
 import { CreateEmailTaskComponent } from './create-email-task/create-email-task.component';
 import { CustomErrorHandler } from './custom-error-handler';
 import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.component';
+import { CreateSampleComponent } from './dialog/create-sample/create-sample.component';
 import { InformComponent } from './dialog/inform/inform.component';
 import { ViewHtmlBodyComponent } from './dialog/viewHtmlBody/viewHtmlBody.component';
 import { EmailCreatorComponent } from './email-creator/email-creator.component';
 import { HomeComponent } from './home/home.component';
+import { AllSamplesComponent } from './sample/all-samples/all-samples.component';
 import { SharedModule } from './shared/shared.module';
 import { ViewSendResultComponent } from './view-send-result/view-send-result.component';
 @NgModule({
@@ -40,8 +43,9 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     TaskItemComponent,
     TaskTableComponent,
     ViewSendResultComponent,
-    FilterOnStatus, 
-    ViewHtmlBodyComponent
+    ViewHtmlBodyComponent, 
+    CreateSampleComponent,
+    AllSamplesComponent
    ],
   imports: [
     FormsModule,
@@ -57,6 +61,7 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatSort,
+    MatTooltipModule,
     MatFormFieldModule,
     MatTableModule,
     MatSortModule,

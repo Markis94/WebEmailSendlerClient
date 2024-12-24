@@ -12,6 +12,13 @@ export class EmailSendTask {
   jobId:string = "";
 }
 
+export class Sample
+{
+  id: number = 0;
+  name:string = "";
+  createDate: Date = new Date(Date.now());
+  sampleJson:string = "";
+}
 
 export class EmailSendResult{
   id: number = 0;

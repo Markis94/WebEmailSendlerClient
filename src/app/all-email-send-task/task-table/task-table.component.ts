@@ -1,8 +1,26 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, ChangeDetectorRef, Component, input, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { HttpErrorResponse } from '@angular/common/http';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { catchError, filter, switchMap } from 'rxjs';
+import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
+import { ViewHtmlBodyComponent } from '../../dialog/viewHtmlBody/viewHtmlBody.component';
 import { EmailSendTask } from '../../models/model';
+import { SendlerApiService } from '../../services/sendlerApi.service';
 
 @Component({
   selector: 'app-task-table',
@@ -12,25 +30,31 @@ import { EmailSendTask } from '../../models/model';
     trigger('detailExpand', [
       state('collapsed,void', style({ height: '0px', minHeight: '0' })),
       state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
     ]),
   ],
 })
 export class TaskTableComponent implements OnInit, AfterViewInit {
-
-  emailSendTask = input<Array<EmailSendTask>>([]);
-  taskStatus:string = 'created'
+  @Input() emailSendTask: Array<EmailSendTask> = [];
+  @Input() taskStatus: string = 'created';
 
   columnsToDisplay: Array<any> = [
-    { columnDef: "name", header: "Название"},
-    { columnDef: "subject", header: "Тема письма"},
-    { columnDef: "createDate", header: "Дата создания", mask: "date"},
-    { columnDef: "startDate", header: "Начало рассылки", mask: "dateTime"},
-    { columnDef: "endDate", header: "Конец рассылки", mask: "dateTime"},
-    { columnDef: "sendTaskStatus", header: "Статус"},
+    { columnDef: 'name', header: 'Название' },
+    { columnDef: 'subject', header: 'Тема письма' },
+    { columnDef: 'createDate', header: 'Дата создания', mask: 'date' },
+    { columnDef: 'startDate', header: 'Начало рассылки', mask: 'dateTime' },
+    { columnDef: 'endDate', header: 'Конец рассылки', mask: 'dateTime' },
   ];
 
-  columnsToDisplayWithExpand = [...this.columnsToDisplay.map(x => x.columnDef), 'info', 'expand'];
+  columnsToDisplayWithExpand = [
+    ...this.columnsToDisplay.map((x) => x.columnDef),
+    'info',
+    'actions',
+    'expand',
+  ];
   expandedElement: any;
 
   length: number = 100;
@@ -38,29 +62,141 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
   pageSizeOptions: Array<number> = [10, 15, 25, 50, 100];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  dataSource!: MatTableDataSource<EmailSendTask>;
-
-  constructor(private cdr: ChangeDetectorRef) { }
+  
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
+    private sendlerApiService: SendlerApiService
+  ) {}
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource(this.emailSendTask());
   }
 
   ngAfterViewInit(): void {
-    this.dataSource = new MatTableDataSource(this.emailSendTask());
-    this.paginator._intl.itemsPerPageLabel = "Показать";
-    this.paginator._intl.firstPageLabel = "В начало";
-    this.paginator._intl.lastPageLabel = "В конец";
-    this.paginator._intl.nextPageLabel = "Далее";
-    this.paginator._intl.previousPageLabel = "Назад";
-    this.dataSource.paginator = this.paginator;
+    this.paginator._intl.itemsPerPageLabel = 'Показать';
+    this.paginator._intl.firstPageLabel = 'В начало';
+    this.paginator._intl.lastPageLabel = 'В конец';
+    this.paginator._intl.nextPageLabel = 'Далее';
+    this.paginator._intl.previousPageLabel = 'Назад';
   }
-}
 
+  view(emailSendTask: EmailSendTask) {
+    this.dialog.open(ViewHtmlBodyComponent, {
+      data: emailSendTask,
+    });
+  }
 
-@Pipe({ name: "filterOnStatus" })
-export class FilterOnStatus implements PipeTransform {
-  transform(taskStatus: string, emailSendTask: Array<EmailSendTask> ) {
-    return new MatTableDataSource(emailSendTask.filter(x=>x.sendTaskStatus == taskStatus));
+  start(emailSendTask: EmailSendTask) {
+    if (emailSendTask.sendTaskStatus !== 'created') return;
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          label: 'Запустить рассылку',
+          message: `Вы хотите запустить рассылку email:  ${emailSendTask.name}?`,
+        },
+      })
+      .afterClosed()
+      .pipe(
+        filter((result) => result),
+        switchMap(() => {
+          return this.sendlerApiService.StartEmailJob(emailSendTask);
+        }),
+        catchError((error) => {
+          if (error instanceof HttpErrorResponse) {
+            throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
+          }
+          throw new Error('Произошла ужасная ошибка');
+        })
+      )
+      .subscribe((result) => {
+        emailSendTask.jobId = result;
+        emailSendTask.sendTaskStatus = 'started';
+        this.emailSendTask = this.emailSendTask.filter(x=>x.sendTaskStatus == this.taskStatus);
+      });
+  }
+
+  reCreate(emailSendTask: EmailSendTask) {
+    if (emailSendTask.sendTaskStatus === 'started') return;
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          label: 'Перезапустить рассылку',
+          message: `Вы хотите перезапустить рассылку email:  ${emailSendTask.name}?`,
+        },
+      })
+      .afterClosed()
+      .pipe(
+        filter((result) => result),
+        switchMap(() => {
+          return this.sendlerApiService.ReCreateEmailSendTask(emailSendTask);
+        }),
+        catchError((error) => {
+          if (error instanceof HttpErrorResponse) {
+            throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
+          }
+          throw new Error('Произошла ужасная ошибка');
+        })
+      )
+      .subscribe((result) => {
+        emailSendTask.jobId = result;
+        emailSendTask.sendTaskStatus = 'started';
+        this.emailSendTask = this.emailSendTask.filter(x=>x.sendTaskStatus == this.taskStatus);
+      });
+  }
+
+  deleteTask(emailSendTask: EmailSendTask) {
+    if (emailSendTask.sendTaskStatus === 'started') return;
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          label: 'Удалить рассылку',
+          message: `Вы хотите удалить рассылку email:  ${emailSendTask.name}?`,
+        },
+      })
+      .afterClosed()
+      .pipe(
+        filter((result) => result),
+        switchMap(() => {
+          return this.sendlerApiService.DeleteEmailTask(emailSendTask.id);
+        }),
+        catchError((error) => {
+          if (error instanceof HttpErrorResponse) {
+            throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
+          }
+          throw new Error('Произошла ужасная ошибка');
+        })
+      )
+      .subscribe(() => {
+        emailSendTask.sendTaskStatus = 'deleted';
+        this.emailSendTask = this.emailSendTask.filter(x=>x.sendTaskStatus == this.taskStatus);
+      });
+  }
+
+  abort(emailSendTask: EmailSendTask) {
+    if (emailSendTask.sendTaskStatus !== 'started') return;
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          label: 'Прервать рассылку',
+          message: `Вы хотите остановить рассылку email:  ${emailSendTask.name}?`,
+        },
+      })
+      .afterClosed()
+      .pipe(
+        filter((result) => result),
+        switchMap((result) => {
+          return this.sendlerApiService.AbortEmailJob(emailSendTask.id);
+        }),
+        catchError((error) => {
+          if (error instanceof HttpErrorResponse) {
+            throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
+          }
+          throw new Error('Произошла ужасная ошибка');
+        })
+      )
+      .subscribe(() => {
+        emailSendTask.sendTaskStatus = 'complete';
+        this.emailSendTask = this.emailSendTask.filter(x=>x.sendTaskStatus == this.taskStatus);
+      });
   }
 }

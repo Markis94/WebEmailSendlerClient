@@ -2,7 +2,6 @@ table {
     width: 100%;
     background-color: #ffffff;
 }
-
 tr.example-detail-row {
     height: 0;
 }
@@ -47,6 +46,54 @@ tr.example-element-row:not(.example-expanded-row):active {
     opacity: 0.5;
 }
 
-#blue {
+#selected {
     background-color: #eaeaea;
+}
+
+.action-group
+{
+    display: flex;
+    gap: 10px;
+}
+.action-group>button>svg
+{
+    height: auto;
+    width: 23px;
+}
+.action-group>button
+{
+    height: auto;
+    width: 30px;
+    border: none;
+    background: none;
+}
+.danger
+{
+    color: #cb0013;
+}
+.danger:hover
+{
+    color: #a01422;
+}
+.info
+{
+    color: #444444;
+}
+.info:hover
+{
+    color: #858585;
+}
+.abort{
+    color: #e0bc1a;
+}
+.abort:hover{
+    color: #b99804;
+}
+.default
+{
+    color: #1a1b1f;
+}
+.default:hover
+{
+    color: #5059be;
 }

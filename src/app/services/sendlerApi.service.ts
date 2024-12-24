@@ -1,15 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, debounceTime, of, shareReplay } from 'rxjs';
-import { EmailSendInfo, EmailSendTask, Part } from '../models/model';
 import { environment } from '../../environments/environment';
+import { EmailSendInfo, EmailSendTask, Part, Sample } from '../models/model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SendlerApiService {
   environment = environment;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   GetEmailSendTaskById(emailSendTaskId: number): Observable<EmailSendTask> {
     return this.http
@@ -68,15 +68,15 @@ export class SendlerApiService {
     leftDate: string,
     rightDate: string
   ): Observable<Array<EmailSendTask>> {
-    if (!leftDate || !rightDate)
-      return of(new Array<EmailSendTask>());
+    if (!leftDate || !rightDate) return of(new Array<EmailSendTask>());
     let params = new HttpParams()
       .set('taskStatus', sendTaskStatus)
       .set('leftDate', leftDate)
       .set('rightDate', rightDate);
     return this.http
       .get<Array<EmailSendTask>>(
-        `${environment.baseUrl}api/emailSendTaskByStatus`, { params: params }
+        `${environment.baseUrl}api/emailSendTaskByStatus`,
+        { params: params }
       )
       .pipe(
         debounceTime(200),
@@ -106,7 +106,7 @@ export class SendlerApiService {
 
   DeleteEmailTask(emailSendTaskId: number): Observable<string> {
     return this.http
-      .post<string>(
+      .delete<string>(
         `${environment.baseUrl}api/deleteTaskAndData?emailSendTaskId=${emailSendTaskId}`,
         {}
       )
@@ -124,31 +124,54 @@ export class SendlerApiService {
 
   StartEmailJob(emailSendTask: EmailSendTask): Observable<string> {
     return this.http
-      .post<string>(
-        `${environment.baseUrl}api/createEmailJob`,
-        emailSendTask
-      )
+      .post<string>(`${environment.baseUrl}api/createEmailJob`, emailSendTask)
       .pipe(debounceTime(200), shareReplay(1));
   }
 
   ReCreateEmailSendTask(emailSendTask: EmailSendTask): Observable<string> {
     return this.http
-      .post<string>(
-        `${environment.baseUrl}api/reCreateEmailJob`,
-        emailSendTask
-      )
+      .post<string>(`${environment.baseUrl}api/reCreateEmailJob`, emailSendTask)
       .pipe(debounceTime(200), shareReplay(1));
   }
 
-  GetSample(): Observable<any> {
+  GetSample(): Observable<Array<Sample>> {
     return this.http
-      .get<any>(`${environment.baseUrl}api/getSample`)
-      .pipe(debounceTime(200), shareReplay(1));
+      .get<any>(`${environment.baseUrl}api/getSamples`)
+      .pipe(debounceTime(200), shareReplay(1), 
+      catchError(() => of(new Array<Sample>())));
+  }
+
+  GetSampleById(sampleId: number): Observable<Sample> {
+    return this.http
+      .get<any>(`${environment.baseUrl}api/getSampleById?sampleId=${sampleId}`)
+      .pipe(debounceTime(200), shareReplay(1), 
+      catchError(() => of(new Sample())));
   }
 
   SaveSample(sample: any): Observable<any> {
     return this.http
       .post<any>(`${environment.baseUrl}api/saveSample`, sample)
+      .pipe(debounceTime(200), shareReplay(1));
+  }
+
+  CreateSample(sample: Sample): Observable<Sample> {
+    return this.http
+      .post<any>(`${environment.baseUrl}api/createSample`, sample)
+      .pipe(debounceTime(200), shareReplay(1));
+  }
+
+  UpdateSample(sample: Sample) {
+    return this.http
+      .put<any>(`${environment.baseUrl}api/updateSample`, sample)
+      .pipe(debounceTime(200), shareReplay(1));
+  }
+
+  DeleteSample(sampleId: number) {
+    return this.http
+      .delete<string>(
+        `${environment.baseUrl}api/deleteSample?sampleId=${sampleId}`,
+        {}
+      )
       .pipe(debounceTime(200), shareReplay(1));
   }
 }

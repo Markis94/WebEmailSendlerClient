@@ -4,6 +4,7 @@ import { AllEmailSendTaskComponent } from './all-email-send-task/all-email-send-
 import { CreateEmailTaskComponent } from './create-email-task/create-email-task.component';
 import { EmailCreatorComponent } from './email-creator/email-creator.component';
 import { HomeComponent } from './home/home.component';
+import { AllSamplesComponent } from './sample/all-samples/all-samples.component';
 import { ViewSendResultComponent } from './view-send-result/view-send-result.component';
 
 const routes: Routes = [
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'view-task-result/:id',
     component: ViewSendResultComponent,
+  },
+  {
+    path: 'all-samples',
+    component: AllSamplesComponent,
   },
 ];
 

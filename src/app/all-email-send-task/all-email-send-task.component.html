@@ -30,7 +30,7 @@
     }
     @else {
       @if (emailSendTask?.length) {
-        <app-task-table [emailSendTask]="emailSendTask"></app-task-table>
+        <app-task-table [emailSendTask]="emailSendTask" [taskStatus]="taskStatus"></app-task-table>
       }
       @else {
         <div class="preload">

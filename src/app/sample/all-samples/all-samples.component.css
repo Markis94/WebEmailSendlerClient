@@ -83,7 +83,36 @@
   visibility: hidden;
 }
 
-.mat-mdc-table
+.mat-mdc-table {
+  background-color: #ffffff !important;
+}
+
+.action-group>button>svg
 {
-    background-color: #ffffff!important;
+    height: auto;
+    width: 20px;
+}
+
+.action-group>button
+{
+    height: auto;
+    width: 30px;
+    border: none;
+    background: none;
+}
+.danger
+{
+    color: #cb0013;
+}
+.danger:hover
+{
+    color: #a01422;
+}
+.default
+{
+    color: #1a1b1f;
+}
+.default:hover
+{
+    color: #5059be;
 }

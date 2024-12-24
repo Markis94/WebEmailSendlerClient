@@ -99,7 +99,7 @@
                         </a>
                         <ul class="collapse nav flex-column ms-2" id="submenu3" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a [routerLinkActive]="['active-menu']" [routerLinkActiveOptions]="{exact: true}"
+                                <a [routerLinkActive]="['active-menu']" [routerLinkActiveOptions]="{exact: false }"
                                     [routerLink]="'./create-email'" class="nav-link px-0 menu-item">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-plus-square mb-1" viewBox="0 0 16 16">
@@ -111,7 +111,8 @@
                                     <span class="d-none d-sm-inline mx-1">Создать\ изменить</span></a>
                             </li>
                             <li>
-                                <a href="#" class="nav-link px-0 menu-item">
+                                <a [routerLinkActive]="['active-menu']" [routerLinkActiveOptions]="{exact: true}"
+                                     [routerLink]="'./all-samples'" class="nav-link px-0 menu-item">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-card-list mb-1" viewBox="0 0 16 16">
                                         <path
