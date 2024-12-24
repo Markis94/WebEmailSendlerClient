@@ -19,7 +19,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { catchError, filter, switchMap } from 'rxjs';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
 import { ViewHtmlBodyComponent } from '../../dialog/viewHtmlBody/viewHtmlBody.component';
-import { EmailSendTask } from '../../models/model';
+import { EmailSendTask, SendTaskStatusEnum } from '../../models/model';
 import { SendlerApiService } from '../../services/sendlerApi.service';
 
 @Component({
@@ -39,7 +39,7 @@ import { SendlerApiService } from '../../services/sendlerApi.service';
 })
 export class TaskTableComponent implements OnInit, AfterViewInit {
   @Input() emailSendTask: Array<EmailSendTask> = [];
-  @Input() taskStatus: string = 'created';
+  @Input() taskStatus: string = SendTaskStatusEnum.created;
 
   columnsToDisplay: Array<any> = [
     { columnDef: 'name', header: 'Название' },
@@ -87,7 +87,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
   }
 
   start(emailSendTask: EmailSendTask) {
-    if (emailSendTask.sendTaskStatus !== 'created') return;
+    if (emailSendTask.sendTaskStatus !== SendTaskStatusEnum.created) return;
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
@@ -110,13 +110,13 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       )
       .subscribe((result) => {
         emailSendTask.jobId = result;
-        emailSendTask.sendTaskStatus = 'started';
+        emailSendTask.sendTaskStatus = SendTaskStatusEnum.started;
         this.emailSendTask = this.emailSendTask.filter(x=>x.sendTaskStatus == this.taskStatus);
       });
   }
 
   reCreate(emailSendTask: EmailSendTask) {
-    if (emailSendTask.sendTaskStatus === 'started') return;
+    if (emailSendTask.sendTaskStatus === SendTaskStatusEnum.started) return;
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
@@ -139,13 +139,13 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       )
       .subscribe((result) => {
         emailSendTask.jobId = result;
-        emailSendTask.sendTaskStatus = 'started';
+        emailSendTask.sendTaskStatus = SendTaskStatusEnum.started;
         this.emailSendTask = this.emailSendTask.filter(x=>x.sendTaskStatus == this.taskStatus);
       });
   }
 
   deleteTask(emailSendTask: EmailSendTask) {
-    if (emailSendTask.sendTaskStatus === 'started') return;
+    if (emailSendTask.sendTaskStatus === SendTaskStatusEnum.started) return;
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
@@ -167,13 +167,13 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe(() => {
-        emailSendTask.sendTaskStatus = 'deleted';
+        emailSendTask.sendTaskStatus = SendTaskStatusEnum.deleted;
         this.emailSendTask = this.emailSendTask.filter(x=>x.sendTaskStatus == this.taskStatus);
       });
   }
 
   abort(emailSendTask: EmailSendTask) {
-    if (emailSendTask.sendTaskStatus !== 'started') return;
+    if (emailSendTask.sendTaskStatus !== SendTaskStatusEnum.started) return;
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
@@ -195,7 +195,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe(() => {
-        emailSendTask.sendTaskStatus = 'complete';
+        emailSendTask.sendTaskStatus = SendTaskStatusEnum.complete;
         this.emailSendTask = this.emailSendTask.filter(x=>x.sendTaskStatus == this.taskStatus);
       });
   }

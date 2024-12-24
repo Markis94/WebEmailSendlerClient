@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, combineLatest, filter, finalize, map, Observable, of, startWith, switchMap, tap } from 'rxjs';
-import { EmailSendTask } from '../models/model';
+import { EmailSendTask, SendTaskStatusEnum } from '../models/model';
 import { SendlerApiService } from '../services/sendlerApi.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class AllEmailSendTaskComponent implements OnInit {
   rightDate: any;
   selectControlLeftDate = new FormControl();
   selectControlRightDate = new FormControl();
-  taskStatus:string = 'created'
+  taskStatus:string = SendTaskStatusEnum.created;
   loading:boolean = false; // Состояние загрузки
   
   constructor(private sendlerApiService: SendlerApiService,
