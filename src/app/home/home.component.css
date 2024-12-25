@@ -1,3 +1,58 @@
 .preload {
   min-height: 80svh;
 }
+.loader {
+  position: relative;
+  width: 100%;
+}
+
+.loader span {
+  position: absolute;
+  padding: 1rem;
+  color:#282828;
+  transform: translate(-50%, -50%);
+  font-size: 58px;
+  letter-spacing: 5px;
+}
+
+.loader span:nth-child(1) {
+  color: transparent;
+  -webkit-text-stroke: 0.3px #282828;
+}
+
+.loader span:nth-child(2) {
+  color: #282828;
+  -webkit-text-stroke: 1px #282828;
+  animation: uiverse723 2s ease-in-out infinite;
+}
+
+@keyframes uiverse723 {
+  0%,
+  100% {
+    clip-path: polygon(
+      0% 45%,
+      15% 44%,
+      32% 50%,
+      54% 60%,
+      70% 61%,
+      84% 59%,
+      100% 52%,
+      100% 100%,
+      0% 100%
+    );
+  }
+
+  50% {
+    clip-path: polygon(
+      0% 60%,
+      16% 65%,
+      34% 66%,
+      51% 62%,
+      67% 50%,
+      84% 45%,
+      100% 46%,
+      100% 100%,
+      0% 100%
+    );
+  }
+}

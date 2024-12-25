@@ -9,10 +9,18 @@
               d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
           </svg>
         </div>
-        <div><strong>Всего:</strong> {{emailInfo.maxCount}}</div>
-        <div><strong>Отправлено:</strong> {{emailInfo.sendCount}}</div>
-        <div><strong>Не отправлено:</strong> {{emailInfo.maxCount - emailInfo.sendCount-emailInfo.badSendCount}}</div>
-        <div><strong>Ошибки:</strong> {{emailInfo.badSendCount}}</div>
+        <div class="row">
+          <div class="col-md-6">
+            <div><strong>Всего:</strong> {{emailInfo.maxCount}}</div>
+            <div><strong>Успешно отправлено :</strong> {{emailInfo.successSendCount}}</div>
+            <div><strong>Ошибок:</strong> {{emailInfo.badSendCount}}</div>
+          </div>
+          <div class="col-md-6">
+            <div><strong>Подготовлено к отправке:</strong> {{emailInfo.sendCount}}</div>
+            <div><strong>Сейчас отправлено :</strong> {{emailInfo.currentSendCount}}</div>
+            <div><strong>Осталось отправить:</strong> {{emailInfo.maxCount - emailInfo.successSendCount-emailInfo.badSendCount}}</div>
+          </div>
+        </div>
       </div>
     }
     @else {

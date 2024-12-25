@@ -1,21 +1,28 @@
 <mat-dialog-content class="mat-typography">
   <form #sampleForm="ngForm" name="sampleForm" (ngSubmit)="create(sampleForm)">
     <div class="mt-2 mb-2">
-      <app-custom-input [disabled]="loading" placeholder="Мой первый шаблон" [minlength]="2" [maxlength]="256"
+      <app-custom-input [disabled]="loading" placeholder="Мой первый шаблон" [minlength]="2" [maxlength]="70"
         [required]="true" type="text" label="Имя шаблона *" [inputValue]="sample.name" (value)="sample.name=$event">
       </app-custom-input>
     </div>
     @if(!data)
     {
-      <app-alert-danger class="view-error-warning f-16 mb-3 mt-3">
-        <div>Прикрепите json файл c шаблоном.
+      <hr>
+      @if(loadInFile){
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Прикрепите json файл c шаблоном.</label>
+          <input [disabled]="loading" class="form-control" type="file" id="formFile" accept=".json"
+          (change)="onSelectedJson($event)">
         </div>
-      </app-alert-danger>
-      <div class="mb-3">
-        <label for="formFile" class="form-label">json файл</label>
-        <input required [disabled]="loading" class="form-control" type="file" id="formFile" accept=".json"
-          (change)="onSelected($event)">
-      </div>
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Прикрепите html файл c шаблоном.</label>
+          <input [disabled]="loading" class="form-control" type="file" id="formFile" accept=".html"
+          (change)="onSelectedHtml($event)">
+        </div>
+      }
+      <mat-checkbox [(ngModel)]="loadInFile" [ngModelOptions]="{standalone: true}"
+        (change)="sample.htmlString=''; sample.jsonString=''"
+        style="user-select: none;">Загрузить из файла</mat-checkbox>
     }
     <div *ngIf="loading" class="d-flex align-items-center justify-content-center" style="gap: 10px;">
       <span><strong>Загрузка данных и создание задания ...</strong></span>

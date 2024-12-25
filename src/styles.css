@@ -1,19 +1,17 @@
+@import "https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700&display=optional";
+
 html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, Arial,
+    Noto Sans, Liberation Sans, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji" !important;
 }
 
 .preload {
@@ -24,6 +22,63 @@ body {
   align-items: center;
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-thumb {
+  background: #7a8186;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #353535;
+}
+::-webkit-scrollbar-corner {
+  background: #fff;
+}
+
+
+.action-group>button>svg
+{
+    height: auto;
+    width: 23px;
+}
+.action-group>button
+{
+    height: auto;
+    width: 30px;
+    border: none;
+    background: none;
+}
+.danger
+{
+    color: #cb0013;
+}
+.danger:hover
+{
+    color: #a01422;
+}
+.info
+{
+    color: #444444;
+}
+.info:hover
+{
+    color: #858585;
+}
+.abort{
+    color: #e0bc1a;
+}
+.abort:hover{
+    color: #b99804;
+}
+.default
+{
+    color: #1a1b1f;
+}
+.default:hover
+{
+    color: #5059be;
+}
+
 .mat-mdc-dialog-container {
   min-width: 40svw !important;
 }
@@ -32,8 +87,17 @@ mat-dialog-container {
   min-width: 40svw !important;
 }
 
+mat-dialog-content {
+  max-height: 80svh!important;
+}
+
 .mdc-dialog .mdc-dialog__container {
   --mdc-dialog-container-shape: 10px;
+}
+
+.btn-light {
+  --bs-btn-bg: #e0e2ec!important;
+  --bs-btn-border-color: #e0e2ec!important;
 }
 
 .cdk-overlay-container,

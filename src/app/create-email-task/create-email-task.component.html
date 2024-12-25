@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Создать рассылку</h1>
+  <h1>Добавить рассылку</h1>
   <hr>
   <form #taskForm="ngForm" name="taskForm" (ngSubmit)="submit(taskForm)">
     <div class="mt-2 mb-2">
@@ -33,20 +33,20 @@
     <app-alert-danger class="view-error-warning f-16 mb-3 mt-3">
       <div>Прикрепите html шаблон для отправки в письме.
       </div>
-      <div>Что бы данные по лицевому счету или сумме подставились в рассылку необходимо в текст добавить спец символы:</div>
+      <div>Что бы данные по лицевому счету или сумме подставились в рассылку необходимо в текст добавить спец символы:
+      </div>
       <div><span>&#123;l&#125;</span> - Lschet</div>
       <div><span>&#123;s&#125;</span> - Sum</div>
       <div><span>&#123;t&#125;</span> - Text</div>
     </app-alert-danger>
     <div class="d-flex justify-content-center">
-      <button [disabled]="loading" class="btn btn-light" type="button"
-        [routerLink]="'../create-email'">
+      <button [disabled]="loading" class="btn btn-light" type="button" [routerLink]="'../create-email'">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-            class="bi bi-plus-square mb-1" viewBox="0 0 16 16">
-            <path
-                d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
-            <path
-                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+          class="bi bi-plus-square mb-1" viewBox="0 0 16 16">
+          <path
+            d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+          <path
+            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
         </svg>
         <span class="ml-2"> Создать шаблон </span>
       </button>
@@ -64,7 +64,7 @@
     </div>
     <hr>
     <div class="mt-2 mb-2">
-      <button [disabled]="loading" class="btn btn-primary w-100" type="submit">Создать рассылку</button>
+      <button [disabled]="loading" class="btn btn-primary w-100" type="submit">Добавить</button>
     </div>
   </form>
 </div>

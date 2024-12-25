@@ -12,7 +12,7 @@ import {
   Component,
   Input,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -62,27 +62,31 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
   pageSizeOptions: Array<number> = [10, 15, 25, 50, 100];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  
+
   constructor(
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private sendlerApiService: SendlerApiService
   ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  ngAfterViewInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Показать';
-    this.paginator._intl.firstPageLabel = 'В начало';
-    this.paginator._intl.lastPageLabel = 'В конец';
-    this.paginator._intl.nextPageLabel = 'Далее';
-    this.paginator._intl.previousPageLabel = 'Назад';
+  ngAfterViewInit() {
+    if (this.paginator) {
+      this.paginator._intl.itemsPerPageLabel = 'Показать';
+      this.paginator._intl.firstPageLabel = 'В начало';
+      this.paginator._intl.lastPageLabel = 'В конец';
+      this.paginator._intl.nextPageLabel = 'Далее';
+      this.paginator._intl.previousPageLabel = 'Назад';
+    }
   }
 
   view(emailSendTask: EmailSendTask) {
     this.dialog.open(ViewHtmlBodyComponent, {
-      data: emailSendTask,
+      data: {
+        name: emailSendTask?.name,
+        htmlString: emailSendTask?.htmlMessage,
+      },
     });
   }
 
@@ -111,7 +115,9 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       .subscribe((result) => {
         emailSendTask.jobId = result;
         emailSendTask.sendTaskStatus = SendTaskStatusEnum.started;
-        this.emailSendTask = this.emailSendTask.filter(x=>x.sendTaskStatus == this.taskStatus);
+        this.emailSendTask = this.emailSendTask.filter(
+          (x) => x.sendTaskStatus == this.taskStatus
+        );
       });
   }
 
@@ -140,7 +146,9 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       .subscribe((result) => {
         emailSendTask.jobId = result;
         emailSendTask.sendTaskStatus = SendTaskStatusEnum.started;
-        this.emailSendTask = this.emailSendTask.filter(x=>x.sendTaskStatus == this.taskStatus);
+        this.emailSendTask = this.emailSendTask.filter(
+          (x) => x.sendTaskStatus == this.taskStatus
+        );
       });
   }
 
@@ -168,7 +176,9 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       )
       .subscribe(() => {
         emailSendTask.sendTaskStatus = SendTaskStatusEnum.deleted;
-        this.emailSendTask = this.emailSendTask.filter(x=>x.sendTaskStatus == this.taskStatus);
+        this.emailSendTask = this.emailSendTask.filter(
+          (x) => x.sendTaskStatus == this.taskStatus
+        );
       });
   }
 
@@ -196,7 +206,9 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       )
       .subscribe(() => {
         emailSendTask.sendTaskStatus = SendTaskStatusEnum.complete;
-        this.emailSendTask = this.emailSendTask.filter(x=>x.sendTaskStatus == this.taskStatus);
+        this.emailSendTask = this.emailSendTask.filter(
+          (x) => x.sendTaskStatus == this.taskStatus
+        );
       });
   }
 }

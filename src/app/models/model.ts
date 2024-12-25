@@ -16,7 +16,9 @@ export class Sample {
   id: number = 0;
   name: string = '';
   createDate: Date = new Date(Date.now());
-  sampleJson: string = '';
+  changeDate: Date = new Date(Date.now());
+  jsonString: string = '';
+  htmlString: string = '';
 }
 
 export class EmailSendResult {
@@ -38,6 +40,8 @@ export class Part {
 export class EmailSendInfo {
   maxCount: number = 0;
   sendCount: number = 0;
+  currentSendCount: number = 0;
+  successSendCount: number = 0;
   badSendCount: number = 0;
 }
 

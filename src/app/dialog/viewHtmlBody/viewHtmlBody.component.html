@@ -1,6 +1,12 @@
-<h1 mat-dialog-title><i class="bi bi-exclamation"></i><span class="ml-2">{{emailSendTask.name}}</span></h1>
+ @if(data.name){
+  <h1 mat-dialog-title>
+    <span class="ml-2">{{data.name}}</span></h1>
+ }
 <mat-dialog-content>
   @if (iframeSrc) {
-   <iframe class="iframe-style" [src]="iframeSrc" width="100%"></iframe>
+    <iframe class="iframe-style" [src]="iframeSrc"></iframe>
   }
 </mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Закрыть</button>
+</mat-dialog-actions>

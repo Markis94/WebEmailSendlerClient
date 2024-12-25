@@ -1,144 +1,184 @@
 @if (emailSendTask.length) {
-<table mat-table [dataSource]="emailSendTask" recycleRows multiTemplateDataRows class="mat-elevation-z8">
+  <table mat-table [dataSource]="emailSendTask" recycleRows multiTemplateDataRows class="mat-elevation-z8">
 
-  @for (column of columnsToDisplay; track column) {
-  <ng-container matColumnDef="{{column.columnDef}}">
-    <th mat-header-cell *matHeaderCellDef> {{column.header}} </th>
-    <td mat-cell *matCellDef="let element">
-      <ng-container [ngSwitch]="column?.mask">
-        <span *ngSwitchCase="'date'">
-          {{(element[column.columnDef] | date:'dd.MM.yyyy')??'-'}}
-        </span>
-        <span *ngSwitchCase="'dateTime'">
-          {{(element[column.columnDef] | date:'dd.MM.yyyy HH:mm')??'-'}}
-        </span>
-        <span *ngSwitchCase="'color-blue'">
-          {{element[column.columnDef]??''}}
-        </span>
-        <span *ngSwitchCase="'sum'">
-          {{element[column.columnDef]??'0'}} ₽
-        </span>
-        <span *ngSwitchCase="'color-green'">
-          {{element[column.columnDef]??''}}
-        </span>
-        <span *ngSwitchCase="'color-red'">
-          {{element[column.columnDef]??''}}
-        </span>
-        <span *ngSwitchDefault>
-          {{element[column.columnDef]??'-'}}
-        </span>
+    @for (column of columnsToDisplay; track column) {
+      <ng-container matColumnDef="{{column.columnDef}}">
+        <th mat-header-cell *matHeaderCellDef> {{column.header}} </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container [ngSwitch]="column?.mask">
+            <span *ngSwitchCase="'date'">
+              {{(element[column.columnDef] | date:'dd.MM.yyyy')??'-'}}
+            </span>
+            <span *ngSwitchCase="'dateTime'">
+              {{(element[column.columnDef] | date:'dd.MM.yyyy HH:mm')??'-'}}
+            </span>
+            <span *ngSwitchCase="'color-blue'">
+              {{element[column.columnDef]??''}}
+            </span>
+            <span *ngSwitchCase="'sum'">
+              {{element[column.columnDef]??'0'}} ₽
+            </span>
+            <span *ngSwitchCase="'color-green'">
+              {{element[column.columnDef]??''}}
+            </span>
+            <span *ngSwitchCase="'color-red'">
+              {{element[column.columnDef]??''}}
+            </span>
+            <span *ngSwitchDefault>
+              {{element[column.columnDef]??'-'}}
+            </span>
+          </ng-container>
+        </td>
       </ng-container>
-    </td>
-  </ng-container>
-  }
+    }
 
-  <ng-container matColumnDef="info">
-    <th mat-header-cell *matHeaderCellDef aria-label="row actions"></th>
-    <td mat-cell *matCellDef="let element">
-      <div>
-        <a class="w-100" [routerLink]="['/view-task-result', element.id]">Результаты</a>
-      </div>
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef aria-label="row actions"></th>
-    <td mat-cell *matCellDef="let element">
-      <div class="action-group">
-        <button class="info" type="button" 
-          (click)="view(element)" matTooltip="Показать тело сообщения">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
-            <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
-            <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
-          </svg>
-        </button>
-        <button class="default" 
-          *ngIf="element.sendTaskStatus === 'created'" type="button" 
-          (click)="start(element)" matTooltip="Запустить рассылку">
-          <svg
-            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-circle"
-            viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-            <path
-              d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445" />
-          </svg>
-        </button>
-        <button class="abort" 
-          *ngIf="element.sendTaskStatus === 'started'" type="button" 
-          (click)="abort(element)" matTooltip="Остановить рассылку">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-            class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
-            <path
-              d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z" />
-            <path
-              d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
-          </svg>
-        </button>
-        <button class="default" 
-          *ngIf="element.sendTaskStatus === 'complete' || element.sendTaskStatus === 'cancel'" type="button" matTooltip="Перезапустить рассылку"
-          (click)="reCreate(element)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-            class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z" />
-            <path
-              d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
-          </svg>
-        </button>
-        <button class="danger" matTooltip="Удалить рассылку"
-          *ngIf="element.sendTaskStatus === 'created' || element.sendTaskStatus === 'complete' || element.sendTaskStatus === 'cancel'" type="button" 
-          (click)="deleteTask(element)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-              <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-            </svg>
-        </button>
-      </div>
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="expand">
-    <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-icon-button aria-label="expand row"
-        (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
-        @if (expandedElement === element) {
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up"
-          viewBox="0 0 16 16">
-          <path
-            d="M3.204 11h9.592L8 5.519zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659" />
-        </svg>
-        } @else {
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down"
-          viewBox="0 0 16 16">
-          <path
-            d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659" />
-        </svg>
-        }
-      </button>
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="expandedDetail">
-    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
-      <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-        <div class="p-3 w-100">
-          <app-task-item [emailSendTask]="element"></app-task-item>
+    <ng-container matColumnDef="info">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions"></th>
+      <td mat-cell *matCellDef="let element">
+        <div>
+          <a class="w-100" [routerLink]="['/view-task-result', element.id]">Результаты</a>
         </div>
-      </div>
-    </td>
-  </ng-container>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
-  <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;" class="example-element-row"
-    [class.example-expanded-row]="expandedElement === element" [id]="expandedElement === element?'selected':''">
-  </tr>
-  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-</table>
-<mat-paginator showFirstLastButtons [length]="emailSendTask.length" [pageSize]="pageSize"
-  [pageSizeOptions]="pageSizeOptions" aria-label="Select page">
-</mat-paginator>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions"></th>
+      <td mat-cell *matCellDef="let element">
+        <div class="action-group">
+          <ng-container *ngTemplateOutlet="viewBtn; context: { context: element }"></ng-container>
+          @switch (element.sendTaskStatus) {
+            @case("created"){
+              <ng-container *ngTemplateOutlet="startBtn; context: { context: element }"></ng-container>
+              <ng-container *ngTemplateOutlet="deleteBtn; context: { context: element }"></ng-container>
+            }
+            @case("started"){
+              <ng-container *ngTemplateOutlet="abortBtn; context: { context: element }"></ng-container>
+            }
+            @case("cancel"){
+              <ng-container *ngTemplateOutlet="reCreateBtn; context: { context: element }"></ng-container>
+              <ng-container *ngTemplateOutlet="deleteBtn; context: { context: element }"></ng-container>
+            }
+            @case("complete"){
+              <ng-container *ngTemplateOutlet="reCreateBtn; context: { context: element }"></ng-container>
+              <ng-container *ngTemplateOutlet="deleteBtn; context: { context: element }"></ng-container>
+            }
+            @default {}
+          }
+          <!-- @if(element.sendTaskStatus === 'created')
+          {
+            <ng-container *ngTemplateOutlet="startBtn; context: { context: element }"></ng-container>
+          }
+          @if (element.sendTaskStatus === 'started') {
+            <ng-container *ngTemplateOutlet="abortBtn; context: { context: element }"></ng-container>
+          }
+          @if (element.sendTaskStatus === 'complete' || element.sendTaskStatus === 'cancel')
+          {
+            <ng-container *ngTemplateOutlet="reCreateBtn; context: { context: element }"></ng-container>
+          }
+          @if (element.sendTaskStatus === 'created' || element.sendTaskStatus === 'complete' || element.sendTaskStatus === 'cancel') {
+            <ng-container *ngTemplateOutlet="deleteBtn; context: { context: element }"></ng-container>
+          } -->
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button aria-label="expand row"
+          (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+          @if (expandedElement === element) {
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up"
+              viewBox="0 0 16 16">
+              <path
+                d="M3.204 11h9.592L8 5.519zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659" />
+            </svg>
+          } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down"
+              viewBox="0 0 16 16">
+              <path
+                d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659" />
+            </svg>
+          }
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+        <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div class="p-3 w-100">
+            <app-task-item [emailSendTask]="element"></app-task-item>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;" class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element" [id]="expandedElement === element?'selected':''">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  </table>
+  <mat-paginator showFirstLastButtons [length]="emailSendTask.length" [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions" aria-label="Select page">
+  </mat-paginator>
 }
 @else {
-<div class="preload">
-  <h4>Данные отсутствуют</h4>
-</div>
+  <div class="preload">
+    <h4>Данные отсутствуют</h4>
+  </div>
 }
+
+<ng-template #viewBtn let-context="context">          
+  <button class="info" type="button" 
+      (click)="view(context)" matTooltip="Показать тело сообщения">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-html" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zm-9.736 7.35v3.999h-.791v-1.714H1.79v1.714H1V11.85h.791v1.626h1.682V11.85h.79Zm2.251.662v3.337h-.794v-3.337H4.588v-.662h3.064v.662zm2.176 3.337v-2.66h.038l.952 2.159h.516l.946-2.16h.038v2.661h.715V11.85h-.8l-1.14 2.596H9.93L8.79 11.85h-.805v3.999zm4.71-.674h1.696v.674H12.61V11.85h.79v3.325Z"/>
+    </svg>
+  </button>
+</ng-template>
+
+<ng-template #startBtn let-context="context">
+  <button class="default" type="button" 
+    (click)="start(context)" matTooltip="Запустить рассылку">
+    <svg
+      xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-circle"
+      viewBox="0 0 16 16">
+      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+      <path
+        d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445" />
+    </svg>
+  </button>
+</ng-template>
+
+<ng-template #abortBtn let-context="context">
+  <button class="danger" type="button" 
+    (click)="abort(context)" matTooltip="Остановить рассылку">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ban" viewBox="0 0 16 16">
+      <path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"/>
+    </svg>
+  </button>
+</ng-template>
+
+<ng-template #reCreateBtn let-context="context">
+  <button class="default" type="button" matTooltip="Перезапустить рассылку"
+    (click)="reCreate(context)">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+      class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z" />
+      <path
+        d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
+    </svg>
+  </button>
+</ng-template>
+
+<ng-template #deleteBtn let-context="context">
+  <button class="danger" matTooltip="Удалить рассылку" type="button" 
+    (click)="deleteTask(context)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+      </svg>
+  </button>
+</ng-template>
+

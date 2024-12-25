@@ -1,4 +1,6 @@
 .iframe-style {
-  height: 70svh; /* Используется, если поддерживается */
-  height: 70vh; /* Резервное значение */
+  height: calc(100vh);
+  max-height: 70svh;
+  width: 100%;
+  border: none;
 }

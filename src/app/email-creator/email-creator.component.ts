@@ -49,7 +49,7 @@ export class EmailCreatorComponent implements OnInit {
         if (result) {
           this.sample = result;
         }
-        this.loadDesign(result.sampleJson ?? '');
+        this.loadDesign(result.jsonString ?? '');
       });
   }
   // called when the editor is created
@@ -64,8 +64,10 @@ export class EmailCreatorComponent implements OnInit {
   }
 
   saveDesign() {
-    this.emailEditor.editor.saveDesign((data: string) => {   
-      this.sample.sampleJson = JSON.stringify(data);   
+    this.emailEditor.editor.exportHtml((data: any) => {
+      this.sample.htmlString = data?.html as string;
+    });
+    this.emailEditor.editor.saveDesign((data: string) => {    
       this.dialog
         .open(ConfirmDialogComponent, {
           data: {
@@ -82,7 +84,7 @@ export class EmailCreatorComponent implements OnInit {
             if (this.sample?.id != 0) {
               this.updateDesign(this.sample);
             } else {
-              this.sample = this.createDesign(this.sample.sampleJson);
+              this.sample = this.createDesign(this.sample);
             }
           }),
           catchError((error) => {
@@ -102,11 +104,12 @@ export class EmailCreatorComponent implements OnInit {
   private updateDesign(sample: Sample) {
     this.sendlerApiService.UpdateSample(sample).subscribe(() => {});
   }
-  private createDesign(sampleJson:string) {
-    let sample = new Sample();
+
+  private createDesign(sample:Sample) {
+    this.sample.jsonString = JSON.stringify(sample?.jsonString);  
     this.dialog
     .open(CreateSampleComponent, {
-      data: sampleJson,
+      data: sample,
     })
     .afterClosed()
     .subscribe((result) => {
@@ -150,7 +153,11 @@ export class EmailCreatorComponent implements OnInit {
 
   saveToFile() {
     this.emailEditor.editor.exportHtml((data: any) => {
-      let fileName = `рассылка_html_${new Date(Date.now()).getDate()}.html`;
+      let fileName = `рассылка_html_${new Date(Date.now()).getDate()}_${new Date(Date.now()).getMonth()}_${new Date(Date.now()).getFullYear()}.html`;
+      if(this.sample?.name)
+      {
+        fileName = `${this.sample.name}_html.html`
+      }
       let htmlContent = data?.html;
       const blob = new Blob([htmlContent], { type: 'text/html' });
       const link = document.createElement('a');

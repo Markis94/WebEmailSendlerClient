@@ -12,16 +12,17 @@ import { SendlerApiService } from '../../services/sendlerApi.service';
 export class CreateSampleComponent implements OnInit {
   sample: Sample = new Sample();
   loading: boolean = false;
+  loadInFile:boolean = false;
   constructor(
     public dialog: MatDialogRef<CreateSampleComponent>,
     private sendlerApiService: SendlerApiService,
     private el: ElementRef,
-    @Inject(MAT_DIALOG_DATA) public data: string
+    @Inject(MAT_DIALOG_DATA) public data: Sample
   ) {}
 
   ngOnInit() {
     if (this.data) {
-      this.sample.sampleJson = this.data as string;
+      this.sample = this.data as Sample;
     }
   }
 
@@ -40,6 +41,10 @@ export class CreateSampleComponent implements OnInit {
       return;
     }
 
+    if(this.loadInFile && (!!!this.sample.htmlString || !!!this.sample.jsonString)){
+      return;
+    }
+
     this.sendlerApiService.CreateSample(this.sample).subscribe((result) => {
       if (result) {
         this.sample = result;
@@ -48,14 +53,26 @@ export class CreateSampleComponent implements OnInit {
     });
   }
 
-  onSelected(event: any) {
-    this.sample.sampleJson = '';
+  onSelectedJson(event: any) {
+    this.sample.jsonString = '';
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       const reader = new FileReader();
       reader.readAsText(file);
       reader.onload = (e) => {
-        this.sample.sampleJson = e.target?.result as string;
+        this.sample.jsonString = e.target?.result as string;
+      };
+    }
+  }
+
+  onSelectedHtml(event: any) {
+    this.sample.htmlString = '';
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = (e) => {
+        this.sample.htmlString = e.target?.result as string;
       };
     }
   }

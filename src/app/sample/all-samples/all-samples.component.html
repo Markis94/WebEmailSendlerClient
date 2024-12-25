@@ -18,7 +18,8 @@
     @if (samples?.length) {
       <div class="table-container">
         <table mat-table class="table" recycleRows [dataSource]="samples" class="table"
-          matSortActive="id" matSortDirection="desc">
+          matSortActive="createDate" matSortDirection="desc">
+
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Имя шаблона </th>
             <td mat-cell *matCellDef="let element"> {{element.name}} </td>
@@ -29,17 +30,25 @@
             <td mat-cell *matCellDef="let element"> {{element.createDate | date: "dd-MM-yyyy HH:mm"}} </td>
           </ng-container>
     
+          <ng-container matColumnDef="changeDate">
+            <th mat-header-cell *matHeaderCellDef> Дата изменения </th>
+            <td mat-cell *matCellDef="let element"> {{element.changeDate | date: "dd-MM-yyyy HH:mm"}} </td>
+          </ng-container>
+          
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef aria-label="row actions"></th>
             <td mat-cell *matCellDef="let element">
               <div class="action-group">
-                <button class="default" [routerLink]="['/create-email']" [queryParams]="{'sampleId':element.id}"  matTooltip="Перейти в редактор">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-circle"
-                    viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                    <path
-                      d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445" />
+                <button class="info" type="button"
+                    (click)="viewHtml(element)" matTooltip="Показать тело сообщения">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-html" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zm-9.736 7.35v3.999h-.791v-1.714H1.79v1.714H1V11.85h.791v1.626h1.682V11.85h.79Zm2.251.662v3.337h-.794v-3.337H4.588v-.662h3.064v.662zm2.176 3.337v-2.66h.038l.952 2.159h.516l.946-2.16h.038v2.661h.715V11.85h-.8l-1.14 2.596H9.93L8.79 11.85h-.805v3.999zm4.71-.674h1.696v.674H12.61V11.85h.79v3.325Z"/>
+                  </svg>
+                </button>
+                <button class="default" [routerLink]="['/create-email']" [queryParams]="{'sampleId':element.id}" matTooltip="Перейти в редактор">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                   </svg>
                 </button>
                 <button class="danger" matTooltip="Удалить шаблон" type="button" 
@@ -51,6 +60,7 @@
               </div>
             </td>
           </ng-container>
+
           <tr mat-header-row *matHeaderRowDef="columns"></tr>
           <tr mat-row *matRowDef="let row; columns: columns;"></tr>
         </table>
