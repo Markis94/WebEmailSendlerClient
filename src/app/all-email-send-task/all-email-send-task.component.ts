@@ -92,11 +92,11 @@ export class AllEmailSendTaskComponent implements OnInit {
         rightDate,
         params,
       })),
-      filter((data) => !!data.leftDate && !!data.rightDate), // Убеждаемся, что даты есть
       tap((data) => {
         this.loading = true;
         this.taskStatus = data.params['type'];
       }),
+      filter((data) => !!data.leftDate && !!data.rightDate), // Убеждаемся, что даты есть
       switchMap((data) =>
         this.sendlerApiService
           .GetEmailSendTaskByStatus(

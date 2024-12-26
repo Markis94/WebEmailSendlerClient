@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
-import { merge, Observable, of } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { merge, Observable, of, tap } from 'rxjs';
 import {
   EmailSendInfo,
   EmailSendTask,
@@ -34,12 +35,12 @@ export class TaskItemComponent implements OnInit {
   loadInfo() {
     this.emailInfo$ = merge(
       this.sendlerApiService.GetEmailSendTaskInfo(this.emailSendTask.id),
-      this.signalRService.changeEmailSendInfo(
-        this.emailSendTask.id,
-        this.destroyRef
-      )
+      this.signalRService.changeEmailSendInfo(this.emailSendTask.id)
+    ).pipe(
+      tap((result) => {
+        console.log(result);
+      }),
+      takeUntilDestroyed(this.destroyRef)
     );
-    // if (this.emailSendTask.sendTaskStatus !== SendTaskStatusEnum.started)
-    //   this.emailInfo$ = this.sendlerApiService.GetEmailSendTaskInfo(this.emailSendTask.id);
   }
 }

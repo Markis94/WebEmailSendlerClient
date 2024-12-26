@@ -29,7 +29,7 @@ export class EmailSendResult {
   lschet: string = '';
   sum: string = '';
   text: string = '';
-  sentDate: Date = new Date(Date.now());
+  sendDate: Date = new Date(Date.now());
 }
 
 export class Part {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import * as signalR from '@microsoft/signalr';
-import { debounceTime, filter, map, Observable, shareReplay } from 'rxjs';
+import { debounceTime, filter, map, Observable, shareReplay, takeWhile } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { EmailSendInfo, EmailSendTask } from '../models/model';
 
@@ -21,18 +21,16 @@ export class AppSignalrService {
       .build();
   }
   
-  changeEmailSendInfo(emailSendTaskId: number, destroyRef: any): Observable<EmailSendInfo> {
+  changeEmailSendInfo(emailSendTaskId: number): Observable<EmailSendInfo> {
     return new Observable<any>((observer) => {
       this.hubConnection.on('ChangeEmailSendInfo', (emailSendTaskId: number, emailSendInfo: EmailSendInfo) => {
         observer.next({ emailSendTaskId, emailSendInfo }); // Упаковываем аргументы в объект
       });
     })
     .pipe(
-      debounceTime(200),
       filter((result) => result.emailSendTaskId === emailSendTaskId),
-      map((result) => result.emailSendInfo),
-      shareReplay(1),
-      takeUntilDestroyed(destroyRef)
+      takeWhile((result) => result.emailSendTaskId === emailSendTaskId),
+      map((result) => result.emailSendInfo)
     );
   }
 

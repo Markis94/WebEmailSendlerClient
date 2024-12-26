@@ -17,7 +17,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { catchError, filter, switchMap } from 'rxjs';
+import { catchError, filter, finalize, switchMap } from 'rxjs';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
 import { ViewHtmlBodyComponent } from '../../dialog/viewHtmlBody/viewHtmlBody.component';
 import { EmailSendTask, SendTaskStatusEnum } from '../../models/model';
@@ -61,7 +61,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
   pageSize: number = 15;
   pageSizeOptions: Array<number> = [15, 25, 50, 100];
   dataSource!: MatTableDataSource<EmailSendTask>;
-
+  btnLocK:boolean = false;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
@@ -94,6 +94,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
 
   start(emailSendTask: EmailSendTask) {
     if (emailSendTask.sendTaskStatus !== SendTaskStatusEnum.created) return;
+    this.btnLocK = true;
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
@@ -112,7 +113,8 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
             throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
           }
           throw new Error('Произошла ужасная ошибка');
-        })
+        }),
+        finalize(()=>{ this.btnLocK = false;})
       )
       .subscribe((result) => {
         emailSendTask.jobId = result;
@@ -120,11 +122,14 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
         this.emailSendTask = this.emailSendTask.filter(
           (x) => x.sendTaskStatus == this.taskStatus
         );
+        this.dataSource = new MatTableDataSource(this.emailSendTask);
+        this.dataSource.paginator = this.paginator;
       });
   }
 
   reCreate(emailSendTask: EmailSendTask) {
     if (emailSendTask.sendTaskStatus === SendTaskStatusEnum.started) return;
+    this.btnLocK = true;
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
@@ -143,7 +148,8 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
             throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
           }
           throw new Error('Произошла ужасная ошибка');
-        })
+        }),
+        finalize(()=>{ this.btnLocK = false;})
       )
       .subscribe((result) => {
         emailSendTask.jobId = result;
@@ -151,11 +157,14 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
         this.emailSendTask = this.emailSendTask.filter(
           (x) => x.sendTaskStatus == this.taskStatus
         );
+        this.dataSource = new MatTableDataSource(this.emailSendTask);
+        this.dataSource.paginator = this.paginator;
       });
   }
 
   deleteTask(emailSendTask: EmailSendTask) {
     if (emailSendTask.sendTaskStatus === SendTaskStatusEnum.started) return;
+    this.btnLocK = true;
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
@@ -174,18 +183,22 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
             throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
           }
           throw new Error('Произошла ужасная ошибка');
-        })
+        }),
+        finalize(()=>{ this.btnLocK = false;})
       )
       .subscribe(() => {
         emailSendTask.sendTaskStatus = SendTaskStatusEnum.deleted;
         this.emailSendTask = this.emailSendTask.filter(
           (x) => x.sendTaskStatus == this.taskStatus
         );
+        this.dataSource = new MatTableDataSource(this.emailSendTask);
+        this.dataSource.paginator = this.paginator;
       });
   }
 
   abort(emailSendTask: EmailSendTask) {
     if (emailSendTask.sendTaskStatus !== SendTaskStatusEnum.started) return;
+    this.btnLocK = true;
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
@@ -204,13 +217,16 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
             throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
           }
           throw new Error('Произошла ужасная ошибка');
-        })
+        }),
+        finalize(()=>{ this.btnLocK = false;})
       )
       .subscribe(() => {
-        emailSendTask.sendTaskStatus = SendTaskStatusEnum.complete;
+        emailSendTask.sendTaskStatus = SendTaskStatusEnum.cancel;
         this.emailSendTask = this.emailSendTask.filter(
           (x) => x.sendTaskStatus == this.taskStatus
         );
+        this.dataSource = new MatTableDataSource(this.emailSendTask);
+        this.dataSource.paginator = this.paginator;
       });
   }
 }

@@ -107,7 +107,9 @@
       <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
         <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
           <div class="p-3 w-100">
-            <app-task-item [emailSendTask]="element"></app-task-item>
+            @if (expandedElement === element) {
+                <app-task-item [emailSendTask]="element"></app-task-item>
+            }
           </div>
         </div>
       </td>
@@ -138,7 +140,7 @@
 </ng-template>
 
 <ng-template #startBtn let-context="context">
-  <button class="default" type="button" 
+  <button [disabled]="btnLocK" class="default" type="button" 
     (click)="start(context)" matTooltip="Запустить рассылку">
     <svg
       xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-circle"
@@ -151,7 +153,7 @@
 </ng-template>
 
 <ng-template #abortBtn let-context="context">
-  <button class="danger" type="button" 
+  <button [disabled]="btnLocK" class="danger" type="button" 
     (click)="abort(context)" matTooltip="Остановить рассылку">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ban" viewBox="0 0 16 16">
       <path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"/>
@@ -160,7 +162,7 @@
 </ng-template>
 
 <ng-template #reCreateBtn let-context="context">
-  <button class="default" type="button" matTooltip="Перезапустить рассылку"
+  <button [disabled]="btnLocK" class="default" type="button" matTooltip="Перезапустить рассылку"
     (click)="reCreate(context)">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
       class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
@@ -172,7 +174,7 @@
 </ng-template>
 
 <ng-template #deleteBtn let-context="context">
-  <button class="danger" matTooltip="Удалить рассылку" type="button" 
+  <button [disabled]="btnLocK" class="danger" matTooltip="Удалить рассылку" type="button" 
     (click)="deleteTask(context)">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
         <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>

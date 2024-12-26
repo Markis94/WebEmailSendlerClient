@@ -31,7 +31,7 @@ export class ViewSendResultComponent implements OnInit, AfterViewInit {
   columns: Array<any> = [
     { columnDef: 'id', header: 'ID' },
     { columnDef: 'email', header: 'Email' },
-    { columnDef: 'sentDate', header: 'Дата отправки' },
+    { columnDef: 'sendDate', header: 'Дата отправки' },
     { columnDef: 'isSuccess', header: 'Статус отправки' },
     { columnDef: 'errorMessage', header: 'Ошибка' },
   ];

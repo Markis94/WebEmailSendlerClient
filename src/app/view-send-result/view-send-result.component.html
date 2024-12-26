@@ -48,9 +48,9 @@
         <td mat-cell *matCellDef="let element"> {{element.email}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="sentDate">
+      <ng-container matColumnDef="sendDate">
         <th mat-sort-header mat-header-cell *matHeaderCellDef> Дата отправки </th>
-        <td mat-cell *matCellDef="let element"> {{element.sentDate | date: "dd-MM-yyyy HH:mm"}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.sendDate | date: "dd-MM-yyyy HH:mm"}} </td>
       </ng-container>
 
       <ng-container matColumnDef="isSuccess">

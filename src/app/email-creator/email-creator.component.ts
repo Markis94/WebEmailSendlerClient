@@ -67,7 +67,8 @@ export class EmailCreatorComponent implements OnInit {
     this.emailEditor.editor.exportHtml((data: any) => {
       this.sample.htmlString = data?.html as string;
     });
-    this.emailEditor.editor.saveDesign((data: string) => {    
+    this.emailEditor.editor.saveDesign((data: string) => {
+      this.sample.jsonString = JSON.stringify(data);    
       this.dialog
         .open(ConfirmDialogComponent, {
           data: {
@@ -84,7 +85,7 @@ export class EmailCreatorComponent implements OnInit {
             if (this.sample?.id != 0) {
               this.updateDesign(this.sample);
             } else {
-              this.sample = this.createDesign(this.sample);
+              this.createDesign(this.sample);
             }
           }),
           catchError((error) => {
@@ -106,7 +107,6 @@ export class EmailCreatorComponent implements OnInit {
   }
 
   private createDesign(sample:Sample) {
-    this.sample.jsonString = JSON.stringify(sample?.jsonString);  
     this.dialog
     .open(CreateSampleComponent, {
       data: sample,
@@ -114,10 +114,9 @@ export class EmailCreatorComponent implements OnInit {
     .afterClosed()
     .subscribe((result) => {
       if (result) {
-        sample = result;
+        this.sample = result;
       }
     });
-    return sample;
   }
 
   loadDesign(designJson: string) {
