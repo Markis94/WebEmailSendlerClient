@@ -48,12 +48,6 @@
   min-width: 100%;
 }
 
-.table-hover:hover {
-  cursor: pointer;
-  color: #f6fbff;
-  background-color: #2196f3;
-}
-
 #blue {
   background-color: #007bff;
   color: aliceblue;

@@ -28,9 +28,9 @@ export class AllSamplesComponent implements OnInit {
     private sendlerApiService: SendlerApiService
   ) {}
   samples$!: Observable<Array<Sample>>;
-  samples:Array<Sample> = [];
-  pageSize: number = 5;
-  pageSizeOptions: Array<number> = [5, 10, 50, 100];
+  pageSize: number = 15;
+  length:number = 0;
+  pageSizeOptions: Array<number> = [15, 25, 50, 100];
   columns:string[] = ['name', 'createDate', 'changeDate', 'action'];
   private destroyRef = inject(DestroyRef);
   dataSource!: MatTableDataSource<any>;
@@ -44,8 +44,8 @@ export class AllSamplesComponent implements OnInit {
   init() {
     this.samples$ = this.sendlerApiService.GetSample().pipe(
       tap((result) => {
-        this.samples = result;
-        this.dataSource = new MatTableDataSource(this.samples);
+        this.length = result.length;
+        this.dataSource = new MatTableDataSource(result);
         this.dataSource.paginator = this.paginator;
         if (this.paginator) {
           this.paginator._intl.itemsPerPageLabel = 'Показать';

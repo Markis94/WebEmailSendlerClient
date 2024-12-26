@@ -1,5 +1,5 @@
 @if (emailSendTask.length) {
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z5 mb-3">
     @for (column of columnsToDisplay; track column) {
       <ng-container matColumnDef="{{column.columnDef}}">
         <th mat-header-cell *matHeaderCellDef> {{column.header}} </th>
@@ -128,7 +128,6 @@
     <h4>Данные отсутствуют</h4>
   </div>
 }
-
 <ng-template #viewBtn let-context="context">          
   <button class="info" type="button" 
       (click)="view(context)" matTooltip="Показать тело сообщения">

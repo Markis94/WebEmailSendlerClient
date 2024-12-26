@@ -36,8 +36,8 @@
         <h4>Данные отсутствуют</h4>
       </div>
     </div>
-    <table mat-table class="table" [ngClass]="{hidden:isLoadingResults || isRateLimitReached || !data.length}"
-      recycleRows matSort matSortDisableClear [dataSource]="data" class="table" matSortActive="id"
+    <table mat-table class="table table-hover mat-elevation-z5 mb-3"  [ngClass]="{hidden:isLoadingResults || isRateLimitReached || !data.length}"
+      recycleRows matSort matSortDisableClear [dataSource]="data" matSortActive="id"
       matSortDirection="desc">
       <ng-container matColumnDef="id">
         <th mat-header-cell mat-sort-header *matHeaderCellDef> ID </th>

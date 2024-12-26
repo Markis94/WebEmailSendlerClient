@@ -49,9 +49,3 @@ tr.example-element-row:not(.example-expanded-row):active {
 #selected {
     background-color: #eaeaea;
 }
-
-.action-group
-{
-    display: flex;
-    gap: 10px;
-}

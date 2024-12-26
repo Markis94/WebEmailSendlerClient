@@ -115,7 +115,7 @@ export class AllEmailSendTaskComponent implements OnInit {
   initDate()
   {
     this.leftDate = this.datePipe.transform(
-      new Date(new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24 * -2),
+      new Date(new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24 * -8),
       'yyyy-MM-dd'
     );
     this.rightDate = this.datePipe.transform(

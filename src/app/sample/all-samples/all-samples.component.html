@@ -1,5 +1,5 @@
 <div class="container-fluid mt-2 p-3">
-  <div class="d-flex justify-content-end mb-2">
+  <div class="d-flex justify-content-end mb-3">
     <div>
       <button type="button" class="btn btn-light" (click)="addSampleView()">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -16,7 +16,7 @@
   </div>
   @if (samples$ | async; as samples) {
     @if (samples?.length) {
-      <!-- <mat-table class="table" matSort [dataSource]="dataSource" class="table">
+      <mat-table class="mat-elevation-z5 mb-3" matSort [dataSource]="dataSource">
 
         <ng-container matColumnDef="name">
           <mat-header-cell *matHeaderCellDef> Имя шаблона </mat-header-cell>
@@ -62,9 +62,6 @@
         <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: columns;"></mat-row>
       </mat-table>
-      <mat-paginator showFirstLastButtons [length]="samples.length" [pageSize]="pageSize"
-        [pageSizeOptions]="pageSizeOptions" aria-label="Select page">
-      </mat-paginator> -->
     }
     @else {
       <div class="preload">
@@ -75,41 +72,14 @@
   @else {
     <div class="preload text-center">
       <div class="d-flex align-items-center justify-content-center" style="gap: 10px;">
-        <h4><strong>Загрузка данных ...</strong></h4>
+        <div><strong>Загрузка данных ...</strong></div>
         <div class="spinner-border text-primary" role="status">
           <span class="visually-hidden">Загрузка ...</span>
         </div>
       </div>
     </div>
   }
+  @if (length) {
+    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" aria-label="Select page"></mat-paginator>
+  }
 </div>
-
-
-<mat-table [dataSource]="dataSource" matSort>
-
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Имя шаблона </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="createDate">
-    <mat-header-cell *matHeaderCellDef> Дата создания </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.createDate | date: "dd-MM-yyyy HH:mm"}} </mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="changeDate">
-    <mat-header-cell *matHeaderCellDef> Дата изменения </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.changeDate | date: "dd-MM-yyyy HH:mm"}} </mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="action">
-    <mat-header-cell *matHeaderCellDef> Действия </mat-header-cell>
-    <mat-cell *matCellDef="let element">
-    </mat-cell>
-  </ng-container>
-
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
-
-<mat-paginator [length]="samples.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page"></mat-paginator>

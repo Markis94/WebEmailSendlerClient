@@ -35,6 +35,11 @@ body {
   background: #fff;
 }
 
+.action-group
+{
+    display: flex;
+    gap: 10px;
+}
 
 .action-group>button>svg
 {
