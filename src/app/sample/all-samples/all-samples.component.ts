@@ -9,6 +9,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { catchError, filter, Observable, switchMap, tap } from 'rxjs';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
 import { CreateSampleComponent } from '../../dialog/create-sample/create-sample.component';
@@ -27,10 +28,13 @@ export class AllSamplesComponent implements OnInit {
     private sendlerApiService: SendlerApiService
   ) {}
   samples$!: Observable<Array<Sample>>;
-  pageSize: number = 10;
-  pageSizeOptions: Array<number> = [10, 20, 50, 100];
-  columns: Array<any> = ['name', 'createDate', 'changeDate', 'action'];
+  samples:Array<Sample> = [];
+  pageSize: number = 5;
+  pageSizeOptions: Array<number> = [5, 10, 50, 100];
+  columns:string[] = ['name', 'createDate', 'changeDate', 'action'];
   private destroyRef = inject(DestroyRef);
+  dataSource!: MatTableDataSource<any>;
+  displayedColumns: string[] = ['name', 'createDate', 'changeDate', 'action'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit() {
@@ -39,7 +43,10 @@ export class AllSamplesComponent implements OnInit {
 
   init() {
     this.samples$ = this.sendlerApiService.GetSample().pipe(
-      tap(() => {
+      tap((result) => {
+        this.samples = result;
+        this.dataSource = new MatTableDataSource(this.samples);
+        this.dataSource.paginator = this.paginator;
         if (this.paginator) {
           this.paginator._intl.itemsPerPageLabel = 'Показать';
           this.paginator._intl.firstPageLabel = 'В начало';

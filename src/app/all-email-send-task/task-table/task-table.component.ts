@@ -16,6 +16,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { catchError, filter, switchMap } from 'rxjs';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
 import { ViewHtmlBodyComponent } from '../../dialog/viewHtmlBody/viewHtmlBody.component';
@@ -57,9 +58,9 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
   ];
   expandedElement: any;
 
-  length: number = 100;
-  pageSize: number = 10;
-  pageSizeOptions: Array<number> = [10, 15, 25, 50, 100];
+  pageSize: number = 15;
+  pageSizeOptions: Array<number> = [15, 25, 50, 100];
+  dataSource!: MatTableDataSource<EmailSendTask>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -69,16 +70,17 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
     private sendlerApiService: SendlerApiService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.dataSource = new MatTableDataSource(this.emailSendTask);
+  }
 
   ngAfterViewInit() {
-    if (this.paginator) {
       this.paginator._intl.itemsPerPageLabel = 'Показать';
       this.paginator._intl.firstPageLabel = 'В начало';
       this.paginator._intl.lastPageLabel = 'В конец';
       this.paginator._intl.nextPageLabel = 'Далее';
       this.paginator._intl.previousPageLabel = 'Назад';
-    }
+      this.dataSource.paginator = this.paginator;
   }
 
   view(emailSendTask: EmailSendTask) {

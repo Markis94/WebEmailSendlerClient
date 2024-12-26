@@ -1,6 +1,5 @@
 @if (emailSendTask.length) {
-  <table mat-table [dataSource]="emailSendTask" recycleRows multiTemplateDataRows class="mat-elevation-z8">
-
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
     @for (column of columnsToDisplay; track column) {
       <ng-container matColumnDef="{{column.columnDef}}">
         <th mat-header-cell *matHeaderCellDef> {{column.header}} </th>
@@ -120,8 +119,8 @@
     </tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
   </table>
-  <mat-paginator showFirstLastButtons [length]="emailSendTask.length" [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizeOptions" aria-label="Select page">
+  <mat-paginator showFirstLastButtons [length]="emailSendTask.length"
+    [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" aria-label="Select page">
   </mat-paginator>
 }
 @else {
