@@ -26,6 +26,7 @@ import { CustomErrorHandler } from './custom-error-handler';
 import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.component';
 import { CreateSampleComponent } from './dialog/create-sample/create-sample.component';
 import { InformComponent } from './dialog/inform/inform.component';
+import { SendTestMessageComponent } from './dialog/send-test-message/send-test-message.component';
 import { ViewHtmlBodyComponent } from './dialog/viewHtmlBody/viewHtmlBody.component';
 import { EmailCreatorComponent } from './email-creator/email-creator.component';
 import { HomeComponent } from './home/home.component';
@@ -33,7 +34,7 @@ import { AllSamplesComponent } from './sample/all-samples/all-samples.component'
 import { SharedModule } from './shared/shared.module';
 import { ViewSendResultComponent } from './view-send-result/view-send-result.component';
 @NgModule({
-  declarations: [			
+  declarations: [				
     AppComponent,
     EmailCreatorComponent,
     ConfirmDialogComponent,
@@ -46,7 +47,8 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     ViewSendResultComponent,
     ViewHtmlBodyComponent, 
     CreateSampleComponent,
-    AllSamplesComponent
+    AllSamplesComponent,
+    SendTestMessageComponent
    ],
   imports: [
     FormsModule,

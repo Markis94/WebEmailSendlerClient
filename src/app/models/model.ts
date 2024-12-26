@@ -52,6 +52,14 @@ export class UploadFile {
   size: number | null = null;
 }
 
+export class TestSend
+{
+ emails:Array<string> = [''];
+ subject: string = '';
+ htmlString: string = '';
+}
+
+
 export enum SendTaskStatusEnum {
   created = 'created',
   deleted = 'deleted',

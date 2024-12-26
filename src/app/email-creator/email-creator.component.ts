@@ -63,10 +63,7 @@ export class EmailCreatorComponent implements OnInit {
     );
   }
 
-  saveDesign() {
-    this.emailEditor.editor.exportHtml((data: any) => {
-      this.sample.htmlString = data?.html as string;
-    });
+  saveToServer() {
     this.emailEditor.editor.saveDesign((data: string) => {
       this.sample.jsonString = JSON.stringify(data);    
       this.dialog
@@ -82,6 +79,9 @@ export class EmailCreatorComponent implements OnInit {
         .pipe(
           filter((result) => result),
           tap(() => {
+            this.emailEditor.editor.exportHtml((data: any) => {
+              this.sample.htmlString = data?.html as string;
+            });
             if (this.sample?.id != 0) {
               this.updateDesign(this.sample);
             } else {
@@ -97,9 +97,6 @@ export class EmailCreatorComponent implements OnInit {
         )
         .subscribe(() => {});
     });
-    // this.emailEditor.editor.saveDesign((data: any) => {
-    //   this.saveJsonToFile(data, 'sample.json');
-    // });
   }
 
   private updateDesign(sample: Sample) {
@@ -150,7 +147,18 @@ export class EmailCreatorComponent implements OnInit {
     }
   }
 
-  saveToFile() {
+  saveToJsonFile() {
+    this.emailEditor.editor.saveDesign((data: any) => {
+      let fileName = `рассылка_json_${new Date(Date.now()).getDate()}_${new Date(Date.now()).getMonth()}_${new Date(Date.now()).getFullYear()}.json`;
+      if(this.sample?.name)
+      {
+        fileName = `${this.sample.name}_json.json`
+      }
+      this.saveJsonToFile(data, fileName);
+    });
+  }
+
+  saveToHtmlFile() {
     this.emailEditor.editor.exportHtml((data: any) => {
       let fileName = `рассылка_html_${new Date(Date.now()).getDate()}_${new Date(Date.now()).getMonth()}_${new Date(Date.now()).getFullYear()}.html`;
       if(this.sample?.name)

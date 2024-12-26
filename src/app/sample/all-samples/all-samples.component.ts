@@ -13,6 +13,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { catchError, filter, Observable, switchMap, tap } from 'rxjs';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
 import { CreateSampleComponent } from '../../dialog/create-sample/create-sample.component';
+import { SendTestMessageComponent } from '../../dialog/send-test-message/send-test-message.component';
 import { ViewHtmlBodyComponent } from '../../dialog/viewHtmlBody/viewHtmlBody.component';
 import { Sample } from '../../models/model';
 import { SendlerApiService } from '../../services/sendlerApi.service';
@@ -66,6 +67,13 @@ export class AllSamplesComponent implements OnInit {
       },
     });
   }
+
+  sendTestMessage(sample: Sample) {
+    this.dialog.open(SendTestMessageComponent, {
+      data: sample
+    });
+  }
+
 
   addSampleView() {
     this.dialog

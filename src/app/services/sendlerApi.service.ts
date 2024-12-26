@@ -2,13 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, debounceTime, of, shareReplay } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { EmailSendInfo, EmailSendTask, Part, Sample } from '../models/model';
+import { EmailSendInfo, EmailSendTask, Part, Sample, TestSend } from '../models/model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SendlerApiService {
-  environment = environment;
   constructor(private http: HttpClient) {}
 
   GetEmailSendTaskById(emailSendTaskId: number): Observable<EmailSendTask> {
@@ -131,6 +130,13 @@ export class SendlerApiService {
   ReCreateEmailSendTask(emailSendTask: EmailSendTask): Observable<string> {
     return this.http
       .post<string>(`${environment.baseUrl}api/reCreateEmailJob`, emailSendTask)
+      .pipe(debounceTime(200), shareReplay(1));
+  }
+
+
+  SendTestMessage(testSend: TestSend): Observable<TestSend> {
+    return this.http
+      .post<any>(`${environment.baseUrl}api/sendTestMessage`, testSend)
       .pipe(debounceTime(200), shareReplay(1));
   }
 

@@ -1,0 +1,19 @@
+.plus-btn
+{
+    height: 70px;
+    width: 70px;
+    color: #1a1b1f;
+    border: none;
+    background: none;
+}
+
+.plus-btn>svg
+{
+    height: 40px;
+    width: 40px;
+}
+
+.plus-btn:hover
+{
+    color: #5059be;
+}
