@@ -81,12 +81,12 @@ export class EmailCreatorComponent implements OnInit {
           tap(() => {
             this.emailEditor.editor.exportHtml((data: any) => {
               this.sample.htmlString = data?.html as string;
+              if (this.sample?.id != 0) {
+                this.updateDesign(this.sample);
+              } else {
+                this.createDesign(this.sample);
+              }
             });
-            if (this.sample?.id != 0) {
-              this.updateDesign(this.sample);
-            } else {
-              this.createDesign(this.sample);
-            }
           }),
           catchError((error) => {
             if (error instanceof HttpErrorResponse) {

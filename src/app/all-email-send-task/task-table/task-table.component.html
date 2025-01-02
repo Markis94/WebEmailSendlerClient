@@ -1,4 +1,17 @@
 @if (emailSendTask.length) {
+  <div class="mat-elevation-z4 p-2 mb-3">
+    <div class="d-flex justify-content-evenly">
+      <div>
+        <strong>Всего: </strong>{{totalCount.maxCount}}
+      </div>
+      <div>
+        <strong>Отправлено успешно:</strong> {{totalCount.successSendCount}}
+      </div>
+      <div>
+        <strong>Отправлено с ошибками:</strong> {{totalCount.badSendCount}}
+      </div>
+    </div>
+  </div>
   <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z5 mb-3">
     @for (column of columnsToDisplay; track column) {
       <ng-container matColumnDef="{{column.columnDef}}">

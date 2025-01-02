@@ -20,7 +20,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { catchError, filter, finalize, switchMap } from 'rxjs';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
 import { ViewHtmlBodyComponent } from '../../dialog/viewHtmlBody/viewHtmlBody.component';
-import { EmailSendTask, SendTaskStatusEnum } from '../../models/model';
+import { EmailSendInfo, EmailSendTask, SendTaskStatusEnum } from '../../models/model';
 import { SendlerApiService } from '../../services/sendlerApi.service';
 
 @Component({
@@ -41,6 +41,8 @@ import { SendlerApiService } from '../../services/sendlerApi.service';
 export class TaskTableComponent implements OnInit, AfterViewInit {
   @Input() emailSendTask: Array<EmailSendTask> = [];
   @Input() taskStatus: string = SendTaskStatusEnum.created;
+
+  totalCount:EmailSendInfo = new EmailSendInfo();
 
   columnsToDisplay: Array<any> = [
     { columnDef: 'name', header: 'Название' },
@@ -72,6 +74,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.emailSendTask);
+    this.calcTotal();
   }
 
   ngAfterViewInit() {
@@ -81,6 +84,13 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       this.paginator._intl.nextPageLabel = 'Далее';
       this.paginator._intl.previousPageLabel = 'Назад';
       this.dataSource.paginator = this.paginator;
+  }
+
+  calcTotal()
+  {
+    this.totalCount.maxCount = this.emailSendTask.reduce((acc, x) => acc + x.emailSendInfo.maxCount, 0);
+    this.totalCount.badSendCount = this.emailSendTask.reduce((acc, x) => acc + x.emailSendInfo.badSendCount, 0);
+    this.totalCount.successSendCount = this.emailSendTask.reduce((acc, x) => acc + x.emailSendInfo.successSendCount, 0);
   }
 
   view(emailSendTask: EmailSendTask) {
@@ -123,6 +133,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
           (x) => x.sendTaskStatus == this.taskStatus
         );
         this.dataSource = new MatTableDataSource(this.emailSendTask);
+        this.calcTotal();
         this.dataSource.paginator = this.paginator;
       });
   }
@@ -158,6 +169,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
           (x) => x.sendTaskStatus == this.taskStatus
         );
         this.dataSource = new MatTableDataSource(this.emailSendTask);
+        this.calcTotal();
         this.dataSource.paginator = this.paginator;
       });
   }
@@ -192,6 +204,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
           (x) => x.sendTaskStatus == this.taskStatus
         );
         this.dataSource = new MatTableDataSource(this.emailSendTask);
+        this.calcTotal();
         this.dataSource.paginator = this.paginator;
       });
   }
@@ -226,6 +239,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
           (x) => x.sendTaskStatus == this.taskStatus
         );
         this.dataSource = new MatTableDataSource(this.emailSendTask);
+        this.calcTotal();
         this.dataSource.paginator = this.paginator;
       });
   }
