@@ -116,6 +116,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       .pipe(
         filter((result) => result),
         switchMap(() => {
+          emailSendTask.startDate = new Date(Date.now());
           return this.sendlerApiService.StartEmailJob(emailSendTask);
         }),
         catchError((error) => {
@@ -152,6 +153,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       .pipe(
         filter((result) => result),
         switchMap(() => {
+          emailSendTask.startDate = new Date(Date.now());
           return this.sendlerApiService.ReCreateEmailSendTask(emailSendTask);
         }),
         catchError((error) => {
@@ -222,7 +224,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       .afterClosed()
       .pipe(
         filter((result) => result),
-        switchMap((result) => {
+        switchMap(() => {
           return this.sendlerApiService.AbortEmailJob(emailSendTask.id);
         }),
         catchError((error) => {

@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { catchError, of } from 'rxjs';
+import { catchError, filter } from 'rxjs';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
 import { EmailSendTask } from '../models/model';
@@ -56,13 +56,11 @@ export class CreateEmailTaskComponent implements OnInit {
       })
       .afterClosed()
       .pipe(
-        switchMap((result) => {
-          if (result) {
-            this.loading = true;
-            return this.sendlerApiService.CreateEmailSendTask(this.emailTask);
-          } else {
-            return of();
-          }
+        filter((result) => result),
+        switchMap(() => {
+          this.loading = true;
+          this.emailTask.startDate = new Date(Date.now());
+          return this.sendlerApiService.CreateEmailSendTask(this.emailTask);
         }),
         catchError((error) => {
           this.loading = false;
