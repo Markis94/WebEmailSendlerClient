@@ -19,8 +19,8 @@ import {
   startWith,
   switchMap
 } from 'rxjs';
-import { EmailSendInfo, EmailSendResult, EmailSendTask } from '../models/model';
-import { SendlerApiService } from '../services/sendlerApi.service';
+import { EmailSendData, EmailSendTask, SendInfo } from '../models/model';
+import { SendlerService } from '../services/sendler.service';
 
 @Component({
   selector: 'app-view-send-result',
@@ -35,11 +35,11 @@ export class ViewSendResultComponent implements OnInit, AfterViewInit {
     { columnDef: 'isSuccess', header: 'Статус отправки' },
     { columnDef: 'errorMessage', header: 'Ошибка' },
   ];
-  emailInfo$!: Observable<EmailSendInfo>;
+  emailInfo$!: Observable<SendInfo>;
   pageSize: number = 10;
   pageSizeOptions: Array<number> = [10, 20, 50, 100];
   displayedColumns: string[] = [];
-  data: EmailSendResult[] = [];
+  data: EmailSendData[] = [];
   inputValue:string ="";
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -56,15 +56,15 @@ export class ViewSendResultComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private sendlerApiService: SendlerApiService
+    private sendlerApiService: SendlerService
   ) {}
 
   ngOnInit() {
     let route = Number(this.route.snapshot.paramMap.get('id'));
     if (!!route) {
-      this.emailInfo$ = this.sendlerApiService.GetEmailSendTaskInfo(route);
+      this.emailInfo$ = this.sendlerApiService.GetSendTaskInfo(route);
       this.sendlerApiService
-        .GetEmailSendTaskById(route)
+        .GetSendTaskById(route)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((result) => {
           this.emailSendTask = result;
@@ -106,7 +106,7 @@ export class ViewSendResultComponent implements OnInit, AfterViewInit {
           this.pageSize = this.paginator.pageSize;
           this.isLoadingResults = true;
           return this.sendlerApiService
-            .EmailResultPath(
+            .GetEmailResultPath(
               inputValue,
               this.emailSendTask?.id,
               this.paginator.pageIndex,

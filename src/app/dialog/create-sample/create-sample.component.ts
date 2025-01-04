@@ -2,7 +2,7 @@ import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Sample } from '../../models/model';
-import { SendlerApiService } from '../../services/sendlerApi.service';
+import { SampleService } from '../../services/sample.service';
 
 @Component({
   selector: 'app-create-sample',
@@ -15,7 +15,7 @@ export class CreateSampleComponent implements OnInit {
   loadInFile:boolean = false;
   constructor(
     public dialog: MatDialogRef<CreateSampleComponent>,
-    private sendlerApiService: SendlerApiService,
+    private sampleService: SampleService,
     private el: ElementRef,
     @Inject(MAT_DIALOG_DATA) public data: Sample
   ) {}
@@ -45,7 +45,7 @@ export class CreateSampleComponent implements OnInit {
       return;
     }
 
-    this.sendlerApiService.CreateSample(this.sample).subscribe((result) => {
+    this.sampleService.CreateSample(this.sample).subscribe((result) => {
       if (result) {
         this.sample = result;
         this.dialog.close(this.sample);

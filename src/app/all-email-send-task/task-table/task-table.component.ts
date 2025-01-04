@@ -20,8 +20,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { catchError, filter, finalize, switchMap } from 'rxjs';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
 import { ViewHtmlBodyComponent } from '../../dialog/viewHtmlBody/viewHtmlBody.component';
-import { EmailSendInfo, EmailSendTask, SendTaskStatusEnum } from '../../models/model';
-import { SendlerApiService } from '../../services/sendlerApi.service';
+import { EmailSendTask, SendInfo, SendTaskStatusEnum } from '../../models/model';
+import { JobService } from '../../services/job.service';
 
 @Component({
   selector: 'app-task-table',
@@ -42,7 +42,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
   @Input() emailSendTask: Array<EmailSendTask> = [];
   @Input() taskStatus: string = SendTaskStatusEnum.created;
 
-  totalCount:EmailSendInfo = new EmailSendInfo();
+  totalCount:SendInfo = new SendInfo();
 
   columnsToDisplay: Array<any> = [
     { columnDef: 'name', header: 'Название' },
@@ -69,7 +69,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
-    private sendlerApiService: SendlerApiService
+    private jobService: JobService
   ) {}
 
   ngOnInit() {
@@ -117,7 +117,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
         filter((result) => result),
         switchMap(() => {
           emailSendTask.startDate = new Date(Date.now());
-          return this.sendlerApiService.StartEmailJob(emailSendTask);
+          return this.jobService.CreateSendJob(emailSendTask);
         }),
         catchError((error) => {
           if (error instanceof HttpErrorResponse) {
@@ -154,7 +154,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
         filter((result) => result),
         switchMap(() => {
           emailSendTask.startDate = new Date(Date.now());
-          return this.sendlerApiService.ReCreateEmailSendTask(emailSendTask);
+          return this.jobService.ReCreateSendJob(emailSendTask);
         }),
         catchError((error) => {
           if (error instanceof HttpErrorResponse) {
@@ -190,7 +190,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       .pipe(
         filter((result) => result),
         switchMap(() => {
-          return this.sendlerApiService.DeleteEmailTask(emailSendTask.id);
+          return this.jobService.DeleteSendJob(emailSendTask.id);
         }),
         catchError((error) => {
           if (error instanceof HttpErrorResponse) {
@@ -225,7 +225,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       .pipe(
         filter((result) => result),
         switchMap(() => {
-          return this.sendlerApiService.AbortEmailJob(emailSendTask.id);
+          return this.jobService.CancelSendJob(emailSendTask.id);
         }),
         catchError((error) => {
           if (error instanceof HttpErrorResponse) {

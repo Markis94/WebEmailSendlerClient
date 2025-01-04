@@ -6,7 +6,7 @@ export class EmailSendTask {
   startDate: Date | null = null;
   endDate: Date = new Date(Date.now());
   csvData: string | null = null;
-  emailSendInfo: EmailSendInfo = new EmailSendInfo();
+  emailSendInfo: SendInfo = new SendInfo();
   htmlMessage: string | null = null;
   sendTaskStatus: string = '';
   jobId: string = '';
@@ -21,7 +21,7 @@ export class Sample {
   htmlString: string = '';
 }
 
-export class EmailSendResult {
+export class EmailSendData {
   id: number = 0;
   email: string = '';
   isSuccess: boolean = false;
@@ -33,11 +33,11 @@ export class EmailSendResult {
 }
 
 export class Part {
-  items: Array<EmailSendResult> = [];
+  items: Array<EmailSendData> = [];
   totalCount: number = 0;
 }
 
-export class EmailSendInfo {
+export class SendInfo {
   maxCount: number = 0;
   sendCount: number = 0;
   currentSendCount: number = 0;

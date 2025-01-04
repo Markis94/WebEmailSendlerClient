@@ -24,7 +24,7 @@ import {
 } from 'rxjs';
 import { EmailSendTask, SendTaskStatusEnum } from '../models/model';
 import { AppSignalrService } from '../services/app-signalr.service';
-import { SendlerApiService } from '../services/sendlerApi.service';
+import { SendlerService } from '../services/sendler.service';
 
 @Component({
   selector: 'app-all-email-send-task',
@@ -53,7 +53,7 @@ export class AllEmailSendTaskComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   constructor(
-    private sendlerApiService: SendlerApiService,
+    private sendlerApiService: SendlerService,
     private datePipe: DatePipe,
     private activateRoute: ActivatedRoute,
     private signalRService: AppSignalrService
@@ -99,7 +99,7 @@ export class AllEmailSendTaskComponent implements OnInit {
       filter((data) => !!data.leftDate && !!data.rightDate), // Убеждаемся, что даты есть
       switchMap((data) =>
         this.sendlerApiService
-          .GetEmailSendTaskByStatus(
+          .GetSendTaskByStatus(
             data.params['type'],
             data.leftDate,
             data.rightDate
@@ -112,6 +112,7 @@ export class AllEmailSendTaskComponent implements OnInit {
       })
     );
   }
+
   initDate()
   {
     this.leftDate = this.datePipe.transform(

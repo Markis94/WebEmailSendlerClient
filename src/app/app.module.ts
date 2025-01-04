@@ -33,6 +33,7 @@ import { HomeComponent } from './home/home.component';
 import { AllSamplesComponent } from './sample/all-samples/all-samples.component';
 import { SharedModule } from './shared/shared.module';
 import { ViewSendResultComponent } from './view-send-result/view-send-result.component';
+
 @NgModule({
   declarations: [				
     AppComponent,

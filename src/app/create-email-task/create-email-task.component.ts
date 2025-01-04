@@ -7,7 +7,7 @@ import { catchError, filter } from 'rxjs';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
 import { EmailSendTask } from '../models/model';
-import { SendlerApiService } from '../services/sendlerApi.service';
+import { SendlerService } from '../services/sendler.service';
 
 @Component({
   selector: 'app-create-email-task',
@@ -20,7 +20,7 @@ export class CreateEmailTaskComponent implements OnInit {
   constructor(
     private router: Router,
     public dialog: MatDialog,
-    private sendlerApiService: SendlerApiService,
+    private sendlerService: SendlerService,
     private el: ElementRef
   ) {}
 
@@ -60,7 +60,7 @@ export class CreateEmailTaskComponent implements OnInit {
         switchMap(() => {
           this.loading = true;
           this.emailTask.startDate = new Date(Date.now());
-          return this.sendlerApiService.CreateEmailSendTask(this.emailTask);
+          return this.sendlerService.CreateSendTask(this.emailTask);
         }),
         catchError((error) => {
           this.loading = false;

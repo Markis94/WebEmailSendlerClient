@@ -16,7 +16,7 @@ import { CreateSampleComponent } from '../../dialog/create-sample/create-sample.
 import { SendTestMessageComponent } from '../../dialog/send-test-message/send-test-message.component';
 import { ViewHtmlBodyComponent } from '../../dialog/viewHtmlBody/viewHtmlBody.component';
 import { Sample } from '../../models/model';
-import { SendlerApiService } from '../../services/sendlerApi.service';
+import { SampleService } from '../../services/sample.service';
 
 @Component({
   selector: 'app-all-samples',
@@ -26,7 +26,7 @@ import { SendlerApiService } from '../../services/sendlerApi.service';
 export class AllSamplesComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
-    private sendlerApiService: SendlerApiService
+    private sampleService: SampleService
   ) {}
   samples$!: Observable<Array<Sample>>;
   pageSize: number = 15;
@@ -43,7 +43,7 @@ export class AllSamplesComponent implements OnInit {
   }
 
   init() {
-    this.samples$ = this.sendlerApiService.GetSample().pipe(
+    this.samples$ = this.sampleService.GetSamples().pipe(
       tap((result) => {
         this.length = result.length;
         this.dataSource = new MatTableDataSource(result);
@@ -97,7 +97,7 @@ export class AllSamplesComponent implements OnInit {
       .pipe(
         filter((result) => result),
         switchMap(() => {
-          return this.sendlerApiService.DeleteSample(sample.id);
+          return this.sampleService.DeleteSample(sample.id);
         }),
         catchError((error) => {
           if (error instanceof HttpErrorResponse) {

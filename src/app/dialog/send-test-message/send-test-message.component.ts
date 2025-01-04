@@ -2,7 +2,7 @@ import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Sample, TestSend } from '../../models/model';
-import { SendlerApiService } from '../../services/sendlerApi.service';
+import { SendlerService } from '../../services/sendler.service';
 
 @Component({
   selector: 'app-send-test-message',
@@ -17,7 +17,7 @@ export class SendTestMessageComponent implements OnInit {
   constructor(
     public dialog: MatDialogRef<SendTestMessageComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Sample,
-    private sendlerApiService: SendlerApiService,
+    private sendlerApiService: SendlerService,
     private el: ElementRef
   ) {}
 

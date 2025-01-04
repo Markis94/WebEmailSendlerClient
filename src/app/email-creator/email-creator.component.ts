@@ -7,33 +7,49 @@ import { catchError, filter, of, switchMap, tap } from 'rxjs';
 import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
 import { CreateSampleComponent } from '../dialog/create-sample/create-sample.component';
 import { Sample } from '../models/model';
-import { SendlerApiService } from '../services/sendlerApi.service';
+import { SampleService } from '../services/sample.service';
 
 @Component({
   selector: 'app-email-creator',
   templateUrl: './email-creator.component.html',
   styleUrls: ['./email-creator.component.css'],
 })
+
 export class EmailCreatorComponent implements OnInit {
   @ViewChild(EmailEditorComponent)
   private emailEditor!: EmailEditorComponent;
   designJson: any = '';
   sample: Sample = new Sample();
 
+  tools: any = {
+    social: {
+      properties: {
+        icons: {
+          value: {
+            iconType: 'circle',
+            icons: [
+              { name: 'Telegram', url: 'https://t.me/GAZMRGNN_bot' },
+              { name: 'VK', url: 'https://vk.com/gasvoprosnn' },
+            ],
+          },
+        },
+      },
+    }
+  };
+
   constructor(
     private dialog: MatDialog,
-    private sendlerApiService: SendlerApiService,
+    private sampleService: SampleService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.route.queryParams
       .pipe(
         switchMap((result) => {
           if (!!result['sampleId']) {
-            return this.sendlerApiService.GetSampleById(
-              result['sampleId'] ?? ''
-            );
+            return this.sampleService.GetSampleById(result['sampleId'] ?? '');
           } else {
             return of(new Sample());
           }
@@ -49,23 +65,38 @@ export class EmailCreatorComponent implements OnInit {
         if (result) {
           this.sample = result;
         }
-        this.loadDesign(result.jsonString ?? '');
       });
   }
+
+  editorUndo() {
+    this.emailEditor?.editor.undo();
+  }
+
+  editorRedo() {
+    this.emailEditor?.editor.redo();
+  }
+
   // called when the editor is created
-  editorLoaded(event: any) {}
+  editorLoaded(event: any) {
+    console.log('load', event);
+  }
   // called when the editor has finished loading
-  editorReady(event: any) {}
+  editorReady(event: any) {
+    console.log('editorReady', event);
+    if(this.sample?.jsonString) {
+      this.loadDesign(this.sample?.jsonString ?? '');
+    }
+  }
 
   exportHtml() {
-    this.emailEditor.editor.exportHtml((data: any) =>
+    this.emailEditor?.editor.exportHtml((data: any) =>
       console.log('exportHtml', data)
     );
   }
 
   saveToServer() {
     this.emailEditor.editor.saveDesign((data: string) => {
-      this.sample.jsonString = JSON.stringify(data);    
+      this.sample.jsonString = JSON.stringify(data);
       this.dialog
         .open(ConfirmDialogComponent, {
           data: {
@@ -90,7 +121,9 @@ export class EmailCreatorComponent implements OnInit {
           }),
           catchError((error) => {
             if (error instanceof HttpErrorResponse) {
-              throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
+              throw new Error(
+                error?.error?.error ?? 'Произошла ужасная ошибка'
+              );
             }
             throw new Error('Произошла ужасная ошибка');
           })
@@ -100,20 +133,20 @@ export class EmailCreatorComponent implements OnInit {
   }
 
   private updateDesign(sample: Sample) {
-    this.sendlerApiService.UpdateSample(sample).subscribe(() => {});
+    this.sampleService.UpdateSample(sample).subscribe(() => {});
   }
 
-  private createDesign(sample:Sample) {
+  private createDesign(sample: Sample) {
     this.dialog
-    .open(CreateSampleComponent, {
-      data: sample,
-    })
-    .afterClosed()
-    .subscribe((result) => {
-      if (result) {
-        this.sample = result;
-      }
-    });
+      .open(CreateSampleComponent, {
+        data: sample,
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.sample = result;
+        }
+      });
   }
 
   loadDesign(designJson: string) {
@@ -149,10 +182,13 @@ export class EmailCreatorComponent implements OnInit {
 
   saveToJsonFile() {
     this.emailEditor.editor.saveDesign((data: any) => {
-      let fileName = `рассылка_json_${new Date(Date.now()).getDate()}_${new Date(Date.now()).getMonth()}_${new Date(Date.now()).getFullYear()}.json`;
-      if(this.sample?.name)
-      {
-        fileName = `${this.sample.name}_json.json`
+      let fileName = `рассылка_json_${new Date(
+        Date.now()
+      ).getDate()}_${new Date(Date.now()).getMonth()}_${new Date(
+        Date.now()
+      ).getFullYear()}.json`;
+      if (this.sample?.name) {
+        fileName = `${this.sample.name}_json.json`;
       }
       this.saveJsonToFile(data, fileName);
     });
@@ -160,10 +196,13 @@ export class EmailCreatorComponent implements OnInit {
 
   saveToHtmlFile() {
     this.emailEditor.editor.exportHtml((data: any) => {
-      let fileName = `рассылка_html_${new Date(Date.now()).getDate()}_${new Date(Date.now()).getMonth()}_${new Date(Date.now()).getFullYear()}.html`;
-      if(this.sample?.name)
-      {
-        fileName = `${this.sample.name}_html.html`
+      let fileName = `рассылка_html_${new Date(
+        Date.now()
+      ).getDate()}_${new Date(Date.now()).getMonth()}_${new Date(
+        Date.now()
+      ).getFullYear()}.html`;
+      if (this.sample?.name) {
+        fileName = `${this.sample.name}_html.html`;
       }
       let htmlContent = data?.html;
       const blob = new Blob([htmlContent], { type: 'text/html' });

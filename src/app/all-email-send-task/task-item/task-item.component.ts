@@ -2,12 +2,12 @@ import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { merge, Observable, of, tap } from 'rxjs';
 import {
-  EmailSendInfo,
   EmailSendTask,
+  SendInfo,
   SendTaskStatusEnum,
 } from '../../models/model';
 import { AppSignalrService } from '../../services/app-signalr.service';
-import { SendlerApiService } from '../../services/sendlerApi.service';
+import { SendlerService } from '../../services/sendler.service';
 
 @Component({
   selector: 'app-task-item',
@@ -16,11 +16,11 @@ import { SendlerApiService } from '../../services/sendlerApi.service';
 })
 export class TaskItemComponent implements OnInit {
   @Input() emailSendTask!: EmailSendTask;
-  emailInfo$!: Observable<EmailSendInfo>;
+  emailInfo$!: Observable<SendInfo>;
   private destroyRef = inject(DestroyRef);
 
   constructor(
-    private sendlerApiService: SendlerApiService,
+    private sendlerApiService: SendlerService,
     private signalRService: AppSignalrService
   ) {}
 
@@ -34,7 +34,7 @@ export class TaskItemComponent implements OnInit {
 
   loadInfo() {
     this.emailInfo$ = merge(
-      this.sendlerApiService.GetEmailSendTaskInfo(this.emailSendTask.id),
+      this.sendlerApiService.GetSendTaskInfo(this.emailSendTask.id),
       this.signalRService.changeEmailSendInfo(this.emailSendTask.id)
     ).pipe(
       tap((result) => {
