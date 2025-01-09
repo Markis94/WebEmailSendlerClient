@@ -14,6 +14,12 @@ export class SendTestMessageComponent implements OnInit {
   emailTestSend: TestSend = new TestSend();
   emailList!: Array<IEmailList>;
   maxLen: number = 10;
+  viewParamsFields:boolean = false;
+
+  l:string = "";
+  s:string = "";
+  t:string = "";
+
   constructor(
     public dialog: MatDialogRef<SendTestMessageComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Sample,
@@ -56,6 +62,7 @@ export class SendTestMessageComponent implements OnInit {
       return;
     }
     this.emailTestSend.emails = this.emailList.map(x=>x.email);
+    this.emailTestSend.htmlString = this.emailTestSend.htmlString.replace("{l}", this.l).replace("{s}", this.s).replace("{t}", this.t);
     this.sendlerApiService
       .SendTestMessage(this.emailTestSend)
       .subscribe({

@@ -8,18 +8,17 @@
   <hr>
   <form #testEmailForm="ngForm" name="testEmailForm" (ngSubmit)="create(testEmailForm)">
     <div class="mt-2 mb-2">
-      <app-custom-input placeholder="Тема письма" [minlength]="2" [maxlength]="100" [required]="true" type="text"
-        label="Тема письма *" [inputValue]="emailTestSend.subject" (value)="emailTestSend.subject=$event">
+      <app-custom-input placeholder="Акция - х..." [minlength]="1" [maxlength]="256" [required]="true" type="text"
+        label="Заголовок (тема письма)" [(inputValue)]="emailTestSend.subject">
       </app-custom-input>
     </div>
     @for (item of emailList; track $index) {
-    <label for="email_item_{{item.id}}"> Электронная почта {{$index + 1}} *</label>
     <div class="pt-2">
-      <div id="email_item_{{item.id}}" class="row">
+      <div class="row">
         <div class="col-10">
-          <app-custom-input placeholder="name@example.com" [required]="true" autocomplete="email" type="email"
-            pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" [inputValue]="item.email"
-            (value)="item.email=$event">
+          <app-custom-input placeholder="name@example.com" [label]="'Электронная почта ' + ($index + 1)"
+            [required]="true" autocomplete="email" type="email" patternMessage="Не является адресом электронной почты"
+            [(inputValue)]="item.email">
             <i class="bi bi-envelope-at-fill"></i>
           </app-custom-input>
         </div>
@@ -46,6 +45,26 @@
         </svg>
       </button>
     </div>
+    @if (viewParamsFields)
+    {
+    <div class="mt-2 mb-2">
+      <app-custom-input placeholder="000000000012" [maxlength]="12" [required]="false" type="text" label="Параметр L"
+        [(inputValue)]="l">
+      </app-custom-input>
+    </div>
+    <div class="mt-2 mb-2">
+      <app-custom-input placeholder="12.0" [maxlength]="256" [required]="false" type="text" label="Параметр S"
+        [(inputValue)]="s">
+      </app-custom-input>
+    </div>
+    <div class="mt-2 mb-2">
+      <app-custom-input placeholder="Какой то текст" [maxlength]="256" [required]="false" type="text" label="Параметр T"
+        [(inputValue)]="t">
+      </app-custom-input>
+    </div>
+    }
+    <mat-checkbox [(ngModel)]="viewParamsFields" [ngModelOptions]="{standalone: true}" (change)="l=''; s=''; t=''"
+      style="user-select: none;">Указать параметры</mat-checkbox>
     <hr>
     <div class="mb-2">
       <button class="btn btn-primary w-100" type="submit">Отправить</button>

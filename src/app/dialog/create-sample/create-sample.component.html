@@ -1,13 +1,12 @@
 <mat-dialog-content class="mat-typography">
   <form #sampleForm="ngForm" name="sampleForm" (ngSubmit)="create(sampleForm)">
     <div class="mt-2 mb-2">
-      <app-custom-input [disabled]="loading" placeholder="Мой первый шаблон" [minlength]="2" [maxlength]="70"
-        [required]="true" type="text" label="Имя шаблона *" [inputValue]="sample.name" (value)="sample.name=$event">
+      <app-custom-input [disabled]="loading" placeholder="Мой первый шаблон" [minlength]="1" [maxlength]="70"
+        [required]="true" type="text" label="Имя шаблона" [(inputValue)]="sample.name">
       </app-custom-input>
     </div>
     @if(!data)
     {
-      <hr>
       @if(loadInFile){
         <div class="mb-3">
           <label for="formFile" class="form-label">Прикрепите json файл c шаблоном.</label>

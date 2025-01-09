@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, forwardRef } from '@angular/core';
-import { ControlContainer, ControlValueAccessor, NG_VALUE_ACCESSOR, NgForm } from '@angular/forms';
-import { noop } from 'rxjs/internal/util/noop';
+import { ChangeDetectionStrategy, Component, Input, OnInit, forwardRef, model } from '@angular/core';
+import { ControlContainer, NG_VALUE_ACCESSOR, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-custom-input',
@@ -16,10 +15,9 @@ import { noop } from 'rxjs/internal/util/noop';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomInputComponent implements OnInit, ControlValueAccessor {
+export class CustomInputComponent implements OnInit {
 
-  @Output() value = new EventEmitter<any>();
-  @Input() inputValue = "";
+  inputValue = model("");
   @Input() label:string = "";
   @Input() required: boolean = false;
   @Input() disabled = false;
@@ -35,28 +33,11 @@ export class CustomInputComponent implements OnInit, ControlValueAccessor {
 
   id = 'input-'+ Math.random();
   
-  constructor(
-    ) { 
-    }
-
-  ngOnInit() {
-  }
-
-  onChange(value: string){
-    this.value.emit(value);
-  } 
+  constructor() { }
   
-  onTouch: () => void = noop;
-
-  registerOnChange(fn: (temp: string) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouch = fn;
-  }
-
-  writeValue(temp: string): void {
-    this.inputValue = temp ? temp : "";
+  ngOnInit() {
+    if(this.type == "email" && this.pattern == ""){
+      this.pattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$";
+    }
   }
 }

@@ -88,6 +88,10 @@ body {
   min-width: 40svw !important;
 }
 
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: #f1f1f1!important;
+}
+
 mat-dialog-container {
   min-width: 40svw !important;
 }
