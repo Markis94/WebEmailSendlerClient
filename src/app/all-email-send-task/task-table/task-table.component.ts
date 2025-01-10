@@ -24,19 +24,17 @@ import { EmailSendTask, SendInfo, SendTaskStatusEnum } from '../../models/model'
 import { JobService } from '../../services/job.service';
 
 @Component({
-  selector: 'app-task-table',
-  templateUrl: './task-table.component.html',
-  styleUrls: ['./task-table.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed,void', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition(
-        'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-    ]),
-  ],
+    selector: 'app-task-table',
+    templateUrl: './task-table.component.html',
+    styleUrls: ['./task-table.component.css'],
+    animations: [
+        trigger('detailExpand', [
+            state('collapsed,void', style({ height: '0px', minHeight: '0' })),
+            state('expanded', style({ height: '*' })),
+            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        ]),
+    ],
+    standalone: false
 })
 export class TaskTableComponent implements OnInit, AfterViewInit {
   @Input() emailSendTask: Array<EmailSendTask> = [];
@@ -116,7 +114,6 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       .pipe(
         filter((result) => result),
         switchMap(() => {
-          emailSendTask.startDate = new Date(Date.now());
           return this.jobService.CreateSendJob(emailSendTask);
         }),
         catchError((error) => {

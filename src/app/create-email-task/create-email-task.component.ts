@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { catchError, filter } from 'rxjs';
@@ -10,13 +11,15 @@ import { EmailSendTask } from '../models/model';
 import { SendlerService } from '../services/sendler.service';
 
 @Component({
-  selector: 'app-create-email-task',
-  templateUrl: './create-email-task.component.html',
-  styleUrls: ['./create-email-task.component.css'],
+    selector: 'app-create-email-task',
+    templateUrl: './create-email-task.component.html',
+    styleUrls: ['./create-email-task.component.css'],
+    standalone: false
 })
 export class CreateEmailTaskComponent implements OnInit {
   emailTask: EmailSendTask = new EmailSendTask();
   loading: boolean = false;
+  private readonly _adapter = inject<DateAdapter<unknown, unknown>>(DateAdapter);
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -24,7 +27,9 @@ export class CreateEmailTaskComponent implements OnInit {
     private el: ElementRef
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._adapter.setLocale('ru-RU');
+  }
 
   submit(form: NgForm) {
     for (let i in form.controls) {
@@ -59,7 +64,6 @@ export class CreateEmailTaskComponent implements OnInit {
         filter((result) => result),
         switchMap(() => {
           this.loading = true;
-          this.emailTask.startDate = new Date(Date.now());
           return this.sendlerService.CreateSendTask(this.emailTask);
         }),
         catchError((error) => {

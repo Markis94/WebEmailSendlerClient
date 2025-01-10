@@ -5,9 +5,10 @@ import { Sample } from '../../models/model';
 import { SampleService } from '../../services/sample.service';
 
 @Component({
-  selector: 'app-create-sample',
-  templateUrl: './create-sample.component.html',
-  styleUrls: ['./create-sample.component.css'],
+    selector: 'app-create-sample',
+    templateUrl: './create-sample.component.html',
+    styleUrls: ['./create-sample.component.css'],
+    standalone: false
 })
 export class CreateSampleComponent implements OnInit {
   sample: Sample = new Sample();

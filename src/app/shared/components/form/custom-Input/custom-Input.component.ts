@@ -2,18 +2,19 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, forwardRef, model } 
 import { ControlContainer, NG_VALUE_ACCESSOR, NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-custom-input',
-  templateUrl: './custom-input.component.html',
-  styleUrls: ['./custom-input.component.css'],
-  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CustomInputComponent),
-      multi: true,
-    },
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-custom-input',
+    templateUrl: './custom-input.component.html',
+    styleUrls: ['./custom-input.component.css'],
+    viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => CustomInputComponent),
+            multi: true,
+        },
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CustomInputComponent implements OnInit {
 

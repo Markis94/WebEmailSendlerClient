@@ -10,9 +10,10 @@ import { Sample } from '../models/model';
 import { SampleService } from '../services/sample.service';
 
 @Component({
-  selector: 'app-email-creator',
-  templateUrl: './email-creator.component.html',
-  styleUrls: ['./email-creator.component.css'],
+    selector: 'app-email-creator',
+    templateUrl: './email-creator.component.html',
+    styleUrls: ['./email-creator.component.css'],
+    standalone: false
 })
 
 export class EmailCreatorComponent implements OnInit {
@@ -133,6 +134,9 @@ export class EmailCreatorComponent implements OnInit {
   }
 
   private updateDesign(sample: Sample) {
+    if (!sample?.name) {
+      return;
+    }
     this.sampleService.UpdateSample(sample).subscribe(() => {});
   }
 

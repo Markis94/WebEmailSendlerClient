@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-viewHtmlBody',
-  templateUrl: './viewHtmlBody.component.html',
-  styleUrls: ['./viewHtmlBody.component.css'],
+    selector: 'app-viewHtmlBody',
+    templateUrl: './viewHtmlBody.component.html',
+    styleUrls: ['./viewHtmlBody.component.css'],
+    standalone: false
 })
 export class ViewHtmlBodyComponent implements OnInit, OnDestroy {
   constructor(

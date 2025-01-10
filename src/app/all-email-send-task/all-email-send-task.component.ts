@@ -8,6 +8,7 @@ import {
 import { DatePipe } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
   catchError,
@@ -27,19 +28,17 @@ import { AppSignalrService } from '../services/app-signalr.service';
 import { SendlerService } from '../services/sendler.service';
 
 @Component({
-  selector: 'app-all-email-send-task',
-  templateUrl: './all-email-send-task.component.html',
-  styleUrls: ['./all-email-send-task.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed,void', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition(
-        'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-    ]),
-  ],
+    selector: 'app-all-email-send-task',
+    templateUrl: './all-email-send-task.component.html',
+    styleUrls: ['./all-email-send-task.component.css'],
+    animations: [
+        trigger('detailExpand', [
+            state('collapsed,void', style({ height: '0px', minHeight: '0' })),
+            state('expanded', style({ height: '*' })),
+            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        ]),
+    ],
+    standalone: false
 })
 export class AllEmailSendTaskComponent implements OnInit {
   emailSendTask$!: Observable<Array<EmailSendTask>>;
@@ -51,7 +50,7 @@ export class AllEmailSendTaskComponent implements OnInit {
   loading: boolean = false; // Состояние загрузки
   signal$!: Observable<any>;
   private destroyRef = inject(DestroyRef);
-
+  private readonly _adapter = inject<DateAdapter<unknown, unknown>>(DateAdapter);
   constructor(
     private sendlerApiService: SendlerService,
     private datePipe: DatePipe,
@@ -60,6 +59,7 @@ export class AllEmailSendTaskComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this._adapter.setLocale('ru-RU');
     this.initDate();
 
     const signalR$ = this.signalRService.changeEmailSendStatus(this.destroyRef)
@@ -86,7 +86,7 @@ export class AllEmailSendTaskComponent implements OnInit {
       ]),
       signalR$
     ).pipe(
-      filter((data): data is [any, any, Params] => Array.isArray(data)), // Проверяем, что это массив
+      filter((data): data is [string, string, Params] => Array.isArray(data)), // Проверяем, что это массив
       map(([leftDate, rightDate, params]) => ({
         leftDate,
         rightDate,
@@ -101,8 +101,8 @@ export class AllEmailSendTaskComponent implements OnInit {
         this.sendlerApiService
           .GetSendTaskByStatus(
             data.params['type'],
-            data.leftDate,
-            data.rightDate
+            this.datePipe.transform(data.leftDate || new Date(Date.now()), 'yyyy-MM-dd')!,
+            this.datePipe.transform(data.rightDate || new Date(Date.now()), 'yyyy-MM-dd')!,
           )
           .pipe(finalize(() => (this.loading = false)))
       ),

@@ -3,7 +3,7 @@ export class EmailSendTask {
   name: string = '';
   subject: string = '';
   createDate: Date = new Date(Date.now());
-  startDate: Date | null = null;
+  startDate: Date = new Date(Date.now());
   endDate: Date = new Date(Date.now());
   csvData: string | null = null;
   emailSendInfo: SendInfo = new SendInfo();
@@ -14,7 +14,7 @@ export class EmailSendTask {
 
 export class Sample {
   id: number = 0;
-  name: string = '';
+  name: string = `шаблон ${new Date(Date.now()).getDate()}-${new Date(Date.now()).getMonth()}-${new Date(Date.now()).getFullYear()}`;
   createDate: Date = new Date(Date.now());
   changeDate: Date = new Date(Date.now());
   jsonString: string = '';

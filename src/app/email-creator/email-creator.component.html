@@ -1,10 +1,10 @@
 <div>
   <div class="row">
     <div class="col-md-8">
-      @if(sample.name)
-      {
-      <h2 class="text-center">{{sample.name}}</h2>
-      }
+      <mat-form-field class="w-100">
+        <mat-label>Название шаблона</mat-label>
+        <input required="true" type="email" matInput [(ngModel)]="sample.name">
+      </mat-form-field>
     </div>
     <div class="col-md-4">
       <div class="d-flex justify-content-end" style="margin-right: 1rem; gap: 10px;">

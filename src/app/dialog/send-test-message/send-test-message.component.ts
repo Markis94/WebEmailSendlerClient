@@ -5,9 +5,10 @@ import { Sample, TestSend } from '../../models/model';
 import { SendlerService } from '../../services/sendler.service';
 
 @Component({
-  selector: 'app-send-test-message',
-  templateUrl: './send-test-message.component.html',
-  styleUrls: ['./send-test-message.component.css'],
+    selector: 'app-send-test-message',
+    templateUrl: './send-test-message.component.html',
+    styleUrls: ['./send-test-message.component.css'],
+    standalone: false
 })
 export class SendTestMessageComponent implements OnInit {
   sample: Sample = new Sample();

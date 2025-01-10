@@ -10,9 +10,10 @@ import { AppSignalrService } from '../../services/app-signalr.service';
 import { SendlerService } from '../../services/sendler.service';
 
 @Component({
-  selector: 'app-task-item',
-  templateUrl: './task-item.component.html',
-  styleUrls: ['./task-item.component.css'],
+    selector: 'app-task-item',
+    templateUrl: './task-item.component.html',
+    styleUrls: ['./task-item.component.css'],
+    standalone: false
 })
 export class TaskItemComponent implements OnInit {
   @Input() emailSendTask!: EmailSendTask;

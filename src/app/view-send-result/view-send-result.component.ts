@@ -23,9 +23,10 @@ import { EmailSendData, EmailSendTask, SendInfo } from '../models/model';
 import { SendlerService } from '../services/sendler.service';
 
 @Component({
-  selector: 'app-view-send-result',
-  templateUrl: './view-send-result.component.html',
-  styleUrls: ['./view-send-result.component.css'],
+    selector: 'app-view-send-result',
+    templateUrl: './view-send-result.component.html',
+    styleUrls: ['./view-send-result.component.css'],
+    standalone: false
 })
 export class ViewSendResultComponent implements OnInit, AfterViewInit {
   columns: Array<any> = [

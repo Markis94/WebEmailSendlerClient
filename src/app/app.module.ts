@@ -4,15 +4,18 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatTabsModule } from "@angular/material/tabs";
+import { MatTimepickerModule } from '@angular/material/timepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -68,6 +71,7 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     MatSort,
     MatFormFieldModule,
     MatInputModule,
+    MatTimepickerModule,
     MatDatepickerModule,
     FormsModule,
     FormsModule,
@@ -75,12 +79,14 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     MatTooltipModule,
     MatFormFieldModule,
     MatTableModule,
+    MatSelectModule,
     MatSortModule,
     MatTabsModule,
     SharedModule,
   ],
   providers: [
     provideAnimationsAsync(),
+    provideNativeDateAdapter(),
     DatePipe,
     provideHttpClient(),
     {

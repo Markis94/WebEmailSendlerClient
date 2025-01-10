@@ -12,9 +12,10 @@ import { InformComponent } from "../../../dialog/inform/inform.component";
 import { UploadFile } from "../../../models/model";
 
 @Component({
-  selector: "file-load",
-  templateUrl: "./file-load.component.html",
-  styleUrls: ["./file-load.component.css"],
+    selector: "file-load",
+    templateUrl: "./file-load.component.html",
+    styleUrls: ["./file-load.component.css"],
+    standalone: false
 })
 export class FileLoadComponent implements OnInit, OnDestroy {
   //список разрешённых файлов////

@@ -19,9 +19,10 @@ import { Sample } from '../../models/model';
 import { SampleService } from '../../services/sample.service';
 
 @Component({
-  selector: 'app-all-samples',
-  templateUrl: './all-samples.component.html',
-  styleUrls: ['./all-samples.component.css'],
+    selector: 'app-all-samples',
+    templateUrl: './all-samples.component.html',
+    styleUrls: ['./all-samples.component.css'],
+    standalone: false
 })
 export class AllSamplesComponent implements OnInit {
   constructor(
