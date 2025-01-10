@@ -10,11 +10,19 @@ import { EmailSendTask, Part, SendInfo, TestSend } from '../models/model';
 export class SendlerService {
   constructor(private http: HttpClient) {}
 
-
   CreateSendTask(emailSendTask: EmailSendTask): Observable<number> {
     return this.http
       .post<number>(
         `${environment.baseUrl}api/createEmailDataSend`,
+        emailSendTask
+      )
+      .pipe(debounceTime(200), shareReplay(1));
+  }
+
+  UpdateSendTask(emailSendTask: EmailSendTask): Observable<EmailSendTask> {
+    return this.http
+      .put<EmailSendTask>(
+        `${environment.baseUrl}api/updateEmailDataSend`,
         emailSendTask
       )
       .pipe(debounceTime(200), shareReplay(1));

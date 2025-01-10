@@ -20,6 +20,7 @@ export class CreateEmailTaskComponent implements OnInit {
   emailTask: EmailSendTask = new EmailSendTask();
   loading: boolean = false;
   private readonly _adapter = inject<DateAdapter<unknown, unknown>>(DateAdapter);
+  
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -77,7 +78,6 @@ export class CreateEmailTaskComponent implements OnInit {
       .subscribe((result) => {
         this.loading = false;
         this.router.navigate(['/all-email-task/created']);
-        console.log(result);
       });
   }
 

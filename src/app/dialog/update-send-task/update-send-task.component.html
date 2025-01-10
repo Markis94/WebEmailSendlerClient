@@ -1,0 +1,50 @@
+<mat-dialog-content class="mat-typography">
+  <form #taskForm="ngForm" name="taskForm" (ngSubmit)="update(taskForm)">
+    <div class="mt-2 mb-2">
+      <app-custom-input [disabled]="loading" placeholder="Рассылка 1" [minlength]="1" [maxlength]="256"
+        [required]="true" type="text" label="Название рассылки" [(inputValue)]="newEmailTask.name">
+      </app-custom-input>
+    </div>
+    <div class="mt-2 mb-2">
+      <app-custom-input [disabled]="loading" placeholder="Акция - х..." [minlength]="1" [maxlength]="256"
+        [required]="true" type="text" label="Заголовок (тема письма)" [(inputValue)]="newEmailTask.subject">
+      </app-custom-input>
+    </div>
+    <div class="d-flex justify-content-center gap-4">
+      <mat-form-field matTooltip="Для отложенной отправки введите дату, время запуска и запустите задание">
+        <mat-label>Дата запуска</mat-label>
+        <input matInput name="datepicker" 
+          [disabled]="loading" 
+          [matDatepicker]="datepicker" 
+          [(ngModel)]="newEmailTask.startDate">
+        <mat-datepicker #datepicker/>
+        <mat-datepicker-toggle [for]="datepicker" matSuffix/>
+      </mat-form-field>
+      
+      <mat-form-field>
+        <mat-label>Время запуска</mat-label>
+        <input matInput
+          name="timepicker"
+          [disabled]="loading"
+          [matTimepicker]="timepicker"
+          [(ngModel)]="newEmailTask.startDate"
+          [ngModelOptions]="{updateOn: 'blur'}">
+        <mat-timepicker [interval]="'30 minutes'" #timepicker/>
+        <mat-timepicker-toggle [for]="timepicker" matSuffix/>
+      </mat-form-field>
+    </div>
+    @if(loading)
+    {
+      <div class="d-flex align-items-center justify-content-center" style="gap: 10px;">
+        <span><strong>Обновление данных ...</strong></span>
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Загрузка ...</span>
+        </div>
+      </div>
+    }
+    <hr>
+    <div class="mt-2 mb-2">
+      <button [disabled]="loading" class="btn btn-primary w-100" type="submit">Сохранить</button>
+    </div>
+  </form>
+</mat-dialog-content>

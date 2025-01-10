@@ -19,6 +19,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { catchError, filter, finalize, switchMap } from 'rxjs';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
+import { UpdateSendTaskComponent } from '../../dialog/update-send-task/update-send-task.component';
 import { ViewHtmlBodyComponent } from '../../dialog/viewHtmlBody/viewHtmlBody.component';
 import { EmailSendTask, SendInfo, SendTaskStatusEnum } from '../../models/model';
 import { JobService } from '../../services/job.service';
@@ -97,6 +98,12 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
         name: emailSendTask?.name,
         htmlString: emailSendTask?.htmlMessage,
       },
+    });
+  }
+
+  update(emailSendTask: EmailSendTask) {
+    this.dialog.open(UpdateSendTaskComponent, {
+      data: emailSendTask,
     });
   }
 

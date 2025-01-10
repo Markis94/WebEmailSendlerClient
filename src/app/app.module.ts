@@ -2,21 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { MatSelectModule } from '@angular/material/select';
-import { MatSort, MatSortModule } from "@angular/material/sort";
-import { MatTableModule } from "@angular/material/table";
-import { MatTabsModule } from "@angular/material/tabs";
-import { MatTimepickerModule } from '@angular/material/timepicker';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RouterModule } from '@angular/router';
@@ -32,12 +18,15 @@ import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.c
 import { CreateSampleComponent } from './dialog/create-sample/create-sample.component';
 import { InformComponent } from './dialog/inform/inform.component';
 import { SendTestMessageComponent } from './dialog/send-test-message/send-test-message.component';
+import { UpdateSendTaskComponent } from './dialog/update-send-task/update-send-task.component';
 import { ViewHtmlBodyComponent } from './dialog/viewHtmlBody/viewHtmlBody.component';
 import { EmailCreatorComponent } from './email-creator/email-creator.component';
 import { HomeComponent } from './home/home.component';
 import { AllSamplesComponent } from './sample/all-samples/all-samples.component';
+import { MaterialModule } from './shared/material';
 import { SharedModule } from './shared/shared.module';
 import { ViewSendResultComponent } from './view-send-result/view-send-result.component';
+
 @NgModule({
   declarations: [				
     AppComponent,
@@ -53,7 +42,8 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     ViewHtmlBodyComponent, 
     CreateSampleComponent,
     AllSamplesComponent,
-    SendTestMessageComponent
+    SendTestMessageComponent,
+    UpdateSendTaskComponent
    ],
   imports: [
     FormsModule,
@@ -62,26 +52,9 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     CommonModule,
     BrowserModule,
     EmailEditorModule,
-    MatButtonModule,
-    MatDialogModule,
     AppRoutingModule,
-    MatPaginator,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatSort,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTimepickerModule,
-    MatDatepickerModule,
     FormsModule,
-    FormsModule,
-    MatCheckboxModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    MatTableModule,
-    MatSelectModule,
-    MatSortModule,
-    MatTabsModule,
+    MaterialModule,
     SharedModule,
   ],
   providers: [
