@@ -1,0 +1,35 @@
+<form #sampleForm="ngForm" name="sampleForm" (ngSubmit)="create(sampleForm)">
+  <div class="mt-2 mb-2">
+    <app-custom-input [disabled]="loading" placeholder="Мой первый шаблон" [minlength]="1" [maxlength]="70"
+      [required]="true" type="text" label="Имя шаблона" [(inputValue)]="sample.name">
+    </app-custom-input>
+  </div>
+  @if(file)
+  {
+    @if(loadInFile){
+      <div class="mb-3">
+        <label for="formFile" class="form-label">Прикрепите json файл c шаблоном.</label>
+        <input [disabled]="loading" class="form-control" type="file" id="formFile" accept=".json"
+        (change)="onSelectedJson($event)">
+      </div>
+      <div class="mb-3">
+        <label for="formFile1" class="form-label">Прикрепите html файл c шаблоном.</label>
+        <input [disabled]="loading" class="form-control" type="file" id="formFile1" accept=".html"
+        (change)="onSelectedHtml($event)">
+      </div>
+    }
+    <mat-checkbox [(ngModel)]="loadInFile" [ngModelOptions]="{standalone: true}"
+      (change)="sample.htmlString=''; sample.jsonString=''"
+      style="user-select: none;">Загрузить из файла</mat-checkbox>
+  }
+  <div *ngIf="loading" class="d-flex align-items-center justify-content-center" style="gap: 10px;">
+    <span><strong>Загрузка данных и создание задания ...</strong></span>
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Загрузка ...</span>
+    </div>
+  </div>
+  <hr>
+  <div class="mt-2 mb-2">
+    <button [disabled]="loading" class="btn btn-primary w-100" type="submit">Сохранить шаблон</button>
+  </div>
+</form>

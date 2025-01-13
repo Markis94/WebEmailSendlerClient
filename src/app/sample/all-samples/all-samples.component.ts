@@ -78,7 +78,12 @@ export class AllSamplesComponent implements OnInit {
 
   addSampleView() {
     this.dialog
-      .open(CreateSampleComponent)
+      .open(CreateSampleComponent, {
+        data: {
+          sample: new Sample(),
+          file:true
+        },
+      })
       .afterClosed()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {

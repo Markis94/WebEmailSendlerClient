@@ -59,6 +59,20 @@ export class TestSend
  htmlString: string = '';
 }
 
+export class Configuration
+{
+  id: number = 0;
+  server:string = "";
+  login:string = "";
+  password:string = "";
+  hostEmailAddress:string = "";
+  displayName:string = "";
+  port: number = 25;
+  enableSsl: boolean = false;
+  threadCount:number = 5;
+  threadSleep:number = 0;
+  emailPackSize:number = 50;
+}
 
 export enum SendTaskStatusEnum {
   created = 'created',

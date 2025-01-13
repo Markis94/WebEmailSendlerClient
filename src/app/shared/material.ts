@@ -10,6 +10,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatTabsModule } from "@angular/material/tabs";
@@ -33,7 +34,8 @@ const modules = [
   MatSortModule,
   MatTabsModule,
   MatCheckboxModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatSlideToggleModule
 ];
 
 @NgModule({

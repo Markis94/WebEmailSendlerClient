@@ -12,8 +12,10 @@ import { TaskItemComponent } from './all-email-send-task/task-item/task-item.com
 import { TaskTableComponent } from './all-email-send-task/task-table/task-table.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
+import { ConfigurationComponent } from './configuration/configuration.component';
 import { CreateEmailTaskComponent } from './create-email-task/create-email-task.component';
 import { CustomErrorHandler } from './custom-error-handler';
+import { ConfigurationDialogComponent } from './dialog/configuration-dialog/configuration-dialog.component';
 import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.component';
 import { CreateSampleComponent } from './dialog/create-sample/create-sample.component';
 import { InformComponent } from './dialog/inform/inform.component';
@@ -23,12 +25,13 @@ import { ViewHtmlBodyComponent } from './dialog/viewHtmlBody/viewHtmlBody.compon
 import { EmailCreatorComponent } from './email-creator/email-creator.component';
 import { HomeComponent } from './home/home.component';
 import { AllSamplesComponent } from './sample/all-samples/all-samples.component';
+import { SampleFormComponent } from './sample/sample-form/sample-form.component';
 import { MaterialModule } from './shared/material';
 import { SharedModule } from './shared/shared.module';
 import { ViewSendResultComponent } from './view-send-result/view-send-result.component';
 
 @NgModule({
-  declarations: [				
+  declarations: [					
     AppComponent,
     EmailCreatorComponent,
     ConfirmDialogComponent,
@@ -42,8 +45,11 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     ViewHtmlBodyComponent, 
     CreateSampleComponent,
     AllSamplesComponent,
+    SampleFormComponent,
     SendTestMessageComponent,
-    UpdateSendTaskComponent
+    UpdateSendTaskComponent,
+    ConfigurationComponent,
+    ConfigurationDialogComponent
    ],
   imports: [
     FormsModule,

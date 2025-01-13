@@ -142,7 +142,10 @@ export class EmailCreatorComponent implements OnInit {
   private createDesign(sample: Sample) {
     this.dialog
       .open(CreateSampleComponent, {
-        data: sample,
+        data: {
+          sample: sample,
+          file:false
+        },
       })
       .afterClosed()
       .subscribe((result) => {

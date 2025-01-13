@@ -18,7 +18,9 @@ import { ControlContainer, NG_VALUE_ACCESSOR, NgForm } from '@angular/forms';
 })
 export class CustomInputComponent implements OnInit {
 
-  inputValue = model("");
+  inputValue = model<string | number | null>(null);
+  show: boolean = false;
+  @Input() password: boolean = false;
   @Input() label:string = "";
   @Input() required: boolean = false;
   @Input() disabled = false;
