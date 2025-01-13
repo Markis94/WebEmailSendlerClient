@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertComponent } from './alert/alert.component';
 import { FileLoadComponent } from './components/file-load/file-load.component';
-import { CustomInputComponent } from './components/form/custom-Input/custom-Input.component';
+import { CustomInputComponent } from './components/form/custom-input/custom-input.component';
 import { CustomSelectComponent } from './components/form/custom-select/custom-select.component';
 import { CustomTextareaComponent } from './components/form/custom-textarea/custom-textarea.component';
 import { MaterialModule } from './material';
