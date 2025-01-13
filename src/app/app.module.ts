@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { CreateEmailTaskComponent } from './create-email-task/create-email-task.component';
+import { EmailTaskFormComponent } from './create-email-task/email-task-form/email-task-form.component';
 import { CustomErrorHandler } from './custom-error-handler';
 import { ConfigurationDialogComponent } from './dialog/configuration-dialog/configuration-dialog.component';
 import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.component';
@@ -37,6 +38,7 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     ConfirmDialogComponent,
     InformComponent,
     CreateEmailTaskComponent,
+    EmailTaskFormComponent,
     HomeComponent,
     AllEmailSendTaskComponent,
     TaskItemComponent,
