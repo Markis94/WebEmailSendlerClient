@@ -2,10 +2,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, inject, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { catchError, filter, switchMap } from 'rxjs';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
+import { CreateEmailTaskDialogComponent } from '../../dialog/create-email-task-dialog/create-email-task-dialog.component';
 import { EmailSendTask, Sample } from '../../models/model';
 import { SendlerService } from '../../services/sendler.service';
 
@@ -18,6 +19,7 @@ import { SendlerService } from '../../services/sendler.service';
 export class EmailTaskFormComponent implements OnInit {
   emailTask: EmailSendTask = new EmailSendTask();
   loading: boolean = false;
+  @Input() createDialog: MatDialogRef<CreateEmailTaskDialogComponent> | null = null;
   @Input() addHtml: boolean = true;
   @Input() sample: Sample | null = null;
   @Input() navigate: boolean = true;
@@ -89,6 +91,9 @@ export class EmailTaskFormComponent implements OnInit {
       )
       .subscribe((result) => {
         this.loading = false;
+        if (this.createDialog) {
+          this.createDialog.close(this.sample);
+        }
         if (this.navigate) {
           this.router.navigate(['/all-email-task/created']);
         }

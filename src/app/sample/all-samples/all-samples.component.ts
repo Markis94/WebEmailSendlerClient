@@ -12,6 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { catchError, filter, Observable, switchMap, tap } from 'rxjs';
 import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
+import { CreateEmailTaskDialogComponent } from '../../dialog/create-email-task-dialog/create-email-task-dialog.component';
 import { CreateSampleComponent } from '../../dialog/create-sample/create-sample.component';
 import { SendTestMessageComponent } from '../../dialog/send-test-message/send-test-message.component';
 import { ViewHtmlBodyComponent } from '../../dialog/viewHtmlBody/viewHtmlBody.component';
@@ -58,6 +59,13 @@ export class AllSamplesComponent implements OnInit {
         }
       })
     );
+  }
+
+
+  createEmailTask(sample: Sample) {
+    this.dialog.open(CreateEmailTaskDialogComponent, {
+      data: sample
+    });
   }
 
   viewHtml(sample: Sample) {

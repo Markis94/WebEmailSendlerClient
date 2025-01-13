@@ -1,5 +1,9 @@
 <mat-dialog-content>
-  <app-configuration [dialog]="dialog"></app-configuration>
+  <app-email-task-form 
+    [addHtml]="false" 
+    [createDialog]="dialog" 
+    [sample]="sample">
+  </app-email-task-form>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Закрыть</button>

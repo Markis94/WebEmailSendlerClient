@@ -13,7 +13,7 @@ import { SampleService } from '../../services/sample.service';
 })
 export class SampleFormComponent implements OnInit {
   @Input() sample: Sample = new Sample();
-  @Input() dialog!: MatDialogRef<CreateSampleComponent>;
+  @Input() dialog: MatDialogRef<CreateSampleComponent> | null = null;
   @Input() file: boolean = false;
   loading: boolean = false;
   loadInFile: boolean = false;

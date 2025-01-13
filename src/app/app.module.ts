@@ -18,6 +18,7 @@ import { EmailTaskFormComponent } from './create-email-task/email-task-form/emai
 import { CustomErrorHandler } from './custom-error-handler';
 import { ConfigurationDialogComponent } from './dialog/configuration-dialog/configuration-dialog.component';
 import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.component';
+import { CreateEmailTaskDialogComponent } from './dialog/create-email-task-dialog/create-email-task-dialog.component';
 import { CreateSampleComponent } from './dialog/create-sample/create-sample.component';
 import { InformComponent } from './dialog/inform/inform.component';
 import { SendTestMessageComponent } from './dialog/send-test-message/send-test-message.component';
@@ -51,7 +52,8 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     SendTestMessageComponent,
     UpdateSendTaskComponent,
     ConfigurationComponent,
-    ConfigurationDialogComponent
+    ConfigurationDialogComponent,
+    CreateEmailTaskDialogComponent
    ],
   imports: [
     FormsModule,
