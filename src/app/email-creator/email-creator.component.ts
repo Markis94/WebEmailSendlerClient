@@ -6,16 +6,16 @@ import { EmailEditorComponent } from 'angular-email-editor';
 import { catchError, filter, of, switchMap, tap } from 'rxjs';
 import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
 import { CreateSampleComponent } from '../dialog/create-sample/create-sample.component';
+import { SendTestMessageComponent } from '../dialog/send-test-message/send-test-message.component';
 import { Sample } from '../models/model';
 import { SampleService } from '../services/sample.service';
 
 @Component({
-    selector: 'app-email-creator',
-    templateUrl: './email-creator.component.html',
-    styleUrls: ['./email-creator.component.css'],
-    standalone: false
+  selector: 'app-email-creator',
+  templateUrl: './email-creator.component.html',
+  styleUrls: ['./email-creator.component.css'],
+  standalone: false,
 })
-
 export class EmailCreatorComponent implements OnInit {
   @ViewChild(EmailEditorComponent)
   private emailEditor!: EmailEditorComponent;
@@ -35,15 +35,14 @@ export class EmailCreatorComponent implements OnInit {
           },
         },
       },
-    }
+    },
   };
 
   constructor(
     private dialog: MatDialog,
     private sampleService: SampleService,
     private route: ActivatedRoute
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.route.queryParams
@@ -84,7 +83,7 @@ export class EmailCreatorComponent implements OnInit {
   // called when the editor has finished loading
   editorReady(event: any) {
     console.log('editorReady', event);
-    if(this.sample?.jsonString) {
+    if (this.sample?.jsonString) {
       this.loadDesign(this.sample?.jsonString ?? '');
     }
   }
@@ -242,5 +241,15 @@ export class EmailCreatorComponent implements OnInit {
     document.body.removeChild(link);
     // Освобождаем память от URL-объекта
     URL.revokeObjectURL(url);
+  }
+
+  sendTestMessage() {
+    let sample = new Sample();
+    this.emailEditor.editor.exportHtml((data: any) => {
+      sample.htmlString = data?.html as string;
+    });
+    this.dialog.open(SendTestMessageComponent, {
+      data: sample,
+    });
   }
 }

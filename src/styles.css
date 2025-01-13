@@ -122,3 +122,64 @@ mat-dialog-content {
   justify-content: center;
   align-items: flex-end;
 }
+
+
+tr.example-detail-row {
+  height: 0;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+.reload
+{
+  position: absolute;
+  right: 5px;
+}
+
+#menu .menu-item
+{
+    color: #ffffff;
+    border-radius: 0%;
+    font-size: 16px;
+}
+
+#menu .menu-item:hover
+{
+    color: #cccccc;
+}
+
+#menu .active-menu
+{
+    color: #cccccc;
+    border-bottom: 1px #cccccc solid;
+}

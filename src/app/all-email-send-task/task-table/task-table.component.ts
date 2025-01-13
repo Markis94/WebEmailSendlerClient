@@ -59,8 +59,8 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
   ];
   expandedElement: any;
 
-  pageSize: number = 15;
-  pageSizeOptions: Array<number> = [15, 25, 50, 100];
+  pageSize: number = 10;
+  pageSizeOptions: Array<number> = [10, 15, 25, 50, 100];
   dataSource!: MatTableDataSource<EmailSendTask>;
   btnLocK:boolean = false;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
