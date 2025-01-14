@@ -2,4 +2,33 @@
   color: #cccccc;
   background: none;
   border-color: none;
+  border: none;
+}
+
+.btn-outline-light svg {
+  width: 20px;
+  height: 20px;
+}
+
+.side-view
+{
+  position: absolute;
+  bottom: 20px;
+  z-index: 10;
+}
+
+.side-view button
+{
+  border: none;
+  background: none;
+  border-color: none;
+  width: 30px;
+  height: 40px;
+}
+
+.side-view svg
+{
+  fill: #cccccc;;
+  width: 30px;
+  height: 30px;
 }

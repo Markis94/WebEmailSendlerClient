@@ -54,7 +54,7 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     ConfigurationComponent,
     ConfigurationDialogComponent,
     CreateEmailTaskDialogComponent
-   ],
+  ],
   imports: [
     FormsModule,
     ReactiveFormsModule,

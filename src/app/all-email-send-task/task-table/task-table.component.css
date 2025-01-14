@@ -1,16 +1,16 @@
-table {
-    width: 100%;
-    background-color: #ffffff;
-}
-
 tr.example-element-row:not(.example-expanded-row):hover {
-    background: whitesmoke;
+  background: whitesmoke;
 }
 
 tr.example-element-row:not(.example-expanded-row):active {
-    background: #efefef;
+  background: #efefef;
 }
 
 #selected {
-    background-color: #eaeaea;
+  background-color: #eaeaea;
+}
+
+table {
+  width: 100%;
+  background-color: #ffffff !important;
 }

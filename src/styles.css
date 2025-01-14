@@ -79,16 +79,6 @@ body {
   background-color: #f1f1f1 !important;
 }
 
-.mat-elevation-z4,
-.mat-mdc-elevation-specific.mat-elevation-z4 {
-  box-shadow: var(--mat-app-elevation-shadow-level-4, none);
-}
-
-.mat-elevation-z5,
-.mat-mdc-elevation-specific.mat-elevation-z4 {
-  box-shadow: var(--mat-app-elevation-shadow-level-5, none);
-}
-
 mat-dialog-container {
   min-width: 40svw !important;
 }
@@ -181,8 +171,17 @@ tr.example-detail-row {
   fill: #ffffff!important;
 }
 
-.mdc-list-item__primary-text{
+mat-list-item .mdc-list-item__primary-text{
   color: #ffffff!important;
+}
+
+.mat-expansion-panel-body .mdc-list-item__primary-text{
+  color: #ffffff!important;
+} 
+
+.menu-item
+{
+  padding-left: 1rem!important;
 }
 
 .mat-content {
