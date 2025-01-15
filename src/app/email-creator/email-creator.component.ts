@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { EmailEditorComponent } from 'angular-email-editor';
@@ -17,8 +17,20 @@ import { SampleService } from '../services/sample.service';
   standalone: false,
 })
 export class EmailCreatorComponent implements OnInit {
+  @HostListener('document:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.ctrlKey && event.key === 'z') {
+      this.editorUndo();
+      event.preventDefault();
+    } else if (event.ctrlKey && event.key === 'y') {
+      this.editorUndo();
+      event.preventDefault();
+    }
+  }
+
   @ViewChild(EmailEditorComponent)
   private emailEditor!: EmailEditorComponent;
+
   designJson: any = '';
   sample: Sample = new Sample();
 
@@ -144,7 +156,7 @@ export class EmailCreatorComponent implements OnInit {
       .open(CreateSampleComponent, {
         data: {
           sample: sample,
-          file:false
+          file: false,
         },
       })
       .afterClosed()
