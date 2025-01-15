@@ -80,6 +80,23 @@ export class SendlerService {
     .pipe(debounceTime(200), shareReplay(1));
   }
 
+  GetEmailResultCsV(sendTaskId: number) {
+    window?.open(`${environment.baseUrl}api/sendResultFile?sendTaskId=${sendTaskId}`, "_self")?.focus();
+  }
+
+  saveFile(blob: Blob | MediaSource, filename: string) {
+    const a = document.createElement("a");
+    document.body.appendChild(a);
+    const url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = filename;
+    a.click();
+    setTimeout(() => {
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    }, 0);
+  }
+  
   GetSendTaskByStatus(
     sendTaskStatus: string,
     leftDate: string,

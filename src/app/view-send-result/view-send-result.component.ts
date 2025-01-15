@@ -17,16 +17,16 @@ import {
   Observable,
   of,
   startWith,
-  switchMap
+  switchMap,
 } from 'rxjs';
 import { EmailSendData, EmailSendTask, SendInfo } from '../models/model';
 import { SendlerService } from '../services/sendler.service';
 
 @Component({
-    selector: 'app-view-send-result',
-    templateUrl: './view-send-result.component.html',
-    styleUrls: ['./view-send-result.component.css'],
-    standalone: false
+  selector: 'app-view-send-result',
+  templateUrl: './view-send-result.component.html',
+  styleUrls: ['./view-send-result.component.css'],
+  standalone: false,
 })
 export class ViewSendResultComponent implements OnInit, AfterViewInit {
   columns: Array<any> = [
@@ -41,7 +41,7 @@ export class ViewSendResultComponent implements OnInit, AfterViewInit {
   pageSizeOptions: Array<number> = [10, 20, 50, 100];
   displayedColumns: string[] = [];
   data: EmailSendData[] = [];
-  inputValue:string ="";
+  inputValue: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -69,7 +69,7 @@ export class ViewSendResultComponent implements OnInit, AfterViewInit {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((result) => {
           this.emailSendTask = result;
-          this.updateData("");
+          this.updateData('');
         });
     }
 
@@ -85,21 +85,24 @@ export class ViewSendResultComponent implements OnInit, AfterViewInit {
     this.paginator._intl.previousPageLabel = 'Назад';
   }
 
-  Find(inputValue: string){
+  saveToCsv() {
+    this.sendlerApiService.GetEmailResultCsV(this.emailSendTask.id);
+  }
+
+  Find(inputValue: string) {
     if (!inputValue) {
       return;
     }
     this.updateData(inputValue);
   }
 
-  Reset(inputValue: string)
-  {
+  Reset(inputValue: string) {
     if (!inputValue) {
       this.updateData(inputValue);
     }
   }
 
-  updateData(inputValue:string) {
+  updateData(inputValue: string) {
     merge(this.sort?.sortChange, this.paginator.page)
       .pipe(
         startWith({}),

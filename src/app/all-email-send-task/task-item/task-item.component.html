@@ -9,27 +9,27 @@
     </div>
     <div class="w-100">
       @if (emailInfo$ | async; as emailInfo ) {
-      <div class="row">
-        <div class="col-md-6">
-          <div><strong>Всего:</strong> {{emailInfo.maxCount}}</div>
-          <div><strong>Успешно отправлено :</strong> {{emailInfo.successSendCount}}</div>
-          <div><strong>Ошибок:</strong> {{emailInfo.badSendCount}}</div>
+        <div class="row">
+          <div class="col-md-6">
+            <div><strong>Всего:</strong> {{emailInfo.maxCount}}</div>
+            <div><strong>Успешно отправлено :</strong> {{emailInfo.successSendCount}}</div>
+            <div><strong>Ошибок:</strong> {{emailInfo.badSendCount}}</div>
+          </div>
+          <div class="col-md-6">
+            <div><strong>Подготовлено к отправке:</strong> {{emailInfo.sendCount}}</div>
+            <div><strong>Сейчас отправлено :</strong> {{emailInfo.currentSendCount}}</div>
+            <div><strong>Осталось отправить:</strong> {{emailInfo.maxCount -
+              emailInfo.successSendCount-emailInfo.badSendCount}}</div>
+          </div>
         </div>
-        <div class="col-md-6">
-          <div><strong>Подготовлено к отправке:</strong> {{emailInfo.sendCount}}</div>
-          <div><strong>Сейчас отправлено :</strong> {{emailInfo.currentSendCount}}</div>
-          <div><strong>Осталось отправить:</strong> {{emailInfo.maxCount -
-            emailInfo.successSendCount-emailInfo.badSendCount}}</div>
-        </div>
-      </div>
       }
       @else {
-      <div class="d-flex align-items-center justify-content-center" style="gap: 10px; height: 100px;">
-        <span><strong>Загрузка данных ...</strong></span>
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Загрузка ...</span>
+        <div class="d-flex align-items-center justify-content-center" style="gap: 10px; height: 100px;">
+          <span><strong>Загрузка данных ...</strong></span>
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Загрузка ...</span>
+          </div>
         </div>
-      </div>
       }
     </div>
   </div>

@@ -116,11 +116,11 @@ export class AllEmailSendTaskComponent implements OnInit {
   initDate()
   {
     this.leftDate = this.datePipe.transform(
-      new Date(new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24 * -8),
+      new Date(new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24 * -9),
       'yyyy-MM-dd'
     );
     this.rightDate = this.datePipe.transform(
-      new Date(new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24 * 2),
+      new Date(new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24 * 1),
       'yyyy-MM-dd'
     );
     this.selectControlLeftDate.setValue(this.leftDate);
