@@ -1,7 +1,7 @@
 <form #taskForm="ngForm" name="taskForm" (ngSubmit)="submit(taskForm)">
   <div class="mt-2 mb-2">
-    <app-custom-input [disabled]="loading" placeholder="Рассылка 1" [minlength]="1" [maxlength]="256"
-      [required]="true" type="text" label="Название рассылки" [(inputValue)]="emailTask.name">
+    <app-custom-input [disabled]="loading" placeholder="Рассылка 1" [minlength]="1" [maxlength]="256" [required]="true"
+      type="text" label="Название рассылки" [(inputValue)]="emailTask.name">
     </app-custom-input>
   </div>
   <div class="mt-2 mb-2">
@@ -9,37 +9,67 @@
       [required]="true" type="text" label="Заголовок (тема письма)" [(inputValue)]="emailTask.subject">
     </app-custom-input>
   </div>
-  <app-alert-danger class="view-error-warning f-16 mb-3 mt-3">
-    <div>Загрузите файл в формате CSV. С заголовками Email и если необходимо дополнительными параметрами
-      Lschet\Sum\Text.
-      Разделитель - ;
-    </div>
-    <hr>
-    <div>Пример:</div>
-    <div>Lschet;Email;Sum;Text</div>
-    <div> 060000000003;test&commat;mail.ru;12.4;Какой то текст.
-    </div>
-  </app-alert-danger>
-  <div class="mb-3">
-    <label for="formFile" class="form-label">Csv файл для отправки</label>
-    <input required [disabled]="loading" class="form-control" type="file" id="formFile"
-      (change)="onCsvSelected($event)" accept=".csv">
+
+  <div class="my-3">
+    <file-load [fileType]="'csv'" label="CSV файл для отправки" [(fileDataString)]="emailTask.csvData"></file-load>
   </div>
+
   @if(addHtml)
   {
-    <app-alert-danger class="view-error-warning f-16 mb-3 mt-3">
-      <div>Прикрепите html шаблон для отправки в письме.
+    <div class="my-3">
+      <div class="accordion accordion-flush" id="accordionInfo">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              Дополнительная информация 
+              <span class="mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                  fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                  <path
+                    d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94" />
+                </svg>
+              </span>
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+            data-bs-parent="#accordionInfo">
+            <div class="accordion-body">
+              <div>
+                <div class="card p-2 mb-3">
+                  <div>Загрузите файл в формате CSV. С заголовками Email и если необходимо дополнительными параметрами
+                    Lschet\Sum\Text.
+                    Разделитель - ;
+                  </div>
+                  <hr>
+                  <div>Пример:</div>
+                  <div>Lschet;Email;Sum;Text</div>
+                  <div> 060000000003;test&commat;mail.ru;12.4;Какой то текст.
+                  </div>
+                </div>
+
+                <div class="card p-2">
+                  <div>Прикрепите html шаблон для отправки в письме.
+                  </div>
+                  <hr>
+                  <div>Что бы данные по лицевому счету или сумме подставились в рассылку необходимо в текст добавить спец
+                    символы:
+                  </div>
+                  <div><span>&#123;l&#125;</span> - Lschet</div>
+                  <div><span>&#123;s&#125;</span> - Sum</div>
+                  <div><span>&#123;t&#125;</span> - Text</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div>Что бы данные по лицевому счету или сумме подставились в рассылку необходимо в текст добавить спец символы:
-      </div>
-      <div><span>&#123;l&#125;</span> - Lschet</div>
-      <div><span>&#123;s&#125;</span> - Sum</div>
-      <div><span>&#123;t&#125;</span> - Text</div>
-    </app-alert-danger>
+    </div>
+
     <div class="d-flex justify-content-center">
-      <button [disabled]="loading" class="btn btn-light" type="button" [routerLink]="'../create-email'">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-          class="bi bi-plus-square mb-1" viewBox="0 0 16 16">
+      <button [disabled]="loading" class="btn btn-light w-100" type="button" [routerLink]="'../create-email'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square mb-1"
+          viewBox="0 0 16 16">
           <path
             d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
           <path
@@ -48,32 +78,29 @@
         <span class="ml-2"> Создать шаблон </span>
       </button>
     </div>
-    <div class="mb-3">
-      <label for="formFile" class="form-label">Html файл для отправки</label>
-      <input required [disabled]="loading" class="form-control" type="file" id="formFile" accept=".html"
-        (change)="onHtmlSelected($event)">
-    </div>  
+    <div class="my-3">
+      <file-load [fileType]="'html'" label="Html файл для отправки"
+        [(fileDataString)]="emailTask.htmlMessage"></file-load>
+    </div>
   }
+
   <div class="d-flex justify-content-center gap-4">
     <mat-form-field matTooltip="Для отложенной отправки введите дату, время запуска и запустите задание">
       <mat-label>Дата запуска</mat-label>
       <input matInput name="datepicker" [matDatepicker]="datepicker" [(ngModel)]="emailTask.startDate">
-      <mat-datepicker #datepicker/>
-      <mat-datepicker-toggle [for]="datepicker" matSuffix/>
+      <mat-datepicker #datepicker />
+      <mat-datepicker-toggle [for]="datepicker" matSuffix />
     </mat-form-field>
-    
+
     <mat-form-field>
       <mat-label>Время запуска</mat-label>
-      <input matInput
-        name="timepicker"
-        [matTimepicker]="timepicker"
-        [(ngModel)]="emailTask.startDate"
+      <input matInput name="timepicker" [matTimepicker]="timepicker" [(ngModel)]="emailTask.startDate"
         [ngModelOptions]="{updateOn: 'blur'}">
-      <mat-timepicker [interval]="'30 minutes'" #timepicker/>
-      <mat-timepicker-toggle [for]="timepicker" matSuffix/>
+      <mat-timepicker [interval]="'30 minutes'" #timepicker />
+      <mat-timepicker-toggle [for]="timepicker" matSuffix />
     </mat-form-field>
   </div>
-  
+
   <div *ngIf="loading" class="d-flex align-items-center justify-content-center" style="gap: 10px;">
     <span><strong>Загрузка данных и создание задания ...</strong></span>
     <div class="spinner-border text-primary" role="status">

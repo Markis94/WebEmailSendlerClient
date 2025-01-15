@@ -52,28 +52,4 @@ export class SampleFormComponent implements OnInit {
       }
     });
   }
-
-  onSelectedJson(event: any) {
-    this.sample.jsonString = '';
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.readAsText(file);
-      reader.onload = (e) => {
-        this.sample.jsonString = e.target?.result as string;
-      };
-    }
-  }
-
-  onSelectedHtml(event: any) {
-    this.sample.htmlString = '';
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.readAsText(file);
-      reader.onload = (e) => {
-        this.sample.htmlString = e.target?.result as string;
-      };
-    }
-  }
 }

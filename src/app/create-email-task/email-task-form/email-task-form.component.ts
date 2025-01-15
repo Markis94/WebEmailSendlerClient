@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, inject, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, Input, OnInit, signal } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -23,7 +23,8 @@ export class EmailTaskFormComponent implements OnInit {
   @Input() addHtml: boolean = true;
   @Input() sample: Sample | null = null;
   @Input() navigate: boolean = true;
-
+  readonly panelOpenState = signal(false);
+  
   private readonly _adapter =
     inject<DateAdapter<unknown, unknown>>(DateAdapter);
 
@@ -98,29 +99,5 @@ export class EmailTaskFormComponent implements OnInit {
           this.router.navigate(['/all-email-task/created']);
         }
       });
-  }
-
-  onHtmlSelected(event: any) {
-    this.emailTask.htmlMessage = null;
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.emailTask.htmlMessage = e.target?.result as string;
-      };
-      reader.readAsText(file);
-    }
-  }
-
-  onCsvSelected(event: any) {
-    this.emailTask.csvData = null;
-    if (event.target.files && event.target.files[0]) {
-      this.emailTask.csvData = null;
-      var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onload = (e: any) => {
-        this.emailTask.csvData = e.target.result;
-      };
-    }
   }
 }

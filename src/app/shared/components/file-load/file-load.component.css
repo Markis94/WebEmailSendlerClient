@@ -1,138 +1,48 @@
-#download {
-    display: none;
-  }
-  
-  .services-card {
-    fill: #828282;
-    padding: 9px;
-    cursor: pointer;
-    color: #828282;
-    text-decoration: none;
-    width: auto;
-    height: 20vh;
-    margin: 5px;
-    border: 1px solid #e6eaf0;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-  }
-  
-  .services-card svg {
-    padding-top: 5px;
-    margin: auto;
-    width: 3rem;
-    height: 3rem;
-    margin-bottom: 1rem;
-    fill: #364fab;
-  }
-  
-  .active {
-    border: 1px solid #364fab;
-  }
-  
-  .btn-tertiary {
-    color: #555;
-    padding: 0;
-    line-height: 40px;
-    width: 300px;
-    margin: auto;
-    display: block;
-    border: 1px solid #e6eaf0;
-  }
-  
-  .btn-tertiary:hover,
-  .btn-tertiary:focus {
-    color: #364fab;
-    border-color: #364fab;
-  }
-  
-  .input-file {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-  }
-  
-  .input-file + .js-labelFile {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding: 0 10px;
-    cursor: pointer;
-  }
-  
-  .input-file + .js-labelFile .icon:before {
-    content: "\f093";
-  }
-  
-  .attention {
-    margin: auto;
-    padding: 0.5rem;
-    text-align: center;
-    background-color: #000000;
-    color: #ffffff;
-    border-radius: 2px;
-  }
-  
-  /*dropBox для файлов*/
-  
-  #uploader {
-    max-width: 10px;
-  }
-  
-  .dropFile {
-    border: 2px dashed #fff;
-    cursor: pointer;
-    border-radius: 10px;
-  }
-  
-  .dropFile:hover {
-    border: 2px dashed #3c58bf;
-    border-radius: 10px;
-    color: #3c58bf;
-  }
-  
-  .dropFile .media {
-    padding: 2rem;
-  }
-  
-  .fileName
-  {
-    width: 160px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    white-space: pre-wrap;
-    text-overflow: ellipsis;
-    overflow-wrap: anywhere;
-  }
-  #del_btn:hover {
-    color: red;
-  }
-  
-  .isRed {
-    background-color: red;
-    color: #fff;
-  }
-  
-  
-  @media only screen and (max-width: 768px) {
-    .text-muted {
-      padding-left: 0.5rem;
-    }
-    .page-title h2 {
-      font-size: 25px;
-    }
-  }
-  
-  @media only screen and (max-width: 380px) {
-    .btn.btn-tertiary.js-labelFile {
-      width: 240px;
-    }
-  }
-  
+.uploader {
+  max-width: 10px;
+  display: none;
+}
+
+.media {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.dropFile {
+  border: 2px dashed #e0e0e0;
+  cursor: pointer;
+  border-radius: 10px;
+  color: #212529;
+}
+
+.dropFile:hover {
+  border: 2px dashed #212529;
+  border-radius: 10px;
+  color: #8a8a8a;
+}
+
+.dropFile .media {
+  padding: 0.5rem;
+}
+
+.fileName {
+  width: 160px;
+  display: -webkit-box;
+  --webkit-line-clamp: 2;
+  --webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
+}
+
+#del_btn:hover {
+  color: red;
+}
+
+.isRed {
+  background-color: red;
+  color: #fff;
+}

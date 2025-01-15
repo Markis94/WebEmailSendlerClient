@@ -1,58 +1,34 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { ConfirmDialogComponent } from "../../../dialog/confirm-dialog/confirm-dialog.component";
-import { InformComponent } from "../../../dialog/inform/inform.component";
-import { UploadFile } from "../../../models/model";
+import { Component, Input, model, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { filter } from 'rxjs';
+import { ConfirmDialogComponent } from '../../../dialog/confirm-dialog/confirm-dialog.component';
+import { InformComponent } from '../../../dialog/inform/inform.component';
+import { UploadFile } from '../../../models/model';
 
 @Component({
-    selector: "file-load",
-    templateUrl: "./file-load.component.html",
-    styleUrls: ["./file-load.component.css"],
-    standalone: false
+  selector: 'file-load',
+  templateUrl: './file-load.component.html',
+  styleUrls: ['./file-load.component.css'],
+  standalone: false,
 })
 export class FileLoadComponent implements OnInit, OnDestroy {
   //список разрешённых файлов////
-  fileTypes = [
-    "pdf",
-    "jpeg",
-    "pjpeg",
-    "gif",
-    "webp",
-    "png",
-    "vnd.ms-excel",
-    "vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "vnd.oasis.opendocument.text",
-    "vnd.ms-excel.sheet.macroEnabled.12",
-    "vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    "zip",
-    "plain",
-    "msword",
-    "7zip",
-    "tar",
-    "rar",
-    "gzip",
-  ];
+  fileTypes = ['csv', 'json', 'html'];
 
-  @Input() maxFileSize: number = 50000; ///~1000кб -1мб
-  @Input() label: string = "";
-  @Output() responseFileList = new EventEmitter<UploadFile[] | null>();
+  @Input() label: string = '';
+  @Input() fileType: string = 'html';
 
-  id = "file-" + Math.random();
-  tempFileArray: UploadFile[] = [];
-  sizeAllFiles: number = 0;
-  percent = 0;
+  id = 'file-' + Math.random();
+  fileDataString = model<string | null>('');
+  fileName: string = '';
 
   constructor(public dialog: MatDialog) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    console.log(this.id);
+    console.log(this.fileType);
+    console.log(this.fileName);
+  }
 
   ngOnDestroy() {
     this.clear();
@@ -61,22 +37,11 @@ export class FileLoadComponent implements OnInit, OnDestroy {
   createBase64Model(event: any) {
     let file = event.target.files[0];
     let tmpFileModel = new UploadFile();
-    if (!this.checkFileSize(event)) {
-      this.dialog.open(InformComponent, {
-        data: {
-          contentHeader: `Внимание!`,
-          title: `${file.name} - не загружен. Общий объем файлов превышает допустимый!`,
-        },
-        height: "initial",
-        width: "80vmin",
-      });
-      return;
-    }
     if (this.checkFileType(event)) {
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        let dataFile = reader?.result?.toString()??"";
+        let dataFile = reader?.result?.toString() ?? '';
         tmpFileModel.name = file.name;
         tmpFileModel.type = file.type;
         tmpFileModel.data = dataFile;
@@ -89,8 +54,8 @@ export class FileLoadComponent implements OnInit, OnDestroy {
           contentHeader: `Внимание!`,
           title: `${file.name} - не загружен. Недопустимый формат файла!`,
         },
-        height: "initial",
-        width: "80vmin",
+        height: 'initial',
+        width: '80vmin',
       });
       return;
     }
@@ -99,19 +64,8 @@ export class FileLoadComponent implements OnInit, OnDestroy {
   /*------------Проверка ----------------- */
   checkFileType(event: any) {
     let tmpFile = event.target.files[0];
-    let check = this.fileTypes.indexOf(tmpFile.type.split("/")[1]);
+    let check = this.fileTypes.indexOf(tmpFile.type.split('/')[1]);
     if (check !== -1) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  //проверят файл на допустимый размер
-  checkFileSize(event: any) {
-    let tmpFile = event.target.files[0];
-    let fileSize = tmpFile.size / 1000;
-    let nextSizeFile = this.sizeAllFiles + fileSize;
-    if (nextSizeFile <= this.maxFileSize) {
       return true;
     } else {
       return false;
@@ -120,121 +74,105 @@ export class FileLoadComponent implements OnInit, OnDestroy {
 
   /*------Вызов окна выбора документа-------*/
   selectFiles() {
-    const file_input = document.getElementById("uploader");
+    const file_input = document.getElementById(this.id);
     file_input?.click();
   }
 
   /*------Удаление документа-------*/
-  onDeleteDocument(fileName: string, event:any) {
+  onDeleteDocument(event: {
+    preventDefault: () => void;
+    stopPropagation: () => void;
+  }) {
     event.preventDefault();
     event.stopPropagation();
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
-          label: "Подтверждение",
+          label: 'Подтверждение',
           message: `Удалить документ?`,
         },
       })
       .afterClosed()
-      .subscribe((result: Boolean) => {
-        if (result) {
-          this.tempFileArray = this.tempFileArray.filter(
-            (m) => m.name !== fileName
-          );
-          this.sizeAllFiles = 0;
-          this.tempFileArray.forEach((x) => {
-            this.sizeAllFiles += x?.size??0;
-          });
-          this.percent = 100 / (this.maxFileSize / this.sizeAllFiles);
-          this.responseFileList.emit(this.tempFileArray);
-        } else {
-          return;
-        }
+      .pipe(filter((result: boolean) => result == true))
+      .subscribe(() => {
+        this.clear();
       });
   }
 
   clear() {
-    try {
-      this.tempFileArray.length = 0;
-      this.percent = 0;
-      this.sizeAllFiles = 0;
-      this.responseFileList.emit(this.tempFileArray);
-    } catch (ex) {}
+    this.fileDataString.set('');
+    this.fileName = '';
   }
 
   ///конвертим всё что сунули в base64
-  onAddDocument(event:any) {
+  onAddDocument(event: {
+    preventDefault: any;
+    stopPropagation: any;
+    dataTransfer?: any;
+    target?: any;
+  }) {
     event.preventDefault();
     event.stopPropagation();
     let fileEvent =
       event.dataTransfer != null || event.dataTransfer != undefined
         ? event.dataTransfer.files
         : event.target.files;
-    for (let i = 0; i < fileEvent.length; i++) {
-      let file: File = fileEvent[i];
-      let check = this.fileTypes.indexOf(file.type.split("/")[1]);
-      if (this.sizeAllFiles + file.size / 1000 > this.maxFileSize) {
-        this.dialog.open(InformComponent, {
-          data: {
-            contentHeader: `Внимание!`,
-            title: `${file.name} - не загружен. Общий объем файлов превышает допустимый!`,
-          },
-          height: "initial",
-          width: "80vmin",
-        });
-        return;
+    const file: File = fileEvent[0];
+    let check = this.fileTypes.indexOf(file.type.split('/')[1]);
+    if (check !== -1) {
+      const reader = new FileReader();
+
+      switch (this.fileType) {
+        case 'html': {
+          reader.readAsText(file);
+          break;
+        }
+        case 'json': {
+          reader.readAsText(file);
+          break;
+        }
+        case 'csv': {
+          reader.readAsDataURL(file);
+          break;
+        }
+        default:{
+          reader.readAsDataURL(file);
+          break;
+        }
       }
-      if (check !== -1) {
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          let dataFile = reader?.result?.toString();
-          let tmpFileModel = new UploadFile();
-          tmpFileModel.name = file.name;
-          tmpFileModel.type = file.type;
-          tmpFileModel.data = dataFile?.split(",")[1]??'';
-          tmpFileModel.size = file.size / 1000;
-          let checkCopy = this.tempFileArray
-            .map((x) => x.name)
-            .indexOf(tmpFileModel.name);
-          if (checkCopy == -1) {
-            if (this.sizeAllFiles + file.size / 1000 > this.maxFileSize) {
-              return;
-            }
-            this.tempFileArray.push(tmpFileModel);
-            let fileSize = 0;
-            for (const iterator of this.tempFileArray.map((x) => x.size)) {
-              fileSize += iterator??0;
-            }
-            this.sizeAllFiles = fileSize;
-            this.percent = 100 / (this.maxFileSize / this.sizeAllFiles);
-            this.responseFileList.emit(this.tempFileArray);
-          }
-        };
-      } else {
-        this.dialog.open(InformComponent, {
-          data: {
-            contentHeader: `Внимание!`,
-            title: `${file.name} - не загружен. Недопустимый формат файла!`,
-          },
-          height: "initial",
-          width: "80vmin",
-        });
-      }
+      reader.onload = () => {
+        this.fileDataString.set(reader.result as string ?? '');
+        this.fileName = file.name;
+      };
+    } else {
+      this.dialog.open(InformComponent, {
+        data: {
+          contentHeader: `Внимание!`,
+          title: `${file.name} - не загружен. Недопустимый формат файла!`,
+        },
+        height: 'initial',
+        width: '80vmin',
+      });
     }
-    event.target.value = "";
+    event.target.value = '';
   }
   /*-------Эвенты на перетаскивание------*/
-  onDrop(event:any) {
+  onDrop(event: { preventDefault: () => void; stopPropagation: () => void }) {
     event.preventDefault();
     event.stopPropagation();
     this.onAddDocument(event);
   }
-  onDragOver(event:any) {
+  onDragOver(event: {
+    preventDefault: () => void;
+    stopPropagation: () => void;
+  }) {
     event.preventDefault();
     event.stopPropagation();
   }
-  onDragLeave(event:any) {
+  onDragLeave(event: {
+    preventDefault: () => void;
+    stopPropagation: () => void;
+  }) {
     event.preventDefault();
     event.stopPropagation();
   }

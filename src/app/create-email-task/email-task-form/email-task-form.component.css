@@ -1,3 +1,15 @@
 .btn {
   height: 45px;
 }
+
+
+.accordion-button {
+  padding-left: 0;
+  background: #ffffff;
+  border-color: #ffffff;
+  box-shadow: none;
+}
+
+.accordion-button:hover {
+  text-decoration: underline;
+}

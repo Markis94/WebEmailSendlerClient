@@ -8,14 +8,10 @@
   {
     @if(loadInFile){
       <div class="mb-3">
-        <label for="formFile" class="form-label">Прикрепите json файл c шаблоном.</label>
-        <input [disabled]="loading" class="form-control" type="file" id="formFile" accept=".json"
-        (change)="onSelectedJson($event)">
+        <file-load [fileType]="'json'" label="Прикрепите json файл c шаблоном" [(fileDataString)]="sample.jsonString"></file-load>
       </div>
       <div class="mb-3">
-        <label for="formFile1" class="form-label">Прикрепите html файл c шаблоном.</label>
-        <input [disabled]="loading" class="form-control" type="file" id="formFile1" accept=".html"
-        (change)="onSelectedHtml($event)">
+        <file-load [fileType]="'html'" label="Прикрепите html файл c шаблоном" [(fileDataString)]="sample.htmlString"></file-load>
       </div>
     }
     <mat-checkbox [(ngModel)]="loadInFile" [ngModelOptions]="{standalone: true}"
