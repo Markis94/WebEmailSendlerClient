@@ -1,6 +1,6 @@
 @if (emailSendTask.length) {
-  <div class="card p-3 mb-3">
-    <div class="d-flex justify-content-evenly">
+  <div class="card p-2 mb-3">
+    <div class="d-flex justify-content-evenly align-items-center">
       <div>
         <strong>Всего: </strong>{{totalCount.maxCount}}
       </div>
@@ -12,7 +12,7 @@
       </div>
     </div>
   </div>
-  <div class="card mb-3">
+  <div class="card p-2 mb-3">
     <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
       @for (column of columnsToDisplay; track column) {
         <ng-container matColumnDef="{{column.columnDef}}">

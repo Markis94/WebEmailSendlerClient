@@ -16,7 +16,7 @@
   </div>
   @if (samples$ | async; as samples) {
     @if (samples?.length) {
-      <div class="card p-3">
+      <div class="card p-2">
         <mat-table class="mb-3" matSort [dataSource]="dataSource">
   
           <ng-container matColumnDef="name">
