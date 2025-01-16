@@ -25,14 +25,12 @@ export class FileLoadComponent implements OnInit, OnDestroy {
   constructor(public dialog: MatDialog) {}
 
   ngOnInit() {
-    console.log(this.id);
-    console.log(this.fileType);
-    console.log(this.fileName);
   }
 
   ngOnDestroy() {
     this.clear();
   }
+  
   /*-------------------------------- */
   createBase64Model(event: any) {
     let file = event.target.files[0];
