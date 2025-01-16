@@ -1,4 +1,4 @@
-@if (emailSendTask.length) {
+@if (emailSendTasks.length) {
   <div class="card p-2 mb-3">
     <div class="d-flex justify-content-evenly align-items-center">
       <div>
@@ -8,10 +8,20 @@
         <strong>Отправлено успешно:</strong> {{totalCount.successSendCount}}
       </div>
       <div>
+        <strong>Не отправлено:</strong> {{totalCount.maxCount - totalCount.successSendCount - totalCount.badSendCount}}
+      </div>
+      <div>
         <strong>Отправлено с ошибками:</strong> {{totalCount.badSendCount}}
       </div>
     </div>
   </div>
+  @if (taskStatus !== sendTaskStatusEnum.created) {
+    <app-chart-board
+      [chartDataOne]="chartDataOne()"
+      [chartDataTwo]="chartDataTwo()"
+      [chartDataThee]="chartDataThee()">
+    </app-chart-board>
+  }
   <div class="card p-2 mb-3">
     <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
       @for (column of columnsToDisplay; track column) {
@@ -60,19 +70,19 @@
           <div class="action-group">
             <ng-container *ngTemplateOutlet="viewBtn; context: { context: element }"></ng-container>
             @switch (element.sendTaskStatus) {
-              @case("created"){
+              @case(sendTaskStatusEnum.created){
                 <ng-container *ngTemplateOutlet="updateBtn; context: { context: element }"></ng-container>
                 <ng-container *ngTemplateOutlet="startBtn; context: { context: element }"></ng-container>
                 <ng-container *ngTemplateOutlet="deleteBtn; context: { context: element }"></ng-container>
               }
-              @case("started"){
+              @case(sendTaskStatusEnum.started){
                 <ng-container *ngTemplateOutlet="abortBtn; context: { context: element }"></ng-container>
               }
-              @case("cancel"){
+              @case(sendTaskStatusEnum.cancel){
                 <ng-container *ngTemplateOutlet="reCreateBtn; context: { context: element }"></ng-container>
                 <ng-container *ngTemplateOutlet="deleteBtn; context: { context: element }"></ng-container>
               }
-              @case("complete"){
+              @case(sendTaskStatusEnum.complete){
                 <ng-container *ngTemplateOutlet="reCreateBtn; context: { context: element }"></ng-container>
                 <ng-container *ngTemplateOutlet="deleteBtn; context: { context: element }"></ng-container>
               }
@@ -123,7 +133,7 @@
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
     </table>
   </div>
-  <mat-paginator showFirstLastButtons [length]="emailSendTask.length"
+  <mat-paginator showFirstLastButtons [length]="emailSendTasks.length"
     [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" aria-label="Select page">
   </mat-paginator>
 }

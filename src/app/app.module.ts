@@ -8,10 +8,12 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { RouterModule } from '@angular/router';
 import { EmailEditorModule } from 'angular-email-editor';
 import { AllEmailSendTaskComponent } from './all-email-send-task/all-email-send-task.component';
+import { ChartBoardComponent } from './all-email-send-task/chart-board/chart-board.component';
 import { TaskItemComponent } from './all-email-send-task/task-item/task-item.component';
 import { TaskTableComponent } from './all-email-send-task/task-table/task-table.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
+import { ChartsComponent } from './charts/charts.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { CreateEmailTaskComponent } from './create-email-task/create-email-task.component';
 import { EmailTaskFormComponent } from './create-email-task/email-task-form/email-task-form.component';
@@ -23,6 +25,7 @@ import { CreateSampleComponent } from './dialog/create-sample/create-sample.comp
 import { InformComponent } from './dialog/inform/inform.component';
 import { SendTestMessageComponent } from './dialog/send-test-message/send-test-message.component';
 import { UpdateSendTaskComponent } from './dialog/update-send-task/update-send-task.component';
+import { ViewChartComponent } from './dialog/view-chart/view-chart.component';
 import { ViewHtmlBodyComponent } from './dialog/viewHtmlBody/viewHtmlBody.component';
 import { EmailCreatorComponent } from './email-creator/email-creator.component';
 import { HomeComponent } from './home/home.component';
@@ -33,7 +36,7 @@ import { SharedModule } from './shared/shared.module';
 import { ViewSendResultComponent } from './view-send-result/view-send-result.component';
 
 @NgModule({
-  declarations: [					
+  declarations: [						
     AppComponent,
     EmailCreatorComponent,
     ConfirmDialogComponent,
@@ -53,8 +56,11 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     UpdateSendTaskComponent,
     ConfigurationComponent,
     ConfigurationDialogComponent,
-    CreateEmailTaskDialogComponent
-  ],
+    CreateEmailTaskDialogComponent,
+    ChartsComponent,
+    ChartBoardComponent,
+    ViewChartComponent
+   ],
   imports: [
     FormsModule,
     ReactiveFormsModule,

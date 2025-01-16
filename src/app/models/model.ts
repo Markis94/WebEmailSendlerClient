@@ -81,3 +81,9 @@ export enum SendTaskStatusEnum {
   started = 'started',
   complete = 'complete',
 }
+
+export class ChartData{
+  labels: Array<string> = [''];
+  data: Array<number> = new Array<number>();
+  name: string = '';
+}

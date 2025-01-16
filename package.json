@@ -24,6 +24,7 @@
     "@popperjs/core": "^2.11.8",
     "angular-email-editor": "^15.2.0",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.7",
     "jquery": "^3.5.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

@@ -49,8 +49,10 @@ export class AllEmailSendTaskComponent implements OnInit {
   taskStatus: string = SendTaskStatusEnum.created;
   loading: boolean = false; // Состояние загрузки
   signal$!: Observable<any>;
+  
   private destroyRef = inject(DestroyRef);
   private readonly _adapter = inject<DateAdapter<unknown, unknown>>(DateAdapter);
+  
   constructor(
     private sendlerApiService: SendlerService,
     private datePipe: DatePipe,
@@ -116,7 +118,7 @@ export class AllEmailSendTaskComponent implements OnInit {
   initDate()
   {
     this.leftDate = this.datePipe.transform(
-      new Date(new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24 * -9),
+      new Date(new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24 * -10),
       'yyyy-MM-dd'
     );
     this.rightDate = this.datePipe.transform(

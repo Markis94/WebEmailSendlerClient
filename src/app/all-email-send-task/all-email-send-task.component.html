@@ -23,7 +23,7 @@
     </div>
   </div>
 
-  @if (emailSendTask$ | async; as emailSendTask) {
+  @if (emailSendTask$ | async; as emailSendTasks) {
     @if (loading) {
       <div class="preload text-center">
         <div class="d-flex align-items-center justify-content-center" style="gap: 10px;">
@@ -35,8 +35,8 @@
       </div>
     }
     @else {
-      @if (emailSendTask?.length) {
-        <app-task-table [emailSendTask]="emailSendTask" [taskStatus]="taskStatus"></app-task-table>
+      @if (emailSendTasks?.length) {
+        <app-task-table [emailSendTasks]="emailSendTasks" [taskStatus]="taskStatus"></app-task-table>
       }
       @else {
         <div class="preload">

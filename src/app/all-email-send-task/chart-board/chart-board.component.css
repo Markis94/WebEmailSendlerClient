@@ -1,0 +1,21 @@
+.chart-container {
+  position: relative;
+}
+
+.fullscreen-button {
+  position: absolute;
+  bottom: 0px;
+  right: -40px;
+  background: transparent;
+  color: rgb(163, 163, 163);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.fullscreen-button:hover {
+  color: #e0e0e0;
+}
