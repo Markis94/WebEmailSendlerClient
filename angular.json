@@ -13,6 +13,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+            },
             "outputPath": "dist/web-email-sendler-client",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -22,6 +30,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "input": "./",
+                "output": "./",
+                "glob": "Dockerfile"
+              },
+              {
+                "input": "./",
+                "output": "./",
+                "glob": "nginx.conf"
               }
             ],
             "styles": [

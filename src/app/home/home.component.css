@@ -8,7 +8,7 @@
   color: #212529;
   border-radius: 20px;
   cursor: pointer;
-  background: #e0e0e0;
+  background: #f1f1f1;
   box-shadow: 5px 5px 30px #bebebe,
               -15px -15px 15px #ffffff;
 }
@@ -31,7 +31,6 @@
 {
   fill: #4d4d4d;
 }
-
 
 .loader {
   width: fit-content;

@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit, AfterViewInit{
   ngAfterViewInit() {
     setTimeout(()=>{
       this.loading = false;
-    }, 3000)
+    }, 2000)
   }
 
   openConfig() {
@@ -30,9 +30,11 @@ export class HomeComponent implements OnInit, AfterViewInit{
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {});
   }
+
   createEmailTask() {
     this.router.navigate(["/create-task"]);
   }
+  
   createSample() {
     this.router.navigate(["/create-email"]);
   }
