@@ -2,12 +2,16 @@
   height: 45px;
 }
 
-
 .accordion-button {
   padding-left: 0;
-  background: #ffffff;
-  border-color: #ffffff;
+  background: transparent!important;
+  border-color: transparent!important;
   box-shadow: none;
+}
+
+.accordion
+{
+  --bs-accordion-bg:transparent!important;
 }
 
 .accordion-button:hover {

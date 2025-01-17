@@ -14,6 +14,7 @@ import { SendlerService } from '../../services/sendler.service';
 })
 export class UpdateSendTaskComponent implements OnInit {
   loading: boolean = false;
+  replaceSample: boolean = false;
   emailTask: EmailSendTask = new EmailSendTask();
   newEmailTask: EmailSendTask = new EmailSendTask();
   constructor(
@@ -27,7 +28,7 @@ export class UpdateSendTaskComponent implements OnInit {
     this.emailTask = this.data as EmailSendTask;
     this.newEmailTask = JSON.parse(JSON.stringify(this.emailTask));
   }
-
+  
   update(form: NgForm) {
     for (let i in form.controls) {
       form.controls[i].markAsTouched();
@@ -42,7 +43,12 @@ export class UpdateSendTaskComponent implements OnInit {
     if (form.invalid) {
       return;
     }
+    if (!this.replaceSample) {
+      this.newEmailTask.htmlMessage = this.emailTask.htmlMessage;
+    }
     this.loading = true;
+    console.log(this.emailTask);
+    console.log(this.newEmailTask);
     this.sendlerService
       .UpdateSendTask(this.newEmailTask)
       .pipe(
@@ -58,6 +64,7 @@ export class UpdateSendTaskComponent implements OnInit {
         this.emailTask.name = result.name;
         this.emailTask.subject = result.subject;
         this.emailTask.startDate = result.startDate;
+        this.emailTask.htmlMessage = result.htmlMessage;
         this.loading = false;
         this.dialog.close(result);
       });

@@ -10,6 +10,14 @@
         [required]="true" type="text" label="Заголовок (тема письма)" [(inputValue)]="newEmailTask.subject">
       </app-custom-input>
     </div>
+    <mat-checkbox [(ngModel)]="replaceSample" 
+      [ngModelOptions]="{standalone: true}"
+      style="user-select: none;">Заменить шаблон</mat-checkbox>
+    @if (replaceSample) {
+      <div class="my-3">
+        <file-load [fileType]="'html'" label="Html файл для отправки" [(fileDataString)]="newEmailTask.htmlMessage"></file-load>
+      </div>
+    }
     <div class="d-flex justify-content-center gap-4">
       <mat-form-field matTooltip="Для отложенной отправки введите дату, время запуска и запустите задание">
         <mat-label>Дата запуска</mat-label>

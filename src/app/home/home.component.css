@@ -1,58 +1,113 @@
 .preload {
   min-height: 80svh;
 }
+
+.card-service {
+  width: 250px;
+  height: 250px;
+  color: #212529;
+  border-radius: 20px;
+  cursor: pointer;
+  background: #e0e0e0;
+  box-shadow: 5px 5px 30px #bebebe,
+              -15px -15px 15px #ffffff;
+}
+
+.card-service > button
+{
+  border: 0;
+  background: transparent;
+}
+
+.card-service:hover {
+  font-weight: 800;
+  transform: scale(1.03);
+  transition: all 50ms ease-out;
+  box-shadow: 1px 1px 10px #ff0180,
+              -15px -15px 15px #ffffff;
+}
+
+.svg-icon
+{
+  fill: #4d4d4d;
+}
+
+
 .loader {
-  position: relative;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.catContainer {
   width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
-
-.loader span {
+.catbody {
+  width: 80px;
+}
+.tail {
   position: absolute;
-  padding: 1rem;
-  color:#282828;
-  transform: translate(-50%, -50%);
-  font-size: 58px;
-  letter-spacing: 5px;
+  width: 17px;
+  top: 50%;
+  animation: tail 0.5s ease-in infinite alternate-reverse;
+  transform-origin: top;
 }
-
-.loader span:nth-child(1) {
-  color: transparent;
-  -webkit-text-stroke: 0.3px #282828;
-}
-
-.loader span:nth-child(2) {
-  color: #282828;
-  -webkit-text-stroke: 1px #282828;
-  animation: uiverse723 2s ease-in-out infinite;
-}
-
-@keyframes uiverse723 {
-  0%,
-  100% {
-    clip-path: polygon(
-      0% 45%,
-      15% 44%,
-      32% 50%,
-      54% 60%,
-      70% 61%,
-      84% 59%,
-      100% 52%,
-      100% 100%,
-      0% 100%
-    );
+@keyframes tail {
+  0% {
+    transform: rotateZ(60deg);
   }
-
   50% {
-    clip-path: polygon(
-      0% 60%,
-      16% 65%,
-      34% 66%,
-      51% 62%,
-      67% 50%,
-      84% 45%,
-      100% 46%,
-      100% 100%,
-      0% 100%
-    );
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(-20deg);
+  }
+}
+.wall {
+  width: 300px;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+  position: absolute;
+  margin: 0px 0px 100px 120px;
+}
+.zzz {
+  color: black;
+  font-weight: 700;
+  font-size: 15px;
+  animation: zzz 2s linear infinite;
+}
+.bigzzz {
+  color: black;
+  font-weight: 700;
+  font-size: 25px;
+  margin-left: 10px;
+  animation: zzz 2.3s linear infinite;
+}
+@keyframes zzz {
+  0% {
+    color: transparent;
+  }
+  50% {
+    color: black;
+  }
+  100% {
+    color: transparent;
   }
 }
