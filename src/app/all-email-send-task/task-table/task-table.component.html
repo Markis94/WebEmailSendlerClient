@@ -15,7 +15,8 @@
       </div>
     </div>
   </div>
-  @if (taskStatus !== sendTaskStatusEnum.created) {
+  @if(taskStatus == sendTaskStatusEnum.created || taskStatus == sendTaskStatusEnum.started) {}
+  @else {
     <app-chart-board
       [chartDataOne]="chartDataOne()"
       [chartDataTwo]="chartDataTwo()"
