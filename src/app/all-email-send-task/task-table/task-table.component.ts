@@ -318,7 +318,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
     const theeChartData = new ChartData();
     theeChartData.name = 'Продолжительность отправки (мин)';
     theeChartData.data = chartData.map(d=>d.y);
-    theeChartData.labels = chartData.map(d=>d.x);
+    theeChartData.labels = chartData.map(d=>"id - " + d.x);
     this.chartDataThee.set(theeChartData);
   }
 

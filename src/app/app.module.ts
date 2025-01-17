@@ -31,6 +31,7 @@ import { EmailCreatorComponent } from './email-creator/email-creator.component';
 import { HomeComponent } from './home/home.component';
 import { AllSamplesComponent } from './sample/all-samples/all-samples.component';
 import { SampleFormComponent } from './sample/sample-form/sample-form.component';
+import { LoadingComponent } from './shared/components/loading/loading.component';
 import { MaterialModule } from './shared/material';
 import { SharedModule } from './shared/shared.module';
 import { ViewSendResultComponent } from './view-send-result/view-send-result.component';
@@ -59,7 +60,8 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     CreateEmailTaskDialogComponent,
     ChartsComponent,
     ChartBoardComponent,
-    ViewChartComponent
+    ViewChartComponent,
+    LoadingComponent
    ],
   imports: [
     FormsModule,

@@ -1,22 +1,19 @@
 <div class="container">
-  <ng-container *ngIf="emailSendTask">
-    <h1>Результаты отправки: {{emailSendTask.name}}</h1>
-    <hr>
-    <div class="input-group mt-3 mb-3">
-      <input type="text" [(ngModel)]="inputValue" #input="ngModel" class="form-control" placeholder="email@test.ru"
-        (input)="Reset(inputValue)" aria-label="email" aria-describedby="button-addon2">
-      <button class="btn btn-outline-secondary" type="button" id="button-addon2"
-        (click)="Find(inputValue)">Найти</button>
-    </div>
-    <ng-template #loading>
-      <div class="d-flex align-items-center justify-content-center" style="gap: 10px;">
-        <span><strong>Загрузка данных ...</strong></span>
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Загрузка ...</span>
-        </div>
+  @if (emailSendTask) {
+    <div>
+      <h1>Результаты отправки: {{emailSendTask.name}}</h1>
+      <hr>
+      <div class="input-group mt-3 mb-3">
+        <input type="text" [(ngModel)]="inputValue" #input="ngModel" class="form-control" placeholder="email@test.ru"
+          (input)="Reset(inputValue)" aria-label="email" aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+          (click)="Find(inputValue)">Найти</button>
       </div>
-    </ng-template>
-  </ng-container>
+    </div>
+  }
+  @else {
+    <app-loading message="Загрузка данных ..."></app-loading>
+  }
 </div>
 <div class="container-fluid mt-1 p-1">
   @if(emailInfo$ | async; as emailInfo)
