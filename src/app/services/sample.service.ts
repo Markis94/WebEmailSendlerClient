@@ -38,6 +38,12 @@ export class SampleService {
       .pipe(debounceTime(200), shareReplay(1));
   }
 
+  CreateCopySample(sample: Sample): Observable<Sample> {
+    return this.http
+      .post<Sample>(`${environment.baseUrl}api/createCopySample`, sample)
+      .pipe(debounceTime(200), shareReplay(1));
+  }
+
   UpdateSample(sample: Sample) {
     return this.http
       .put(`${environment.baseUrl}api/updateSample`, sample)

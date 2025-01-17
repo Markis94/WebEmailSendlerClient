@@ -20,10 +20,10 @@ import { Sample } from '../../models/model';
 import { SampleService } from '../../services/sample.service';
 
 @Component({
-    selector: 'app-all-samples',
-    templateUrl: './all-samples.component.html',
-    styleUrls: ['./all-samples.component.css'],
-    standalone: false
+  selector: 'app-all-samples',
+  templateUrl: './all-samples.component.html',
+  styleUrls: ['./all-samples.component.css'],
+  standalone: false,
 })
 export class AllSamplesComponent implements OnInit {
   constructor(
@@ -32,9 +32,9 @@ export class AllSamplesComponent implements OnInit {
   ) {}
   samples$!: Observable<Array<Sample>>;
   pageSize: number = 15;
-  length:number = 0;
+  length: number = 0;
   pageSizeOptions: Array<number> = [15, 25, 50, 100];
-  columns:string[] = ['name', 'createDate', 'changeDate', 'action'];
+  columns: string[] = ['name', 'createDate', 'changeDate', 'action'];
   private destroyRef = inject(DestroyRef);
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = ['name', 'createDate', 'changeDate', 'action'];
@@ -61,10 +61,9 @@ export class AllSamplesComponent implements OnInit {
     );
   }
 
-
   createEmailTask(sample: Sample) {
     this.dialog.open(CreateEmailTaskDialogComponent, {
-      data: sample
+      data: sample,
     });
   }
 
@@ -79,17 +78,43 @@ export class AllSamplesComponent implements OnInit {
 
   sendTestMessage(sample: Sample) {
     this.dialog.open(SendTestMessageComponent, {
-      data: sample
+      data: sample,
     });
   }
 
+  createSampleCopy(sample: Sample) {
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          label: 'Создать копию',
+          message: `Вы хотите создать копию шаблона:  ${sample.name}?`,
+        },
+      })
+      .afterClosed()
+      .pipe(
+        filter((result) => result),
+        switchMap(() => {
+          return this.sampleService.CreateCopySample(sample);
+        }),
+        catchError((error) => {
+          if (error instanceof HttpErrorResponse) {
+            throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
+          }
+          throw new Error('Произошла ужасная ошибка');
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((result) => {
+        this.init();
+      });
+  }
 
   addSampleView() {
     this.dialog
       .open(CreateSampleComponent, {
         data: {
           sample: new Sample(),
-          file:true
+          file: true,
         },
       })
       .afterClosed()
@@ -118,7 +143,8 @@ export class AllSamplesComponent implements OnInit {
             throw new Error(error?.error?.error ?? 'Произошла ужасная ошибка');
           }
           throw new Error('Произошла ужасная ошибка');
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => {
         this.init();
