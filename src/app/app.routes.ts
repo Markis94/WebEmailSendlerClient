@@ -5,6 +5,7 @@ import { CreateEmailTaskComponent } from './create-email-task/create-email-task.
 import { EmailCreatorComponent } from './email-creator/email-creator.component';
 import { HomeComponent } from './home/home.component';
 import { AllSamplesComponent } from './sample/all-samples/all-samples.component';
+import { SearchByEmailComponent } from './searchByEmail/searchByEmail.component';
 import { ViewSendResultComponent } from './view-send-result/view-send-result.component';
 
 const routes: Routes = [
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'all-samples',
     component: AllSamplesComponent,
+  },
+  {
+    path: 'searchEmail',
+    component: SearchByEmailComponent,
   },
 ];
 

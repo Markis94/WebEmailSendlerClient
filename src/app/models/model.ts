@@ -87,3 +87,11 @@ export class ChartData{
   data: Array<number> = new Array<number>();
   name: string = '';
 }
+
+export class SearchEmailReport{
+  email: string = '';
+  count: number = 0;
+  taskSendId: number = 0;
+  taskSendName: string = '';
+  createDate: Date = new Date(Date.now())
+}

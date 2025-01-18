@@ -1,0 +1,60 @@
+<div class="container">
+    <div>
+      <h1>Поиск адреса электронной почты:</h1>
+      <hr>
+      <div class="input-group mt-3 mb-3">
+        <input type="text" [(ngModel)]="inputValue" #input="ngModel" class="form-control" placeholder="email@test.ru"
+          (input)="Reset(inputValue)" aria-label="email" aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+          (click)="Find(inputValue)">Найти</button>
+      </div>
+    </div>
+</div>
+<div>
+  @if (startSearch) {
+    @if(searchEmailReport$ | async; as searchEmailReport)
+    {
+      @if (searchEmailReport.length) {
+        <div class="card p-2 mb-3">
+          <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+            <ng-container matColumnDef="taskSendName">
+              <th mat-header-cell *matHeaderCellDef> Имя рассылки </th>
+              <td mat-cell *matCellDef="let element"> {{element.taskSendName}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef> Email </th>
+              <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="count">
+              <th mat-header-cell *matHeaderCellDef> Количество совпадений </th>
+              <td mat-cell *matCellDef="let element"> {{element.count}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="createDate">
+              <th mat-header-cell *matHeaderCellDef> Дата создания рассылки </th>
+              <td mat-cell *matCellDef="let element"> {{(element.createDate | date:'dd.MM.yyyy HH:mm')??'-'}} </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      }
+      @else {
+        <div class="preload">
+          <h4>Данные отсутствуют</h4>
+        </div>
+      }
+    }
+    @else {
+      <div class="preload text-center">
+        <app-loading></app-loading>
+      </div>
+    }
+  }
+  <mat-paginator [hidden]="paginatorHidden" showFirstLastButtons [length]="length"
+    [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" aria-label="Select page">
+  </mat-paginator>
+</div>

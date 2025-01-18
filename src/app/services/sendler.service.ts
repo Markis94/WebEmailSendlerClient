@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, debounceTime, of, shareReplay } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { EmailSendTask, Part, SendInfo, TestSend } from '../models/model';
+import { EmailSendTask, Part, SearchEmailReport, SendInfo, TestSend } from '../models/model';
 
 @Injectable({
   providedIn: 'root',
@@ -78,6 +78,21 @@ export class SendlerService {
       params: params,
     })
     .pipe(debounceTime(200), shareReplay(1));
+  }
+
+  SearchResultByEmail(
+    email: string
+  ): Observable<Array<SearchEmailReport>> {
+    if (!email) return of(new Array<SearchEmailReport>());
+    return this.http
+      .get<Array<SearchEmailReport>>(
+        `${environment.baseUrl}api/searchResultByEmail?email=${email}`
+      )
+      .pipe(
+        debounceTime(200),
+        shareReplay(1),
+        catchError(() => of(new Array<SearchEmailReport>()))
+      );
   }
 
   GetEmailResultCsV(sendTaskId: number) {

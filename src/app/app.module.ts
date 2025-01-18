@@ -35,9 +35,10 @@ import { LoadingComponent } from './shared/components/loading/loading.component'
 import { MaterialModule } from './shared/material';
 import { SharedModule } from './shared/shared.module';
 import { ViewSendResultComponent } from './view-send-result/view-send-result.component';
+import { SearchByEmailComponent } from './searchByEmail/searchByEmail.component';
 
 @NgModule({
-  declarations: [						
+  declarations: [							
     AppComponent,
     EmailCreatorComponent,
     ConfirmDialogComponent,
@@ -61,7 +62,8 @@ import { ViewSendResultComponent } from './view-send-result/view-send-result.com
     ChartsComponent,
     ChartBoardComponent,
     ViewChartComponent,
-    LoadingComponent
+    LoadingComponent,
+      SearchByEmailComponent
    ],
   imports: [
     FormsModule,

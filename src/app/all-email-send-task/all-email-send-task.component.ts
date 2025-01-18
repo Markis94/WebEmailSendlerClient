@@ -106,7 +106,11 @@ export class AllEmailSendTaskComponent implements OnInit {
             this.datePipe.transform(data.leftDate || new Date(Date.now()), 'yyyy-MM-dd')!,
             this.datePipe.transform(data.rightDate || new Date(Date.now()), 'yyyy-MM-dd')!,
           )
-          .pipe(finalize(() => (this.loading = false)))
+          .pipe(finalize(() => {
+            this.loading = false;
+            sessionStorage.setItem('currentLeftDate', this.datePipe.transform(data.leftDate || new Date(Date.now()), 'yyyy-MM-dd')!);
+            sessionStorage.setItem('currentRightDate', this.datePipe.transform(data.rightDate || new Date(Date.now()), 'yyyy-MM-dd')!);
+          }))
       ),
       catchError((error) => {
         this.loading = false;
@@ -117,14 +121,30 @@ export class AllEmailSendTaskComponent implements OnInit {
 
   initDate()
   {
-    this.leftDate = this.datePipe.transform(
-      new Date(new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24 * -10),
-      'yyyy-MM-dd'
-    );
-    this.rightDate = this.datePipe.transform(
-      new Date(new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24 * 1),
-      'yyyy-MM-dd'
-    );
+    let savedLeftDate = sessionStorage.getItem('currentLeftDate');
+    let savedRightDate = sessionStorage.getItem('currentRightDate');
+
+    if (savedLeftDate) {
+        this.leftDate = this.datePipe.transform(savedLeftDate,'yyyy-MM-dd');
+        console.log('Сохраненная дата:', savedLeftDate);
+    } else {
+      this.leftDate = this.datePipe.transform(
+        new Date(new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24 * -10),
+        'yyyy-MM-dd'
+      );
+      sessionStorage.setItem('currentLeftDate', this.leftDate);
+    }
+
+    if (savedRightDate) {
+        this.rightDate = this.datePipe.transform(savedRightDate,'yyyy-MM-dd');
+        console.log('Сохраненная дата:', savedRightDate);
+    } else {
+      this.rightDate = this.datePipe.transform(
+        new Date(new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24 * 1),
+        'yyyy-MM-dd'
+      );
+      sessionStorage.setItem('currentRightDate', this.rightDate);
+    }
     this.selectControlLeftDate.setValue(this.leftDate);
     this.selectControlRightDate.setValue(this.rightDate);
   }
