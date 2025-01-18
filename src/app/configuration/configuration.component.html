@@ -30,7 +30,7 @@
       [required]="true" type="number" label="Порт" [(inputValue)]="configuration.port">
     </app-custom-input>
   </div>
-  <mat-slide-toggle [checked]="configuration.enableSsl" [disabled]="loading">Разрешить SSL</mat-slide-toggle>
+  <mat-slide-toggle [disabled]="loading" ngModel name="enableSsl" [(ngModel)]="configuration.enableSsl">Разрешить SSL: {{configuration.enableSsl}}</mat-slide-toggle>
   <hr>
   <div class="mt-2 mb-2">
     <app-custom-input matTooltip="Количество потоков для одновременной отправки уведомлений." [min]="1" [max]="999" [disabled]="loading" placeholder="10" pattern="^[0-9]{1,3}"

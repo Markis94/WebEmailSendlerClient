@@ -262,9 +262,9 @@ export class EmailCreatorComponent implements OnInit {
     let sample = new Sample();
     this.emailEditor.editor.exportHtml((data: any) => {
       sample.htmlString = data?.html as string;
-    });
-    this.dialog.open(SendTestMessageComponent, {
-      data: sample,
+      this.dialog.open(SendTestMessageComponent, {
+        data: sample,
+      });
     });
   }
 }
